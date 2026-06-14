@@ -33,32 +33,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PWS Morgenzoneinde - Live Data</title>
     <style>
-        /* De container is nu een 'inline-block' waardoor grafieken er direct naast kunnen staan */
+        /* Deze 'dashboard' container dwingt ALLES om strak naast elkaar te staan */
+        .dashboard-rij {
+            display: flex;
+            flex-wrap: wrap;       /* Zorgt dat het op mobiel wel netjes onder elkaar zakt indien nodig */
+            gap: 15px;             /* Exacte ruimte tussen het tekstblok en de grafieken */
+            align-items: flex-start;
+        }
+
+        /* Het tekstblokje */
         .sensor-container {
-            display: inline-block;
-            vertical-align: top;
-            width: 100%;
-            max-width: 260px;         /* Compacte breedte zodat het naast een grafiek past */
+            width: 240px;          /* Compacte breedte zodat het naast een grafiek past */
             background: white;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-right: 20px;       /* Ruimte tussen dit blok en de grafiek ernaast */
-            margin-bottom: 20px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
             box-sizing: border-box;
+            flex-shrink: 0;        /* Zorgt dat het tekstblok niet kan inkrimpen */
         }
+
         /* De sensornaam compact bovenop */
         .sensor-naam {
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #666;
             margin-bottom: 3px;
             display: block;
         }
-        /* De meetwaarde verkleind naar 36px zodat het inline meebeweegt */
+
+        /* De meetwaarde */
         .meetwaarde {
             font-size: 16px;
             font-weight: bold;
@@ -67,6 +73,7 @@
             margin-bottom: 8px;
             display: block;
         }
+
         /* Stijl voor de kleine tijdstempel onderop */
         .tijdstempel {
             font-size: 11px;
@@ -74,26 +81,32 @@
             font-style: italic;
             display: block;
         }
+
+        /* Zorgt ervoor dat de ThingSpeak iFrames zich ook netjes gedragen in de rij */
+        .dashboard-rij iframe {
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="sensor-container">
-        <span id="naam-display" class="sensor-naam">Laden...</span>
-        <span id="waarde-display" class="meetwaarde">--</span>
-        <span id="tijd-display" class="tijdstempel">Laatste update: --:--:--</span>
-    </div>
+    <div class="dashboard-rij">
+
+        <div class="sensor-container">
+            <span id="naam-display" class="sensor-naam">Laden...</span>
+            <span id="waarde-display" class="meetwaarde">--</span>
+            <span id="tijd-display" class="tijdstempel">Laatste update: --:--:--</span>
+        </div>
+
+        </div>
 
     <script>
         // --- GEGEVENS VAN JOUW FOTO ---
         const channelId = '3401293'; 
         const apiKey = 'WGQMOV6DPXNOEX2R'; 
-        
-        // --- CONFIGURATIE ---
-        // Pas dit getal aan (1 t/m 8) voor het juiste sensorveld
         const fieldNumber = 1; 
         
-        // --- API URL SAMENSTELLEN ---
         const url = `https://api.thingspeak.com/channels/${channelId}/fields/${fieldNumber}/last.json?api_key=${apiKey}`;
 
         function laadSensorData() {
@@ -103,10 +116,8 @@
                     return response.json();
                 })
                 .then(data => {
-                    // 1. Haal de waarde op
                     const waarde = data[`field${fieldNumber}`];
                     
-                    // 2. Haal de tijd op en zet om naar Nederlandse tijd
                     if (data.created_at) {
                         const rawDate = new Date(data.created_at);
                         const opties = { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit' };
@@ -116,9 +127,10 @@
                         document.getElementById('tijd-display').innerText = `Laatste update: onbekend`;
                     }
 
-                    // 3. Toon de waarde
                     if (waarde !== null && waarde !== undefined) {
-                        document.getElementById('waarde-display').innerText = waarde;
+                        // Zet de ruwe tekst om in een getal, rond af op 3 decimalen en plak er °C achter
+                        const afgerondeWaarde = Number(waarde).toFixed(3);
+                        document.getElementById('waarde-display').innerText = afgerondeWaarde + " °C";
                     } else {
                         document.getElementById('waarde-display').innerText = "Geen data";
                     }
@@ -129,7 +141,7 @@
                     document.getElementById('tijd-display').innerText = "Controleer verbinding";
                 });
 
-            // --- SENSORNAAM OPHALEN ---
+            // SENSORNAAM OPHALEN
             const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
             fetch(infoUrl)
                 .then(res => res.json())
@@ -142,7 +154,6 @@
                 });
         }
 
-        // Direct starten en elke 15 seconden verversen
         laadSensorData();
         setInterval(laadSensorData, 15000);
     </script>
