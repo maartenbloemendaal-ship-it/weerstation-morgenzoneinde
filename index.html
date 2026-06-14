@@ -26,5 +26,128 @@
 
 <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
 
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWS Morgenzoneinde - Live Data</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 30px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        /* Container voor de layout */
+        .sensor-container {
+            max-width: 450px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        /* Stijl voor de sensornaam (boven) */
+        .sensor-naam {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 5px;
+            display: block;
+        }
+        /* Stijl voor de actuele waarde (midden) */
+        .meetwaarde {
+            font-size: 54px;
+            font-weight: bold;
+            color: #111;
+            line-height: 1;
+            margin-bottom: 15px;
+            display: block;
+        }
+        /* Stijl voor de tijdstempel (onder) */
+        .tijdstempel {
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sensor-container">
+        <span id="naam-display" class="sensor-naam">Laden...</span>
+        <span id="waarde-display" class="meetwaarde">--</span>
+        <span id="tijd-display" class="tijdstempel">Laatste update: --:--:--</span>
+    </div>
+
+    <script>
+        // --- GEGEVENS VAN JOUW FOTO ---
+        const channelId = '3401293'; 
+        const apiKey = 'WGQMOV6DPXNOEX2R'; 
+        
+        // --- CONFIGURATIE ---
+        // Verander het getal hieronder (1 t/m 8) om een ander sensorveld te tonen
+        const fieldNumber = 1; 
+        
+        // --- API URL SAMENSTELLEN ---
+        const url = `https://api.thingspeak.com/channels/${channelId}/fields/${fieldNumber}/last.json?api_key=${apiKey}`;
+
+        function laadSensorData() {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Netwerkfout');
+                    return response.json();
+                })
+                .then(data => {
+                    // 1. Haal de waarde op uit het juiste veld
+                    const waarde = data[`field${fieldNumber}`];
+                    
+                    // 2. Haal de tijd op en maak er een leesbare Nederlandse tijd van
+                    if (data.created_at) {
+                        const rawDate = new Date(data.created_at);
+                        const opties = { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit' };
+                        const geformatteerdeTijd = rawDate.toLocaleDateString('nl-NL', opties);
+                        document.getElementById('tijd-display').innerText = `Laatst geüpdatet: ${geformatteerdeTijd}`;
+                    } else {
+                        document.getElementById('tijd-display').innerText = `Laatste update: onbekend`;
+                    }
+
+                    // 3. Toon de waarde als pure tekst
+                    if (waarde !== null && waarde !== undefined) {
+                        document.getElementById('waarde-display').innerText = waarde;
+                    } else {
+                        document.getElementById('waarde-display').innerText = "Geen data";
+                    }
+                })
+                .catch(error => {
+                    console.error('Fout bij ophalen:', error);
+                    document.getElementById('waarde-display').innerText = "Fout";
+                    document.getElementById('tijd-display').innerText = "Controleer internet of API key";
+                });
+
+            // --- EXTRA BUDGET CHECK VOOR DE SENSORNAAM ---
+            const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
+            fetch(infoUrl)
+                .then(res => res.json())
+                .then(infoData => {
+                    const veldNaam = infoData.channel[`field${fieldNumber}`];
+                    document.getElementById('naam-display').innerText = veldNaam || `Veld ${fieldNumber}`;
+                })
+                .catch(() => {
+                    document.getElementById('naam-display').innerText = "Morgenzoneinde Sensor";
+                });
+        }
+
+        // Voer direct uit bij openen en ververs daarna elke 15 seconden automatisch
+        laadSensorData();
+        setInterval(laadSensorData, 15000);
+    </script>
+
+</body>
+</html>
+
+
 </body>
 </html>
