@@ -33,41 +33,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PWS Morgenzoneinde - Live Data</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 30px;
-            color: #333;
-            background-color: #f9f9f9;
-        }
-        /* Container voor de layout */
+        /* De container is nu een 'inline-block' waardoor grafieken er direct naast kunnen staan */
         .sensor-container {
-            max-width: 450px;
+            display: inline-block;
+            vertical-align: top;
+            width: 100%;
+            max-width: 260px;         /* Compacte breedte zodat het naast een grafiek past */
             background: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-right: 20px;       /* Ruimte tussen dit blok en de grafiek ernaast */
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            box-sizing: border-box;
         }
-        /* Stijl voor de sensornaam (boven) */
+        /* De sensornaam compact bovenop */
         .sensor-naam {
-            font-size: 14px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             display: block;
         }
-        /* Stijl voor de actuele waarde (midden) */
+        /* De meetwaarde verkleind naar 36px zodat het inline meebeweegt */
         .meetwaarde {
-            font-size: 54px;
+            font-size: 36px;
             font-weight: bold;
             color: #111;
-            line-height: 1;
-            margin-bottom: 15px;
+            line-height: 1.1;
+            margin-bottom: 8px;
             display: block;
         }
-        /* Stijl voor de tijdstempel (onder) */
+        /* Stijl voor de kleine tijdstempel onderop */
         .tijdstempel {
-            font-size: 12px;
+            font-size: 11px;
             color: #888;
             font-style: italic;
             display: block;
@@ -88,7 +90,7 @@
         const apiKey = 'WGQMOV6DPXNOEX2R'; 
         
         // --- CONFIGURATIE ---
-        // Verander het getal hieronder (1 t/m 8) om een ander sensorveld te tonen
+        // Pas dit getal aan (1 t/m 8) voor het juiste sensorveld
         const fieldNumber = 1; 
         
         // --- API URL SAMENSTELLEN ---
@@ -101,10 +103,10 @@
                     return response.json();
                 })
                 .then(data => {
-                    // 1. Haal de waarde op uit het juiste veld
+                    // 1. Haal de waarde op
                     const waarde = data[`field${fieldNumber}`];
                     
-                    // 2. Haal de tijd op en maak er een leesbare Nederlandse tijd van
+                    // 2. Haal de tijd op en zet om naar Nederlandse tijd
                     if (data.created_at) {
                         const rawDate = new Date(data.created_at);
                         const opties = { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit' };
@@ -114,7 +116,7 @@
                         document.getElementById('tijd-display').innerText = `Laatste update: onbekend`;
                     }
 
-                    // 3. Toon de waarde als pure tekst
+                    // 3. Toon de waarde
                     if (waarde !== null && waarde !== undefined) {
                         document.getElementById('waarde-display').innerText = waarde;
                     } else {
@@ -124,10 +126,10 @@
                 .catch(error => {
                     console.error('Fout bij ophalen:', error);
                     document.getElementById('waarde-display').innerText = "Fout";
-                    document.getElementById('tijd-display').innerText = "Controleer internet of API key";
+                    document.getElementById('tijd-display').innerText = "Controleer verbinding";
                 });
 
-            // --- EXTRA BUDGET CHECK VOOR DE SENSORNAAM ---
+            // --- SENSORNAAM OPHALEN ---
             const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
             fetch(infoUrl)
                 .then(res => res.json())
@@ -140,14 +142,10 @@
                 });
         }
 
-        // Voer direct uit bij openen en ververs daarna elke 15 seconden automatisch
+        // Direct starten en elke 15 seconden verversen
         laadSensorData();
         setInterval(laadSensorData, 15000);
     </script>
-
-</body>
-</html>
-
 
 </body>
 </html>
