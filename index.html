@@ -33,40 +33,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PWS Morgenzoneinde - Live Data</title>
     <style>
-        /* Deze 'dashboard' container dwingt ALLES om strak naast elkaar te staan */
+        /* De hoofdcontainer die alle blokken én grafieken strak naast elkaar zet */
         .dashboard-rij {
             display: flex;
-            flex-wrap: wrap;       /* Zorgt dat het op mobiel wel netjes onder elkaar zakt indien nodig */
-            gap: 15px;             /* Exacte ruimte tussen het tekstblok en de grafieken */
+            flex-wrap: wrap;       
+            gap: 15px;             
             align-items: flex-start;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
         }
 
-        /* Het tekstblokje */
+        /* Stijl voor de 6 sensorblokken */
         .sensor-container {
-            width: 240px;          /* Compacte breedte zodat het naast een grafiek past */
+            width: 200px;          /* Iets smaller zodat 6 blokken mooi passen */
             background: white;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
             box-sizing: border-box;
-            flex-shrink: 0;        /* Zorgt dat het tekstblok niet kan inkrimpen */
+            flex-shrink: 0;        
         }
 
-        /* De sensornaam compact bovenop */
+        /* De sensornaam bovenop */
         .sensor-naam {
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #666;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
             display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* De meetwaarde */
+        /* De meetwaarde (3 decimalen) */
         .meetwaarde {
-            font-size: 16px;
+            font-size: 28px;       /* Iets compacter voor de eenheden */
             font-weight: bold;
             color: #111;
             line-height: 1.1;
@@ -76,13 +79,13 @@
 
         /* Stijl voor de kleine tijdstempel onderop */
         .tijdstempel {
-            font-size: 11px;
+            font-size: 10px;
             color: #888;
             font-style: italic;
             display: block;
         }
 
-        /* Zorgt ervoor dat de ThingSpeak iFrames zich ook netjes gedragen in de rij */
+        /* Zorgt ervoor dat de ThingSpeak iFrames ook netjes aansluiten */
         .dashboard-rij iframe {
             border: 1px solid #cccccc;
             border-radius: 8px;
@@ -94,69 +97,112 @@
     <div class="dashboard-rij">
 
         <div class="sensor-container">
-            <span id="naam-display" class="sensor-naam">Laden...</span>
-            <span id="waarde-display" class="meetwaarde">--</span>
-            <span id="tijd-display" class="tijdstempel">Laatste update: --:--:--</span>
+            <span id="naam-f1" class="sensor-naam">Laden...</span>
+            <span id="waarde-f1" class="meetwaarde">--</span>
+            <span id="tijd-f1" class="tijdstempel">--:--:--</span>
         </div>
 
+        <div class="sensor-container">
+            <span id="naam-f2" class="sensor-naam">Laden...</span>
+            <span id="waarde-f2" class="meetwaarde">--</span>
+            <span id="tijd-f2" class="tijdstempel">--:--:--</span>
         </div>
+
+        <div class="sensor-container">
+            <span id="naam-f3" class="sensor-naam">Laden...</span>
+            <span id="waarde-f3" class="meetwaarde">--</span>
+            <span id="tijd-f3" class="tijdstempel">--:--:--</span>
+        </div>
+
+        <div class="sensor-container">
+            <span id="naam-f4" class="sensor-naam">Laden...</span>
+            <span id="waarde-f4" class="meetwaarde">--</span>
+            <span id="tijd-f4" class="tijdstempel">--:--:--</span>
+        </div>
+
+        <div class="sensor-container">
+            <span id="naam-f5" class="sensor-naam">Laden...</span>
+            <span id="waarde-f5" class="meetwaarde">--</span>
+            <span id="tijd-f5" class="tijdstempel">--:--:--</span>
+        </div>
+
+        <div class="sensor-container">
+            <span id="naam-f6" class="sensor-naam">Laden...</span>
+            <span id="waarde-f6" class="meetwaarde">--</span>
+            <span id="tijd-f6" class="tijdstempel">--:--:--</span>
+        </div>
+
+        <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+
+    </div>
 
     <script>
-        // --- GEGEVENS VAN JOUW FOTO ---
+        // --- JOUW THINGSPEAK GEGEVENS ---
         const channelId = '3401293'; 
         const apiKey = 'WGQMOV6DPXNOEX2R'; 
-        const fieldNumber = 1; 
         
-        const url = `https://api.thingspeak.com/channels/${channelId}/fields/${fieldNumber}/last.json?api_key=${apiKey}`;
+        // We halen nu de complete laatste 'feed' op (bevat alle velden in één klap)
+        const url = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
+        const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
 
-        function laadSensorData() {
+        function laadAlleSensoren() {
+            // 1. DATA OPHALEN
             fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error('Netwerkfout');
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    const waarde = data[`field${fieldNumber}`];
-                    
+                    // Tijd omzetten naar Nederlandse notatie
+                    let tijdTekst = "Onbekend";
                     if (data.created_at) {
                         const rawDate = new Date(data.created_at);
-                        const opties = { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit' };
-                        const geformatteerdeTijd = rawDate.toLocaleDateString('nl-NL', opties);
-                        document.getElementById('tijd-display').innerText = `Laatst geüpdatet: ${geformatteerdeTijd}`;
-                    } else {
-                        document.getElementById('tijd-display').innerText = `Laatste update: onbekend`;
+                        tijdTekst = rawDate.toLocaleDateString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                     }
 
-                    if (waarde !== null && waarde !== undefined) {
-                        // Zet de ruwe tekst om in een getal, rond af op 3 decimalen en plak er °C achter
-                        const afgerondeWaarde = Number(waarde).toFixed(3);
-                        document.getElementById('waarde-display').innerText = afgerondeWaarde + " °C";
-                    } else {
-                        document.getElementById('waarde-display').innerText = "Geen data";
+                    // Definieer de 6 velden met hun respectievelijke eenheden
+                    const veldConfig = {
+                        1: " °C",
+                        2: " %",
+                        3: " hPa",
+                        4: " °C",
+                        5: " hPa",
+                        6: " %"
+                    };
+
+                    // Loop door de 6 velden heen om de waarden te tonen
+                    for (let i = 1; i <= 6; i++) {
+                        const waarde = data[`field${i}`];
+                        const waardeElement = document.getElementById(`waarde-f${i}`);
+                        const tijdElement = document.getElementById(`tijd-f${i}`);
+
+                        if (waarde !== null && waarde !== undefined && waarde !== "") {
+                            const afgerond = Number(waarde).toFixed(3);
+                            waardeElement.innerText = afgerond + veldConfig[i];
+                            tijdElement.innerText = tijdTekst;
+                        } else {
+                            waardeElement.innerText = "--";
+                            tijdElement.innerText = "Geen data";
+                        }
                     }
                 })
-                .catch(error => {
-                    console.error('Fout bij ophalen:', error);
-                    document.getElementById('waarde-display').innerText = "Fout";
-                    document.getElementById('tijd-display').innerText = "Controleer verbinding";
-                });
+                .catch(err => console.error("Fout bij laden data:", err));
 
-            // SENSORNAAM OPHALEN
-            const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
+            // 2. SENSORNAMEN OPHALEN (Haalt de namen op die jij in ThingSpeak hebt ingesteld)
             fetch(infoUrl)
                 .then(res => res.json())
                 .then(infoData => {
-                    const veldNaam = infoData.channel[`field${fieldNumber}`];
-                    document.getElementById('naam-display').innerText = veldNaam || `Veld ${fieldNumber}`;
+                    for (let i = 1; i <= 6; i++) {
+                        const standaardNamen = {1: "Temperatuur", 2: "Luchtvochtigheid", 3: "Luchtdruk", 4: "Temperatuur 2", 5: "Luchtdruk 2", 6: "Luchtvochtigheid 2"};
+                        const veldNaam = infoData.channel[`field${i}`];
+                        document.getElementById(`naam-f${i}`).innerText = veldNaam || standaardNamen[i];
+                    }
                 })
-                .catch(() => {
-                    document.getElementById('naam-display').innerText = "Morgenzoneinde Sensor";
-                });
+                .catch(err => console.error("Fout bij laden namen:", err));
         }
 
-        laadSensorData();
-        setInterval(laadSensorData, 15000);
+        // Starten en elke 15 seconden updaten
+        laadAlleSensoren();
+        setInterval(laadAlleSensoren, 15000);
     </script>
 
 </body>
 </html>
+
