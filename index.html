@@ -201,15 +201,23 @@
         setInterval(laadAlleSensoren, 15000);
     </script>
 
-<div style="width: 100%; display: flex; flex-direction: column; gap: 15px;">
+</div>
+<div style="width: 100%; display: flex; flex-direction: column; gap: 0px;">
 
-  <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
-  <script>
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-  </script>
+  <!-- De Titel -->
+  <h1 style="text-align: center; margin: 0 0 15px 0; padding: 0; font-weight: bold; font-size: 28px; width: 100%;">
+    Persoonlijk Weerstation Morgenzoneinde
+  </h1>
+
+  <!-- De Weerwidget (Nu met een gegarandeerde witruimte van 30px aan de onderkant) -->
+  <div style="margin-bottom: 30px; width: 100%;">
+    <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
+    <script>
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+    </script>
+  </div>
 
 </div>
-
 
 <center><iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=2b&voor=1" scrolling=no width=330 height=330 frameborder=no></iframe></center>
 
