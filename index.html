@@ -219,173 +219,254 @@
 </html>
 
 
-<h2>Persoonlijk Weerstation Winterswijk</h2>
-
-<div style="margin-bottom: 30px; width: 100%;">
-  <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
-  <script>
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-  </script>
-</div>
-
-<h1>**In de steigers: Metingen in opbouw**</h1>
-<p style="font-size: 50%; font-style: italic;">De waarnemingen op deze site worden elke 20 seconden live bijgewerkt:</p>
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PWS Morgenzoneinde - Live Data</title>
+    <title>PWS Morgenzoneinde - Winterswijk</title>
     <style>
-        /* Container die zorgt dat de grafiek en het blok netjes uitgelijnd zijn */
-        .grafiek-groep {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-right: 15px;
-            margin-bottom: 25px;
-            vertical-align: top;
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
         }
 
-        /* Stijl voor de 6 sensorblokken behouden zoals het was */
-        .sensor-container {
-            width: 450px;          /* Breedte gelijkgezet aan de iFrames voor een strakke uitlijning */
-            background: white;
-            padding: 15px;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .widget-container {
+            margin-bottom: 30px;
+            width: 100%;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            box-sizing: border-box;
-            margin-top: 8px;       /* Ruimte tussen grafiek en het cijferblok */
-        }
-
-        /* De sensornaam bovenop */
-        .sensor-naam {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #666;
-            margin-bottom: 5px;
-            display: block;
-            white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        /* De meetwaarde (3 decimalen) */
-        .meetwaarde {
-            font-size: 16px;       
-            font-weight: bold;
-            color: #111;
-            line-height: 1.1;
-            margin-bottom: 8px;
-            display: block;
+        h1 {
+            font-size: 24px;
+            color: #1a365d;
+            margin-bottom: 5px;
         }
 
-        /* Stijl voor de kleine tijdstempel onderop */
-        .tijdstempel {
-            font-size: 10px;
-            color: #888;
+        .update-notitie {
+            font-size: 13px;
+            color: #718096;
             font-style: italic;
-            display: block;
+            margin-bottom: 25px;
         }
 
-        /* Zorgt ervoor dat de ThingSpeak iFrames ook netjes aansluiten */
-        .grafiek-groep iframe {
-            border: 1px solid #cccccc;
-            border-radius: 8px;
-        }
-        
         .sectie-titel {
-            font-weight: bold;
-            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-top: 35px;
             margin-bottom: 15px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+
+        /* Grid om de grafiekgroepen netjes naast elkaar te zetten op grote schermen */
+        .metingen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 20px;
+        }
+
+        .grafiek-groep {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .grafiek-groep iframe {
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .sensor-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 12px 5px 0 5px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #e2e8f0;
+            margin-top: 12px;
+        }
+
+        .sensor-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sensor-naam {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .tijdstempel {
+            font-size: 11px;
+            color: #a0aec0;
+        }
+
+        .meetwaarde {
+            font-size: 20px;       
+            font-weight: 700;
+            color: #2b6cb0;
+        }
+
+        .buienradar-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .buienradar-container iframe {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            max-width: 100%;
         }
     </style>
 </head>
 <body>
 
-<div class="sectie-titel">Waarnemingen op standaard hoogte (+1,5m):</div>
+<div class="container">
 
-<div class="grafiek-groep">
-    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-    <div class="sensor-container">
-        <span id="naam-f1" class="sensor-naam">Laden...</span>
-        <span id="waarde-f1" class="meetwaarde">--</span>
-        <span id="tijd-f1" class="tijdstempel">--:--:--</span>
+    <!-- Weather Widget IO -->
+    <div class="widget-container">
+        <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
+        <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+        </script>
     </div>
-</div>
 
-<div class="grafiek-groep">
-    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-    <div class="sensor-container">
-        <span id="naam-f2" class="sensor-naam">Laden...</span>
-        <span id="waarde-f2" class="meetwaarde">--</span>
-        <span id="tijd-f2" class="tijdstempel">--:--:--</span>
+    <h1>Persoonlijk Weerstation Winterswijk</h1>
+    <div class="update-notitie">In de steigers: Metingen in opbouw. De live waarnemingen worden elke 15 seconden ververst.</div>
+
+    <!-- SECTIE 1: STANDAARD HOOGTE -->
+    <div class="sectie-titel">Waarnemingen op standaard hoogte (+1,5m)</div>
+    <div class="metingen-grid">
+        
+        <div class="grafiek-groep">
+            <iframe height="260" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+            <div class="sensor-container">
+                <div class="sensor-info">
+                    <span id="naam-f1" class="sensor-naam">Laden...</span>
+                    <span id="tijd-f1" class="tijdstempel">--:--:--</span>
+                </div>
+                <div id="waarde-f1" class="meetwaarde">--</div>
+            </div>
+        </div>
+
+        <div class="grafiek-groep">
+            <iframe height="260" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+            <div class="sensor-container">
+                <div class="sensor-info">
+                    <span id="naam-f2" class="sensor-naam">Laden...</span>
+                    <span id="tijd-f2" class="tijdstempel">--:--:--</span>
+                </div>
+                <div id="waarde-f2" class="meetwaarde">--</div>
+            </div>
+        </div>
+
+        <div class="grafiek-groep">
+            <iframe height="260" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+            <div class="sensor-container">
+                <div class="sensor-info">
+                    <span id="naam-f3" class="sensor-naam">Laden...</span>
+                    <span id="tijd-f3" class="tijdstempel">--:--:--</span>
+                </div>
+                <div id="waarde-f3" class="meetwaarde">--</div>
+            </div>
+        </div>
+
     </div>
-</div>
 
-<div class="grafiek-groep">
-    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-    <div class="sensor-container">
-        <span id="naam-f3" class="sensor-naam">Laden...</span>
-        <span id="waarde-f3" class="meetwaarde">--</span>
-        <span id="tijd-f3" class="tijdstempel">--:--:--</span>
+    <!-- SECTIE 2: GROND HOOGTE -->
+    <div class="sectie-titel">Waarnemingen op grond hoogte (+10 cm)</div>
+    <div class="metingen-grid">
+
+        <div class="grafiek-groep">
+            <iframe height="260" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+            <div class="sensor-container">
+                <div class="sensor-info">
+                    <span id="naam-f4" class="sensor-naam">Laden...</span>
+                    <span id="tijd-f4" class="tijdstempel">--:--:--</span>
+                </div>
+                <div id="waarde-f4" class="meetwaarde">--</div>
+            </div>
+        </div>
+
+        <div class="grafiek-groep">
+            <iframe height="260" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+            <div class="sensor-container">
+                <div class="sensor-info">
+                    <span id="naam-f5" class="sensor-naam">Laden...</span>
+                    <span id="tijd-f5" class="tijdstempel">--:--:--</span>
+                </div>
+                <div id="waarde-f5" class="meetwaarde">--</div>
+            </div>
+        </div>
+
+        <div class="grafiek-groep">
+            <iframe height="260" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+            <div class="sensor-container">
+                <div class="sensor-info">
+                    <span id="naam-f6" class="sensor-naam">Laden...</span>
+                    <span id="tijd-f6" class="tijdstempel">--:--:--</span>
+                </div>
+                <div id="waarde-f6" class="meetwaarde">--</div>
+            </div>
+        </div>
+
     </div>
-</div>
 
-<div class="sectie-titel">Waarnemingen op grond hoogte (+10 cm):</div>
-
-<div class="grafiek-groep">
-    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-    <div class="sensor-container">
-        <span id="naam-f4" class="sensor-naam">Laden...</span>
-        <span id="waarde-f4" class="meetwaarde">--</span>
-        <span id="tijd-f4" class="tijdstempel">--:--:--</span>
+    <!-- Buienradar -->
+    <div class="buienradar-container">
+        <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=3b&voor=1" scrolling="no" width="550" height="510"></iframe>
     </div>
-</div>
 
-<div class="grafiek-groep">
-    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-    <div class="sensor-container">
-        <span id="naam-f5" class="sensor-naam">Laden...</span>
-        <span id="waarde-f5" class="meetwaarde">--</span>
-        <span id="tijd-f5" class="tijdstempel">--:--:--</span>
-    </div>
 </div>
-
-<div class="grafiek-groep">
-    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-    <div class="sensor-container">
-        <span id="naam-f6" class="sensor-naam">Laden...</span>
-        <span id="waarde-f6" class="meetwaarde">--</span>
-        <span id="tijd-f6" class="tijdstempel">--:--:--</span>
-    </div>
-</div>
-
 
 <script>
-    // --- JOUW THINGSPEAK GEGEVENS ---
     const channelId = '3401293'; 
-    const apiKey = 'WGQMOV6DPXNOEX2R'; 
-
-    const url = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
-    const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
+    const url = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json`;
+    const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?results=0`;
 
     function laadAlleSensoren() {
-        // 1. DATA OPHALEN
+        // 1. ACTUELE METINGEN OPHALEN
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Netwerkfout bij ophalen data');
+                return response.json();
+            })
             .then(data => {
-                let tijdTekst = "Onbekend";
+                let tijdTekst = "--:--:--";
                 if (data.created_at) {
                     const rawDate = new Date(data.created_at);
-                    tijdTekst = rawDate.toLocaleDateString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    tijdTekst = rawDate.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                 }
 
-                // Definieer de 6 velden met hun respectievelijke eenheden
                 const veldConfig = {
                     1: " °C",
                     2: " %",
@@ -395,7 +476,6 @@
                     6: " %"
                 };
 
-                // Loop door de 6 velden heen om de waarden te tonen
                 for (let i = 1; i <= 6; i++) {
                     const waarde = data[`field${i}`];
                     const waardeElement = document.getElementById(`waarde-f${i}`);
@@ -404,7 +484,7 @@
                     if (waarde !== null && waarde !== undefined && waarde !== "") {
                         const afgerond = Number(waarde).toFixed(3);
                         waardeElement.innerText = afgerond + veldConfig[i];
-                        tijdElement.innerText = tijdTekst;
+                        tijdElement.innerText = "Laatste update: " + tijdTekst;
                     } else {
                         waardeElement.innerText = "--";
                         tijdElement.innerText = "Geen data";
@@ -415,7 +495,10 @@
 
         // 2. SENSORNAMEN OPHALEN
         fetch(infoUrl)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Netwerkfout bij ophalen namen');
+                return res.json();
+            })
             .then(infoData => {
                 for (let i = 1; i <= 6; i++) {
                     const standaardNamen = {1: "Temperatuur", 2: "Luchtvochtigheid", 3: "Luchtdruk", 4: "Temperatuur 2", 5: "Luchtdruk 2", 6: "Luchtvochtigheid 2"};
@@ -426,16 +509,13 @@
             .catch(err => console.error("Fout bij laden namen:", err));
     }
 
-    // Starten en elke 15 seconden updaten
+    // Direct starten en daarna elke 15 seconden herhalen
     laadAlleSensoren();
     setInterval(laadAlleSensoren, 15000);
 </script>
 
-<div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px; margin-bottom: 30px;">
-  <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=3b&voor=1" scrolling="no" width="550" height="510" frameborder="no" style="max-width: 100%;"></iframe>
-</div>
-
 </body>
 </html>
+
 
 
