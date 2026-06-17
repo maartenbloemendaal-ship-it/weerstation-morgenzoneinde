@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Mijn Weerpagina</title>
+    <style>
+        /* Basis Instellingen & CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Container voor centrering */
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Terugknop styling */
+        .back-link {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: color 0.2s ease;
+        }
+        .back-link:hover {
+            color: #2980b9;
+        }
+
+        /* Kaart / Paneel styling */
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #1a252f;
+            border-left: 4px solid #3498db;
+            padding-left: 12px;
+        }
+
+        p {
+            color: #7f8c8d;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Formulier elementen */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #34495e;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dcdde1;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #ffffff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Knop styling */
+        .btn-submit {
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+
+        /* Extra info sectie */
+        .info-box {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f2f6;
+            font-size: 13px;
+            color: #95a5a6;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Terug naar het Weerdashboard</a>
+
+        <div class="card">
+            <h1>Contact & Feedback</h1>
+            <p>Heb je een vraag over het weerbericht, of een suggestie voor een nieuwe functionaliteit op het dashboard? Laat het gerust weten!</p>
+
+            <form action="https://formspree.io/f/JOUW_FORMSPREE_ID" method="POST">
+                
+                <div class="form-group">
+                    <label for="naam">Naam</label>
+                    <input type="text" id="naam" name="name" placeholder="Jouw naam" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mailadres</label>
+                    <input type="email" id="email" name="_replyto" placeholder="naam@voorbeeld.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="onderwerp">Waar gaat het over?</label>
+                    <select id="onderwerp" name="subject">
+                        <option value="feedback">Feedback over het dashboard</option>
+                        <option value="foutje">Foutieve weerdata gemeld</option>
+                        <option value="suggestie">Suggestie voor nieuwe feature</option>
+                        <option value="anders">Iets anders</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bericht">Bericht</label>
+                    <textarea id="bericht" name="message" placeholder="Typ hier je vraag of opmerking..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Verzend bericht</button>
+
+            </form>
+
+            <div class="info-box">
+                Reactietijd is doorgaans binnen 24 uur (behalve bij storm of code rood).
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
