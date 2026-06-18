@@ -1,3 +1,4 @@
+
 <h2>Persoonlijk Weerstation Winterswijk</h2>
 
 <div style="margin-bottom: 30px; width: 100%;">
@@ -28,21 +29,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PWS Morgenzoneinde - Live Data</title>
     <style>
-
-    <style>
-        /* HIER PLAK JE OPTIE 1: */
+        /* 1. De achtergrondkleur voor de hele pagina */
         body {
-            background-color: #f4f6f9; /* De lichtgrijze/blauwe achtergrondkleur */
-            margin: 20px;              /* Geeft wat ademruimte aan de zijkanten */
+            background-color: #f4f6f9; 
+            margin: 20px;              
         }
 
-        /* De rest van je bestaande code blijft gewoon staan: */
-        .dashboard-rij {
-            display: flex;
-            flex-wrap: wrap;       
-            gap: 15px;             
-
-        /* De hoofdcontainer die alle blokken én grafieken strak naast elkaar zet */
+        /* 2. De hoofdcontainer die alle blokken én grafieken strak naast elkaar zet */
         .dashboard-rij {
             display: flex;
             flex-wrap: wrap;       
@@ -61,7 +54,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             box-sizing: border-box;
             flex-shrink: 0;        
-            transition: background-color 0.5s ease; /* Zorgt voor een vloeiende overgang naar de nieuwe kleur */
+            transition: background-color 0.5s ease; 
         }
 
         /* De sensornaam bovenop */
@@ -145,45 +138,39 @@
 </div>
 
 <script>
-    // --- JOUW THINGSPEAK GEGEVENS ---
     const channelId = '3401293'; 
     const apiKey = 'WGQMOV6DPXNOEX2R'; 
 
     const url = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
     const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
 
-    // FUNCTIE OM DYNAMISCH DE KLEUR TE BEPALEN PER TYPE SENSOR
     function geefKleur(veldNummer, waarde) {
         const getal = Number(waarde);
-        if (isNaN(getal)) return '#ffffff'; // Wit als basis bij ontbrekende data
+        if (isNaN(getal)) return '#ffffff'; 
 
-        // Veld 1 & 4: Temperatuur (°C)
         if (veldNummer === 1 || veldNummer === 4) {
-            if (getal <= 0) return '#add8e6';    // Blauw (Vorst)
-            if (getal < 15) return '#e0f7fa';     // Lichtblauw (Fris)
-            if (getal <= 24) return '#e8f5e9';    // Lichtgroen (Lekker weer)
-            return '#ffcdd2';                     // Rood/Roze (Warm)
+            if (getal <= 0) return '#add8e6';    
+            if (getal < 15) return '#e0f7fa';     
+            if (getal <= 24) return '#e8f5e9';    
+            return '#ffcdd2';                     
         }
 
-        // Veld 2 & 6: Luchtvochtigheid (%)
         if (veldNummer === 2 || veldNummer === 6) {
-            if (getal < 40) return '#fff9c4';     // Geel (Droge lucht)
-            if (getal <= 60) return '#e8f5e9';    // Groen (Gezonde vochtigheid)
-            return '#bbdefb';                     // Blauw (Vochtige lucht)
+            if (getal < 40) return '#fff9c4';     
+            if (getal <= 60) return '#e8f5e9';    
+            return '#bbdefb';                     
         }
 
-        // Veld 3 & 5: Luchtdruk (hPa)
         if (veldNummer === 3 || veldNummer === 5) {
-            if (getal < 1000) return '#cfd8dc';   // Grijs (Lagedruk / Storm / Regen)
-            if (getal <= 1020) return '#e8f5e9';  // Groen (Normale stabiele druk)
-            return '#fff9c4';                     // Geel (Hogedrukgebied)
+            if (getal < 1000) return '#cfd8dc';   
+            if (getal <= 1020) return '#e8f5e9';  
+            return '#fff9c4';                     
         }
 
         return '#ffffff';
     }
 
     function laadAlleSensoren() {
-        // 1. DATA OPHALEN
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -208,8 +195,6 @@
                         const afgerond = Number(waarde).toFixed(3);
                         waardeElement.innerText = afgerond + veldConfig[i];
                         tijdElement.innerText = tijdTekst;
-                        
-                        // Hier wordt de achtergrondkleur van de container live aangepast
                         containerElement.style.backgroundColor = geefKleur(i, waarde);
                     } else {
                         waardeElement.innerText = "--";
@@ -220,7 +205,6 @@
             })
             .catch(err => console.error("Fout bij laden data:", err));
 
-        // 2. SENSORNAMEN OPHALEN
         fetch(infoUrl)
             .then(res => res.json())
             .then(infoData => {
@@ -248,6 +232,5 @@
 
 </body>
 </html>
-
 
 
