@@ -20,11 +20,14 @@ body {
             flex-wrap: wrap;       
             gap: 15px;             
             align-items: flex-start;
+            width: 100%; /* Zorgt dat de rij de volledige breedte benut */
         }
 
-        /* Stijl voor de 6 sensorblokken met kleurovergang-animatie */
+        /* Stijl voor de 6 sensorblokken - nu ingesteld op precies 3 per regel */
         .sensor-container {
-            width: 200px;          
+            /* Berekent de breedte: 100% verdeeld over 3 blokken, minus de tussenruimte (gap) */
+            width: calc((100% - 30px) / 3);           
+            min-width: 200px; /* Zorgt dat ze op mobiel nog wel onder elkaar kunnen springen */
             background: white;
             padding: 15px;
             border-radius: 8px;
@@ -236,5 +239,3 @@ body {
 
 </body>
 </html>
-
-
