@@ -20,21 +20,25 @@ body {
             flex-wrap: wrap;       
             gap: 15px;             
             align-items: flex-start;
-            width: 100%; /* Zorgt dat de rij de volledige breedte benut */
+            width: 100%; 
         }
 
-        /* Stijl voor de 6 sensorblokken - nu ingesteld op precies 3 per regel */
+        /* Stijl voor de 6 sensorblokken - Standaard (op mobiel) 100% breed */
         .sensor-container {
-            /* Berekent de breedte: 100% verdeeld over 3 blokken, minus de tussenruimte (gap) */
-            width: calc((100% - 30px) / 3);           
-            min-width: 200px; /* Zorgt dat ze op mobiel nog wel onder elkaar kunnen springen */
+            width: 100%;           
             background: white;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             box-sizing: border-box;
-            flex-shrink: 0;        
             transition: background-color 0.5s ease; 
+        }
+
+        /* Als het scherm breder is dan 600px (zoals op een tablet of computer), zet ze dan in 2 rijen van 3 */
+        @media (min-width: 600px) {
+            .sensor-container {
+                width: calc((100% - 30px) / 3); 
+            }
         }
 
         /* De sensornaam bovenop */
@@ -68,10 +72,11 @@ body {
             display: block;
         }
 
-        /* Zorgt ervoor dat de ThingSpeak iFrames ook netjes aansluiten */
+        /* Zorgt ervoor dat de ThingSpeak iFrames ook netjes aansluiten en schalen op mobiel */
         .dashboard-rij iframe {
             border: 1px solid #cccccc;
             border-radius: 8px;
+            max-width: 100%;
         }
     </style>
 </head>
@@ -79,7 +84,6 @@ body {
 
 <h2>Persoonlijk Weerstation Winterswijk</h2>
 
-<!-- De Weerwidget -->
 <div style="margin-bottom: 30px; width: 100%;">
   <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
   <script>
@@ -90,24 +94,24 @@ body {
 <h1><strong>In de steigers: Metingen in opbouw</strong></h1>
 <p style="font-size: 12px; font-style: italic;">De waarnemingen op deze site worden elke 20 seconden live bijgewerkt:</p>
 
-<!-- Live Sensor Blokken Rij -->
 <div class="dashboard-rij" style="margin-bottom: 25px;">
+    
     <div id="box-f1" class="sensor-container">
         <span id="naam-f1" class="sensor-naam">Laden...</span>
         <span id="waarde-f1" class="meetwaarde">--</span>
         <span id="tijd-f1" class="tijdstempel">--:--:--</span>
     </div>
 
-    <div id="box-f2" class="sensor-container">
-        <span id="naam-f2" class="sensor-naam">Laden...</span>
-        <span id="waarde-f2" class="meetwaarde">--</span>
-        <span id="tijd-f2" class="tijdstempel">--:--:--</span>
-    </div>
-
     <div id="box-f3" class="sensor-container">
         <span id="naam-f3" class="sensor-naam">Laden...</span>
         <span id="waarde-f3" class="meetwaarde">--</span>
         <span id="tijd-f3" class="tijdstempel">--:--:--</span>
+    </div>
+
+    <div id="box-f2" class="sensor-container">
+        <span id="naam-f2" class="sensor-naam">Laden...</span>
+        <span id="waarde-f2" class="meetwaarde">--</span>
+        <span id="tijd-f2" class="tijdstempel">--:--:--</span>
     </div>
 
     <div id="box-f4" class="sensor-container">
@@ -226,12 +230,10 @@ body {
     setInterval(laadAlleSensoren, 15000);
 </script>
 
-<!-- Buienradar -->
 <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px; margin-bottom: 30px;">
   <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=3b&voor=1" scrolling="no" width="550" height="510" frameborder="no" style="max-width: 100%;"></iframe>
 </div>
 
-<!-- Footer -->
 <footer style="text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid #dcdde1;">
     <p style="font-size: 12px;">© 2026 Mijn Weerpagina — Heb je feedback of vragen?</p>
     <a href="contact.html" class="weer-knop" style="font-size: 14px;">Bekijk Contact</a>
