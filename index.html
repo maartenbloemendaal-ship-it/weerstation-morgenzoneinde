@@ -190,7 +190,9 @@
 
     const url = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
     const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
-    const historyUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&days=1`;
+    
+    // SNELHEIDS-BOOST: We vragen 1 dag op, maar gecomprimeerd in blokken van 10 minuten (timescale=10). Dit laadt direct!
+    const historyUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&days=1&timescale=10`;
 
     // Coördinaten van jouw PWS in Winterswijk
     const LATITUDE = 51.9765;
@@ -255,8 +257,6 @@
             document.getElementById('moon-phase').innerText = phase;
         } catch (error) {
             console.error("Fout bij ophalen astronomie-data:", error);
-            document.getElementById('sun-time').innerText = "Fout";
-            document.getElementById('moon-phase').innerText = "Fout";
         }
     }
 
@@ -286,7 +286,7 @@
         return phases[phase];
     }
 
-    // Uitgebreide functie voor het berekenen van alle min/max extremen (24u)
+    // Losgekoppelde en supersnelle Min/Max functie
     function laadMinMaxData() {
         fetch(historyUrl)
             .then(response => response.json())
@@ -294,20 +294,18 @@
                 const feeds = data.feeds;
                 if (!feeds || feeds.length === 0) return;
 
-                // Arrays maken voor alle 6 de velden
                 let f1_temp15 = [], f2_vocht15 = [], f3_druk15 = [];
                 let f4_temp10 = [], f5_druk10 = [], f6_vocht10 = [];
 
                 feeds.forEach(feed => {
-                    if (feed.field1) f1_temp15.push(Number(feed.field1));
-                    if (feed.field2) f2_vocht15.push(Number(feed.field2));
-                    if (feed.field3) f3_druk15.push(Number(feed.field3));
-                    if (feed.field4) f4_temp10.push(Number(feed.field4));
-                    if (feed.field5) f5_druk10.push(Number(feed.field5));
-                    if (feed.field6) f6_vocht10.push(Number(feed.field6));
+                    if (feed.field1 !== null && feed.field1 !== undefined && feed.field1 !== "") f1_temp15.push(Number(feed.field1));
+                    if (feed.field2 !== null && feed.field2 !== undefined && feed.field2 !== "") f2_vocht15.push(Number(feed.field2));
+                    if (feed.field3 !== null && feed.field3 !== undefined && feed.field3 !== "") f3_druk15.push(Number(feed.field3));
+                    if (feed.field4 !== null && feed.field4 !== undefined && feed.field4 !== "") f4_temp10.push(Number(feed.field4));
+                    if (feed.field5 !== null && feed.field5 !== undefined && feed.field5 !== "") f5_druk10.push(Number(feed.field5));
+                    if (feed.field6 !== null && feed.field6 !== undefined && feed.field6 !== "") f6_vocht10.push(Number(feed.field6));
                 });
 
-                // Extremen berekenen en wegschrijven naar de HTML (+1,5m)
                 if (f1_temp15.length > 0) {
                     document.getElementById('temp-min').innerText = Math.min(...f1_temp15).toFixed(2) + " °C";
                     document.getElementById('temp-max').innerText = Math.max(...f1_temp15).toFixed(2) + " °C";
@@ -320,8 +318,6 @@
                     document.getElementById('druk-min').innerText = Math.min(...f3_druk15).toFixed(1) + " hPa";
                     document.getElementById('druk-max').innerText = Math.max(...f3_druk15).toFixed(1) + " hPa";
                 }
-
-                // Extremen berekenen en wegschrijven naar de HTML (+10cm)
                 if (f4_temp10.length > 0) {
                     document.getElementById('grond-min').innerText = Math.min(...f4_temp10).toFixed(2) + " °C";
                     document.getElementById('grond-max').innerText = Math.max(...f4_temp10).toFixed(2) + " °C";
@@ -331,4 +327,81 @@
                     document.getElementById('gronddruk-max').innerText = Math.max(...f5_druk10).toFixed(1) + " hPa";
                 }
                 if (f6_vocht10.length > 0) {
-                    document.getElementById('grondvocht-min').innerText = Math.
+                    document.getElementById('grondvocht-min').innerText = Math.min(...f6_vocht10).toFixed(1) + " %";
+                    document.getElementById('grondvocht-max').innerText = Math.max(...f6_vocht10).toFixed(1) + " %";
+                }
+            })
+            .catch(err => console.error("Fout bij laden min/max data:", err));
+    }
+
+    function laadAlleSensoren() {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let tijdTekst = "Onbekend";
+                if (data.created_at) {
+                    const rawDate = new Date(data.created_at);
+                    tijdTekst = rawDate.toLocaleDateString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                }
+
+                const veldConfig = {
+                    1: " °C", 2: " %", 3: " hPa",
+                    4: " °C", 5: " hPa", 6: " %"
+                };
+
+                for (let i = 1; i <= 6; i++) {
+                    const waarde = data[`field${i}`];
+                    const waardeElement = document.getElementById(`waarde-f${i}`);
+                    const tijdElement = document.getElementById(`tijd-f${i}`);
+                    const containerElement = document.getElementById(`box-f${i}`);
+
+                    if (containerElement && waarde !== null && waarde !== undefined && waarde !== "") {
+                        const afgerond = Number(waarde).toFixed(3);
+                        waardeElement.innerText = afgerond + veldConfig[i];
+                        tijdElement.innerText = tijdTekst;
+                        containerElement.style.backgroundColor = geefKleur(i, waarde);
+                    } else if (containerElement) {
+                        waardeElement.innerText = "--";
+                        tijdElement.innerText = "Geen data";
+                        containerElement.style.backgroundColor = '#ffffff';
+                    }
+                }
+            })
+            .catch(err => console.error("Fout bij laden data:", err));
+
+        fetch(infoUrl)
+            .then(res => res.json())
+            .then(infoData => {
+                for (let i = 1; i <= 6; i++) {
+                    const standaardNamen = {1: "Temperatuur", 2: "Luchtvochtigheid", 3: "Luchtdruk", 4: "Temperatuur 2", 5: "Luchtdruk 2", 6: "Luchtvochtigheid 2"};
+                    const veldNaam = infoData.channel[`field${i}`];
+                    const naamElement = document.getElementById(`naam-f${i}`);
+                    if (naamElement) {
+                        naamElement.innerText = veldNaam || standaardNamen[i];
+                    }
+                }
+            })
+            .catch(err => console.error("Fout bij laden namen:", err));
+    }
+
+    // Start alles direct en onafhankelijk op
+    laadAlleSensoren();
+    laadAstronomie();
+    laadMinMaxData();
+    
+    // Interval timers
+    setInterval(laadAlleSensoren, 15000); // Live blokken elke 15 sec
+    setInterval(laadMinMaxData, 60000);   // Min/max gecomprimeerd elke minuut
+</script>
+
+<div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px; margin-bottom: 30px;">
+  <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=3b&voor=1" scrolling="no" width="550" height="510" frameborder="no" style="max-width: 100%;"></iframe>
+</div>
+
+<section style="max-width: 900px; margin: 30px auto; line-height: 1.5; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 8px; font-size: 13px; color: #555;">
+    <h3 style="margin-top: 0; font-size: 15px; color: #333;">Over PWS Morgenzoneinde in Winterswijk</h3>
+    <p style="margin-bottom: 8px;">
+        Het persoonlijke weerstation (PWS) <strong>Morgenzoneinde</strong> bevindt zich op de overgang van de bebouwde kom naar de buurtschap <strong>Corle (Winterswijk)</strong>. Een unieke plek in Winterswijk om het weer te meten. De metingen worden nauwkeurig bijgehouden met professionele sensoren. Uniek aan deze opstelling is dat er zowel op de standaard meteorologische hoogte van +1,5 meter als direct boven de grond (+10 centimeter) wordt gemeten. Hierdoor krijgen we een perfect beeld van eventuele grondvorst of temperatuurverschillen in de regio Achterhoek.
+    </p>
+    <p style="margin-top: 0; margin-bottom: 0;">
+        De data wordt live doorgestuurd naar het ThingSpeak-platform en via deze GitHub-pagina direct visueel gemaakt voor geïnteresseerden en weerliefhebbers in
