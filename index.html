@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>Persoonlijk Weerstation Winterswijk - Morgenzoneinde live data</title>
-    
+    <title>Persoonlijk Weerstation Winterswijk - Morgenzoneinde live data</title>
+
     <!-- Hier zijn de meta-tags voor de zoekmachines -->
     <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid en luchtdruk direct uit de metingen.">
     <meta name="keywords" content="Weerstation Morgenzoneinde, PWS Winterswijk, actuele weer Winterswijk, ThingSpeak weerstation, Corle weer, live weerdata">
@@ -105,41 +105,41 @@ body {
 <p style="font-size: 12px; font-style: italic;">De waarnemingen op deze site worden elke 20 seconden live bijgewerkt:</p>
 
 <div class="dashboard-rij" style="margin-bottom: 25px;">
-    
+
     <div id="box-f1" class="sensor-container">
-        <span id="naam-f1" class="sensor-naam">Laden...</span>
-        <span id="waarde-f1" class="meetwaarde">--</span>
-        <span id="tijd-f1" class="tijdstempel">--:--:--</span>
+        <span id="naam-f1" class="sensor-naam">Temperatuur (+1,5m)</span>
+        <span id="waarde-f1" class="meetwaarde">-- °C</span>
+        <span id="tijd-f1" class="tijdstempel">Live data...</span>
     </div>
 
     <div id="box-f3" class="sensor-container">
-        <span id="naam-f3" class="sensor-naam">Laden...</span>
-        <span id="waarde-f3" class="meetwaarde">--</span>
-        <span id="tijd-f3" class="tijdstempel">--:--:--</span>
+        <span id="naam-f3" class="sensor-naam">Luchtdruk (+1,5m)</span>
+        <span id="waarde-f3" class="meetwaarde">-- hPa</span>
+        <span id="tijd-f3" class="tijdstempel">Live data...</span>
     </div>
 
     <div id="box-f2" class="sensor-container">
-        <span id="naam-f2" class="sensor-naam">Laden...</span>
-        <span id="waarde-f2" class="meetwaarde">--</span>
-        <span id="tijd-f2" class="tijdstempel">--:--:--</span>
+        <span id="naam-f2" class="sensor-naam">Luchtvochtigheid (+1,5m)</span>
+        <span id="waarde-f2" class="meetwaarde">-- %</span>
+        <span id="tijd-f2" class="tijdstempel">Live data...</span>
     </div>
 
     <div id="box-f4" class="sensor-container">
-        <span id="naam-f4" class="sensor-naam">Laden...</span>
-        <span id="waarde-f4" class="meetwaarde">--</span>
-        <span id="tijd-f4" class="tijdstempel">--:--:--</span>
+        <span id="naam-f4" class="sensor-naam">Grondtemperatuur (+10cm)</span>
+        <span id="waarde-f4" class="meetwaarde">-- °C</span>
+        <span id="tijd-f4" class="tijdstempel">Live data...</span>
     </div>
 
     <div id="box-f5" class="sensor-container">
-        <span id="naam-f5" class="sensor-naam">Laden...</span>
-        <span id="waarde-f5" class="meetwaarde">--</span>
-        <span id="tijd-f5" class="tijdstempel">--:--:--</span>
+        <span id="naam-f5" class="sensor-naam">Luchtdruk (+10cm)</span>
+        <span id="waarde-f5" class="meetwaarde">-- hPa</span>
+        <span id="tijd-f5" class="tijdstempel">Live data...</span>
     </div>
 
     <div id="box-f6" class="sensor-container">
-        <span id="naam-f6" class="sensor-naam">Laden...</span>
-        <span id="waarde-f6" class="meetwaarde">--</span>
-        <span id="tijd-f6" class="tijdstempel">--:--:--</span>
+        <span id="naam-f6" class="sensor-naam">Luchtvochtigheid (+10cm)</span>
+        <span id="waarde-f6" class="meetwaarde">-- %</span>
+        <span id="tijd-f6" class="tijdstempel">Live data...</span>
     </div>
 </div>
 
@@ -151,7 +151,7 @@ body {
 <p>Waarnemingen op grond hoogte (+10 cm):</p>
 <iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
 <iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+<iframe width="450" height="260" style="border: 1px solid #currentColor; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
 
 <script>
     const channelId = '3401293'; 
@@ -244,6 +244,17 @@ body {
   <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=3b&voor=1" scrolling="no" width="550" height="510" frameborder="no" style="max-width: 100%;"></iframe>
 </div>
 
+<!-- Extra informatieve tekst voor zoekmachines zoals Google -->
+<section style="max-width: 900px; margin: 30px auto; line-height: 1.6; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 8px;">
+    <h3 style="margin-top: 0;">Over PWS Morgenzoneinde in Winterswijk</h3>
+    <p>
+        Dit persoonlijke weerstation (PWS) bevindt zich in de buurtschap <strong>Corle (Winterswijk)</strong> onder de naam <strong>Morgenzoneinde</strong>. De metingen worden nauwkeurig bijgehouden met professionele sensoren. Uniek aan deze opstelling is dat er zowel op de standaard meteorologische hoogte van +1,5 meter als direct boven de grond (+10 centimeter) wordt gemeten. Hierdoor krijgen we een perfect beeld van eventuele grondvorst of temperatuurverschillen in de regio Achterhoek.
+    </p>
+    <p>
+        De data wordt live doorgestuurd naar het ThingSpeak-platform en via deze GitHub-pagina direct visueel gemaakt voor geïnteresseerden en weerliefhebbers in Winterswijk en omgeving.
+    </p>
+</section>
+
 <footer style="text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid #dcdde1;">
     <p style="font-size: 12px;">© 2026 Mijn Weerpagina — Heb je feedback of vragen?</p>
     <a href="contact.html" class="weer-knop" style="font-size: 14px;">Bekijk Contact</a>
@@ -251,3 +262,4 @@ body {
 
 </body>
 </html>
+
