@@ -98,11 +98,11 @@
   </script>
 </div>
 
-<!-- VERBETERD: Astronomie balk over de volledige breedte, subtieler en donkerder getint -->
-<div id="astro-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 25px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
+<!-- NIEUW: Astronomie balk over de volledige breedte, die dynamisch wisselt tussen opkomst en ondergang -->
+<div id="astro-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
     <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444;">✨ Zon & Maan (Winterswijk)</span>
     <div style="display: flex; gap: 25px; flex-wrap: wrap;">
-        <div>🌅 Zonsondergang: <strong id="sunset-time">Laden...</strong></div>
+        <div id="sun-container">☀️ Zon: <strong id="sun-time">Laden...</strong></div>
         <div>🌙 Maanstand: <strong id="moon-phase">Laden...</strong></div>
     </div>
 </div>
@@ -195,22 +195,40 @@
         return '#ffffff';
     }
 
-    // Functie om astronomie data live in te laden
+    // Dynamische functie voor zon en maan data (wisselt tussen opkomst/ondergang)
     async function laadAstronomie() {
         try {
-            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LATITUDE}&longitude=${LONGITUDE}&daily=sunset&timezone=auto`;
+            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LATITUDE}&longitude=${LONGITUDE}&daily=sunrise,sunset&timezone=auto`;
             const response = await fetch(weatherUrl);
             const data = await response.json();
             
-            const sunsetDate = new Date(data.daily.sunset[0]);
-            const sunsetTime = sunsetDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('sunset-time').innerText = sunsetTime;
+            const nu = new Date();
+            const sunriseVandaag = new Date(data.daily.sunrise[0]);
+            const sunsetVandaag = new Date(data.daily.sunset[0]);
+            
+            let weergaveTekst = "";
+            let doelTijd;
+
+            if (nu < sunriseVandaag) {
+                weergaveTekst = "🌅 Zonsopkomst:";
+                doelTijd = sunriseVandaag;
+            } else if (nu >= sunriseVandaag && nu < sunsetVandaag) {
+                weergaveTekst = "🌇 Zonsondergang:";
+                doelTijd = sunsetVandaag;
+            } else {
+                weergaveTekst = "🌅 Zonsopkomst morgen:";
+                const sunriseMorgen = new Date(data.daily.sunrise[1] || data.daily.sunrise[0]);
+                doelTijd = sunriseMorgen;
+            }
+
+            const tijdGeformatteerd = doelTijd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('sun-container').innerHTML = `${weergaveTekst} <strong id="sun-time" style="color: #111;">${tijdGeformatteerd}</strong>`;
 
             const phase = berekenMaanfase();
             document.getElementById('moon-phase').innerText = phase;
         } catch (error) {
             console.error("Fout bij ophalen astronomie-data:", error);
-            document.getElementById('sunset-time').innerText = "Fout";
+            document.getElementById('sun-time').innerText = "Fout";
             document.getElementById('moon-phase').innerText = "Fout";
         }
     }
