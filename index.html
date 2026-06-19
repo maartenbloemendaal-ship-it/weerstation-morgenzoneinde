@@ -98,12 +98,21 @@
   </script>
 </div>
 
-<!-- NIEUW: Astronomie balk over de volledige breedte, die dynamisch wisselt tussen opkomst en ondergang -->
-<div id="astro-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
+<!-- Astronomie balk over de volledige breedte -->
+<div id="astro-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
     <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444;">✨ Zon & Maan (Winterswijk)</span>
     <div style="display: flex; gap: 25px; flex-wrap: wrap;">
         <div id="sun-container">☀️ Zon: <strong id="sun-time">Laden...</strong></div>
         <div>🌙 Maanstand: <strong id="moon-phase">Laden...</strong></div>
+    </div>
+</div>
+
+<!-- Extremen (Min/Max) balk over de volledige breedte (Nu geoptimaliseerd voor afgelopen 24 uur) -->
+<div id="minmax-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.10); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
+    <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444;">📊 Extremen afgelopen 24u</span>
+    <div style="display: flex; gap: 25px; flex-wrap: wrap;">
+        <div>🌡️ Temp (+1,5m): Min <strong id="temp-min" style="color: #0056b3;">-- °C</strong> | Max <strong id="temp-max" style="color: #b30000;">-- °C</strong></div>
+        <div>🌱 Grond (+10cm): Min <strong id="grond-min" style="color: #0056b3;">-- °C</strong> | Max <strong id="grond-max" style="color: #b30000;">-- °C</strong></div>
     </div>
 </div>
 
@@ -164,6 +173,9 @@
 
     const url = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
     const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
+    
+    // VERBETERD: Vraagt nu de metingen op basis van tijd (afgelopen 1 dag / 24 uur) in plaats van aantal resultaten
+    const historyUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&days=1`;
 
     // Coördinaten van jouw PWS in Winterswijk
     const LATITUDE = 51.9765;
@@ -259,6 +271,43 @@
         return phases[phase];
     }
 
+    // Functie om de hoogste en laagste waardes te berekenen uit ThingSpeak historie van afgelopen 24u
+    function laadMinMaxData() {
+        fetch(historyUrl)
+            .then(response => response.json())
+            .then(data => {
+                const feeds = data.feeds;
+                if (!feeds || feeds.length === 0) return;
+
+                let temp15Feeds = [];
+                let temp10Feeds = [];
+
+                feeds.forEach(feed => {
+                    if (feed.field1 !== null && feed.field1 !== undefined && feed.field1 !== "") {
+                        temp15Feeds.push(Number(feed.field1));
+                    }
+                    if (feed.field4 !== null && feed.field4 !== undefined && feed.field4 !== "") {
+                        temp10Feeds.push(Number(feed.field4));
+                    }
+                });
+
+                if (temp15Feeds.length > 0) {
+                    const min15 = Math.min(...temp15Feeds).toFixed(2);
+                    const max15 = Math.max(...temp15Feeds).toFixed(2);
+                    document.getElementById('temp-min').innerText = min15 + " °C";
+                    document.getElementById('temp-max').innerText = max15 + " °C";
+                }
+
+                if (temp10Feeds.length > 0) {
+                    const min10 = Math.min(...temp10Feeds).toFixed(2);
+                    const max10 = Math.max(...temp10Feeds).toFixed(2);
+                    document.getElementById('grond-min').innerText = min10 + " °C";
+                    document.getElementById('grond-max').innerText = max10 + " °C";
+                }
+            })
+            .catch(err => console.error("Fout bij laden min/max data:", err));
+    }
+
     function laadAlleSensoren() {
         fetch(url)
             .then(response => response.json())
@@ -312,9 +361,11 @@
     // Start alles op bij laden pagina
     laadAlleSensoren();
     laadAstronomie();
+    laadMinMaxData();
     
     // Interval voor live data verversing
     setInterval(laadAlleSensoren, 15000);
+    setInterval(laadMinMaxData, 60000); // Ververs min/max rustig elke minuut
 </script>
 
 <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px; margin-bottom: 30px;">
@@ -328,7 +379,7 @@
         Het persoonlijke weerstation (PWS) <strong>Morgenzoneinde</strong> bevindt zich op de overgang van de bebouwde kom naar de buurtschap <strong>Corle (Winterswijk)</strong>. Een unieke plek in Winterswijk om het weer te meten. De metingen worden nauwkeurig bijgehouden met professionele sensoren. Uniek aan deze opstelling is dat er zowel op de standaard meteorologische hoogte van +1,5 meter als direct boven de grond (+10 centimeter) wordt gemeten. Hierdoor krijgen we een perfect beeld van eventuele grondvorst of temperatuurverschillen in de regio Achterhoek.
     </p>
     <p style="margin-top: 0; margin-bottom: 0;">
-        De data wordt live doorgestuurd naar het ThingSpeak-platform en via deze GitHub-pagina direct visueel gemaakt voor geïnteresseerden en weerliefhebbers in Winterswijk en omgeving.
+        De data wordt live doorgestuurd naar het ThingSpeak-platform en via deze GitHub-pagina direct visueel gemaakt voor geïnteresseerden en weerliefhebbers in Winterswijk and omgeving.
     </p>
 </section>
 
