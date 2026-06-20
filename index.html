@@ -6,7 +6,7 @@
 
     <title>Persoonlijk Weerstation Winterswijk - Morgenzoneinde live data</title>
 
-    <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid and luchtdruk direct uit de metingen.">
+    <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid en luchtdruk direct uit de metingen.">
     <meta name="keywords" content="Weerstation Morgenzoneinde, PWS Winterswijk, actuele weer Winterswijk, ThingSpeak weerstation, Corle weer, live weerdata">
     <meta name="robots" content="index, follow">
 
@@ -197,4 +197,436 @@
 
     <div id="box-f5" class="sensor-container">
         <span id="naam-f5" class="sensor-naam">Luchtdruk (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-
+        <span class="meetwaarde"><span id="waarde-f5">-- hPa</span><span id="trend-f5" class="trend-pijl">→</span></span>
+        <span id="tijd-f5" class="tijdstempel">Live data...</span>
+    </div>
+
+    <div id="box-dp4" class="sensor-container">
+        <span class="sensor-naam">Dauwpunt (+10cm)</span>
+        <span class="meetwaarde"><span id="waarde-dp4">-- °C</span><span id="trend-dp4" class="trend-pijl">→</span></span>
+        <span id="tijd-dp4" class="tijdstempel">Berekenen...</span>
+    </div>
+
+    <div id="box-absv4" class="sensor-container">
+        <span class="sensor-naam">Abs. Luchtvochtigheid (+10cm)</span>
+        <span class="meetwaarde"><span id="waarde-absv4">-- g/m³</span><span id="trend-absv4" class="trend-pijl">→</span></span>
+        <span id="tijd-absv4" class="tijdstempel">Berekenen...</span>
+    </div>
+
+    <div id="box-gladheid" class="sensor-container">
+        <span class="sensor-naam">Indicator Gladheid / Rijp</span>
+        <span id="waarde-gladheid" class="meetwaarde">--</span>
+        <span id="tijd-gladheid" class="tijdstempel">Berekenen...</span>
+    </div>
+
+
+    <div id="box-regiowind" class="sensor-container" style="border-left: 4px solid #0056b3;">
+        <span class="sensor-naam">💨 Regio Windsnelheid (Hupsel)</span>
+        <span id="waarde-regiowind" class="meetwaarde">-- km/u</span>
+        <span id="tijd-regiowind" class="tijdstempel">KNMI data...</span>
+    </div>
+
+    <div id="box-regiorichting" class="sensor-container" style="border-left: 4px solid #0056b3;">
+        <span class="sensor-naam">🧩 Regio Windrichting (Hupsel)</span>
+        <span id="waarde-regiorichting" class="meetwaarde">--</span>
+        <span id="tijd-regiorichting" class="tijdstempel">KNMI data...</span>
+    </div>
+
+    <div id="box-regioneerslag" class="sensor-container" style="border-left: 4px solid #0056b3;">
+        <span class="sensor-naam">🌧️ Regio Neerslag (Afgelopen uur)</span>
+        <span id="waarde-regioneerslag" class="meetwaarde">-- mm</span>
+        <span id="tijd-regioneerslag" class="tijdstempel">KNMI data...</span>
+    </div>
+
+</div>
+
+<p>Waarnemingen op standaard hoogte (+1,5m):</p>
+<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+
+<p>Waarnemingen op grond hoogte (+10 cm):</p>
+<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+<iframe width="450" height="260" style="border: 1px solid #currentColor; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+
+<script>
+    const channelId = '3401293'; 
+    const apiKey = 'WGQMOV6DPXNOEX2R'; 
+
+    const urlLive = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
+    const urlTrend = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=150`; // results verlaagd naar 150 voor snellere laadtijd
+    const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
+    const historyUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&days=1&timescale=10`;
+
+    const LATITUDE = 51.9765;
+    const LONGITUDE = 6.70224;
+    const STATION_HOOGTE = 20; 
+
+    let actueleWindsnelheidKmu = 0; 
+
+    // REKENFORMULES
+    function berekenDauwpunt(t, rh) {
+        const T = Number(t); const RH = Number(rh);
+        if (isNaN(T) || isNaN(RH) || RH <= 0) return null;
+        const b = 17.67; const c = 243.5;
+        const gamma = ((b * T) / (c + T)) + Math.log(RH / 100);
+        return (c * gamma) / (b - gamma);
+    }
+
+    // Absolute vochtigheid in g/m³
+    function berekenAbsoluteVocht(t, rh) {
+        const T = Number(t); const RH = Number(rh);
+        if (isNaN(T) || isNaN(RH)) return null;
+        const srv = 6.112 * Math.exp((17.67 * T) / (T + 243.5));
+        const vq = srv * (RH / 100) * 100;
+        return (vq * 216.7) / (T + 273.15);
+    }
+
+    // Officiële JAG/TI Windchill-formule (KNMI/Buienradar standaard)
+    function berekenEchteWindchill(t, windKmu) {
+        const T = Number(t); const W = Number(windKmu);
+        if (isNaN(T) || isNaN(W)) return T;
+        if (T > 10 || W < 4.8) { return T; }
+        return 13.12 + 0.6215 * T -  11.37 * Math.pow(W, 0.16) + 0.3965 * T * Math.pow(W, 0.16);
+    }
+
+    function berekenQFF(absDruk, t) {
+        const P = Number(absDruk); const T = Number(t);
+        if (isNaN(P) || isNaN(T)) return null;
+        return P * Math.exp((0.03416 * STATION_HOOGTE) / (T + 273.15));
+    }
+
+    function bepaalTrendPijl(nuWaarde, oudWaarde, drempel = 0.15) {
+        const n = Number(nuWaarde); const o = Number(oudWaarde);
+        if (isNaN(n) || isNaN(o)) return "→";
+        if ((n - o) > drempel) return "↗";
+        if ((o - n) > drempel) return "↘";
+        return "→";
+    }
+
+    function kmToBeaufort(kmh) {
+        const w = Number(kmh);
+        if (w < 1) return 0; if (w <= 5) return 1; if (w <= 11) return 2; if (w <= 19) return 3;
+        if (w <= 28) return 4; if (w <= 38) return 5; if (w <= 49) return 6; if (w <= 61) return 7;
+        if (w <= 74) return 8; if (w <= 88) return 9; if (w <= 102) return 10; if (w <= 117) return 11;
+        return 12;
+    }
+
+    function gradenNaarRichting(graden) {
+        const g = Number(graden); if (isNaN(g)) return "--";
+        const richtingen = ["N", "NNO", "NO", "ONO", "O", "OSO", "ZO", "ZZO", "Z", "ZZW", "ZW", "WZW", "W", "WNW", "NW", "NNW"];
+        const index = Math.round(((g % 360) / 22.5)) % 16;
+        return richtingen[index] + ` (${g}°)`;
+    }
+
+    // DYNAMISCHE METEO-KLEUREN
+    function geefKleur(type, waarde) {
+        const getal = Number(waarde);
+        if (isNaN(getal)) return '#ffffff'; 
+        if (type === 'temp') {
+            if (getal <= 0) return '#add8e6';    
+            if (getal < 15) return '#e0f7fa';     
+            if (getal <= 24) return '#e8f5e9';    
+            return '#ffcdd2';                     
+        }
+        if (type === 'vocht') {
+            if (getal < 40) return '#fff9c4';     
+            if (getal <= 60) return '#e8f5e9';    
+            return '#bbdefb';                     
+        }
+        if (type === 'druk') {
+            if (getal < 1000) return '#cfd8dc';   
+            if (getal <= 1020) return '#e8f5e9';  
+            return '#fff9c4';                     
+        }
+        if (type === 'absvocht') {
+            if (getal < 5) return '#fff9c4'; if (getal <= 12) return '#e8f5e9'; return '#ffcdd2'; 
+        }
+        if (type === 'regen') {
+            if (getal > 0) return '#bbdefb'; 
+            return '#e8f5e9';
+        }
+        return '#ffffff';
+    }
+
+    // REGIO DATA INLADEN (KNMI HUPSEL)
+    async function laadRegioWeerData() {
+        try {
+            const regioUrl = `https://api.open-meteo.com/v1/forecast?latitude=52.0633&longitude=6.6511&current=rain,wind_speed_10m,wind_direction_10m&timezone=auto`;
+            const response = await fetch(regioUrl);
+            const data = await response.json();
+            
+            if (data && data.current) {
+                const windKmu = data.current.wind_speed_10m;
+                const windRichtingGraden = data.current.wind_direction_10m;
+                const regenMm = data.current.rain;
+                
+                actueleWindsnelheidKmu = windKmu;
+
+                const nu = new Date();
+                const knmiTijd = nu.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                const bft = kmToBeaufort(windKmu);
+                document.getElementById('waarde-regiowind').innerText = `${windKmu.toFixed(1)} km/u (Bft ${bft})`;
+                document.getElementById('tijd-regiowind').innerText = `Hupsel om ${knmiTijd}`;
+                
+                document.getElementById('waarde-regiorichting').innerText = gradenNaarRichting(windRichtingGraden);
+                document.getElementById('tijd-regiorichting').innerText = `Hupsel om ${knmiTijd}`;
+
+                document.getElementById('waarde-regioneerslag').innerText = `${regenMm.toFixed(1)} mm`;
+                document.getElementById('tijd-regioneerslag').innerText = `Hupsel om ${knmiTijd}`;
+                document.getElementById('box-regioneerslag').style.backgroundColor = geefKleur('regen', regenMm);
+            }
+        } catch (error) {
+            console.error("Fout bij het ophalen van de KNMI-regiodata:", error);
+        }
+    }
+
+    // HOOFDFUNCTIE DASHBOARD (GEOPTIMALISEERD & ASYNCHROON)
+    function laadAlleSensoren() {
+        Promise.all([
+            fetch(urlLive).then(res => res.json()).catch(err => { console.error("Fout bij live data:", err); return null; }),
+            fetch(urlTrend).then(res => res.json()).catch(err => { console.error("Fout bij trend data:", err); return null; })
+        ])
+        .then(([liveData, trendData]) => {
+            if (!liveData) {
+                console.error("Geen live data ontvangen van ThingSpeak.");
+                return;
+            }
+
+            let tijdTekst = "Onbekend";
+            if (liveData.created_at) {
+                const rawDate = new Date(liveData.created_at);
+                tijdTekst = rawDate.toLocaleDateString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            }
+
+            let oudFeed = liveData;
+            if (trendData && trendData.feeds && trendData.feeds.length > 0) {
+                oudFeed = trendData.feeds[0];
+            }
+
+            const veldConfig = { 1: "temp", 2: "vocht", 3: "druk", 4: "temp", 5: "druk", 6: "vocht" };
+            const eenheden = { 1: " °C", 2: " %", 3: " hPa", 4: " °C", 5: " hPa", 6: " %" };
+
+            // UPDATE BASIS SENSOREN
+            for (let i = 1; i <= 6; i++) {
+                const waarde = liveData[`field${i}`];
+                const oudWaarde = oudFeed[`field${i}`];
+                const waardeElement = document.getElementById(`waarde-f${i}`);
+                const trendElement = document.getElementById(`trend-f${i}`);
+                const containerElement = document.getElementById(`box-f${i}`);
+
+                if (containerElement && waarde !== null && waarde !== undefined && waarde !== "") {
+                    waardeElement.innerText = Number(waarde).toFixed(2) + eenheden[i];
+                    
+                    if (trendElement) {
+                        if (trendData && oudWaarde !== undefined) {
+                            trendElement.innerText = bepaalTrendPijl(waarde, oudWaarde, i===3||i===5 ? 0.3 : 0.15);
+                        } else {
+                            trendElement.innerText = "→"; 
+                        }
+                    }
+                    
+                    document.getElementById(`tijd-f${i}`).innerText = tijdTekst;
+                    containerElement.style.backgroundColor = geefKleur(veldConfig[i], waarde);
+                }
+            }
+
+            const t15 = Number(liveData.field1);  const rh15 = Number(liveData.field2); const p15 = Number(liveData.field3);
+            const t10 = Number(liveData.field4);  const p10 = Number(liveData.field5);   const rh10 = Number(liveData.field6);
+
+            const t15_oud = Number(oudFeed.field1); const rh15_oud = Number(oudFeed.field2); const p15_oud = Number(oudFeed.field3);
+            const t10_oud = Number(oudFeed.field4); const rh10_oud = Number(oudFeed.field6);
+
+            // BEREKENINGEN: Dauwpunten
+            const dp15 = berekenDauwpunt(t15, rh15); const dp15_oud = berekenDauwpunt(t15_oud, rh15_oud);
+            if (dp15 !== null) {
+                document.getElementById('waarde-dp1').innerText = dp15.toFixed(2) + " °C";
+                document.getElementById('trend-dp1').innerText = trendData ? bepaalTrendPijl(dp15, dp15_oud) : "→";
+                document.getElementById('tijd-dp1').innerText = tijdTekst;
+                document.getElementById('box-dp1').style.backgroundColor = geefKleur('temp', dp15);
+            }
+            const dp10 = berekenDauwpunt(t10, rh10); const dp10_oud = berekenDauwpunt(t10_oud, rh10_oud);
+            if (dp10 !== null) {
+                document.getElementById('waarde-dp4').innerText = dp10.toFixed(2) + " °C";
+                document.getElementById('trend-dp4').innerText = trendData ? bepaalTrendPijl(dp10, dp10_oud) : "→";
+                document.getElementById('tijd-dp4').innerText = tijdTekst;
+                document.getElementById('box-dp4').style.backgroundColor = geefKleur('temp', dp10);
+            }
+
+            // BEREKENINGEN: Absolute Vochtigheid
+            const av15 = berekenAbsoluteVocht(t15, rh15); const av15_oud = berekenAbsoluteVocht(t15_oud, rh15_oud);
+            if (av15 !== null) {
+                document.getElementById('waarde-absv1').innerText = av15.toFixed(2) + " g/m³";
+                document.getElementById('trend-absv1').innerText = trendData ? bepaalTrendPijl(av15, av15_oud, 0.2) : "→";
+                document.getElementById('tijd-absv1').innerText = tijdTekst;
+                document.getElementById('box-absv1').style.backgroundColor = geefKleur('absvocht', av15);
+            }
+            const av4 = berekenAbsoluteVocht(t10, rh10); const av4_oud = berekenAbsoluteVocht(t10_oud, rh10_oud);
+            if (av4 !== null) {
+                document.getElementById('waarde-absv4').innerText = av4.toFixed(2) + " g/m³";
+                document.getElementById('trend-absv4').innerText = trendData ? bepaalTrendPijl(av4, av4_oud, 0.2) : "→";
+                document.getElementById('tijd-absv4').innerText = tijdTekst;
+                document.getElementById('box-absv4').style.backgroundColor = geefKleur('absvocht', av4);
+            }
+
+            // BEREKENINGEN: Gevoelstemperatuur (Echte windchill op basis van regio-wind)
+            const wc = berekenEchteWindchill(t15, actueleWindsnelheidKmu);
+            const wc_oud = berekenEchteWindchill(t15_oud, actueleWindsnelheidKmu);
+            if (wc !== null) {
+                document.getElementById('waarde-windchill').innerText = wc.toFixed(2) + " °C";
+                document.getElementById('trend-windchill').innerText = trendData ? bepaalTrendPijl(wc, wc_oud) : "→";
+                document.getElementById('tijd-windchill').innerText = tijdTekst;
+                document.getElementById('box-windchill').style.backgroundColor = geefKleur('temp', wc);
+            }
+
+            // BEREKENINGEN: Luchtdruk Zeeniveau (QFF)
+            const qff = berekenQFF(p15, t15); const qff_oud = berekenQFF(p15_oud, t15_oud);
+            if (qff !== null) {
+                document.getElementById('waarde-qff').innerText = qff.toFixed(1) + " hPa";
+                document.getElementById('trend-qff').innerText = trendData ? bepaalTrendPijl(qff, qff_oud, 0.3) : "→";
+                document.getElementById('tijd-qff').innerText = tijdTekst;
+                document.getElementById('box-qff').style.backgroundColor = geefKleur('druk', qff);
+            }
+
+            // BEREKENINGEN: Gladheid / Rijp
+            const gladBox = document.getElementById('box-gladheid');
+            if (gladBox && t10 !== null && dp10 !== null) {
+                document.getElementById('tijd-gladheid').innerText = tijdTekst;
+                if (t10 <= 0 && (t10 - dp10) <= 1.5) {
+                    document.getElementById('waarde-gladheid').innerText = "⚠️ RIJP / GLADHEID";
+                    gladBox.style.backgroundColor = '#1565c0'; gladBox.querySelector('.meetwaarde').style.color = '#ffffff';
+                } else if (t10 <= 0) {
+                    document.getElementById('waarde-gladheid').innerText = "❄️ GRONDVORST";
+                    gladBox.style.backgroundColor = '#add8e6'; gladBox.querySelector('.meetwaarde').style.color = '#111';
+                } else {
+                    document.getElementById('waarde-gladheid').innerText = "✅ Geen Gevaar";
+                    gladBox.style.backgroundColor = '#e8f5e9'; gladBox.querySelector('.meetwaarde').style.color = '#111';
+                }
+            }
+
+        }).catch(err => console.error("Algemene dashboardfout:", err));
+
+        // Namen ophalen van het ThingSpeak kanaal
+        fetch(infoUrl)
+            .then(res => res.json())
+            .then(infoData => {
+                for (let i = 1; i <= 6; i++) {
+                    const standaardNamen = {1: "Temperatuur", 2: "Luchtvochtigheid", 3: "Luchtdruk", 4: "Temperatuur 2", 5: "Luchtdruk 2", 6: "Luchtvochtigheid 2"};
+                    const veldNaam = infoData.channel[`field${i}`];
+                    const naamElement = document.getElementById(`naam-f${i}`);
+                    if (naamElement) { naamElement.innerText = veldNaam || standaardNamen[i]; }
+                }
+            }).catch(err => console.error("Fout bij laden kanaalnamen:", err));
+    }
+
+    async function laadAstronomie() {
+        try {
+            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LATITUDE}&longitude=${LONGITUDE}&daily=sunrise,sunset&timezone=auto`;
+            const response = await fetch(weatherUrl);
+            const data = await response.json();
+            const nu = new Date();
+            const sunriseVandaag = new Date(data.daily.sunrise[0]);
+            const sunsetVandaag = new Date(data.daily.sunset[0]);
+            let weergaveTekst = ""; let doelTijd;
+
+            if (nu < sunriseVandaag) { weergaveTekst = "🌅 Zonsopkomst:"; doelTijd = sunriseVandaag; } 
+            else if (nu >= sunriseVandaag && nu < sunsetVandaag) { weergaveTekst = "🌇 Zonsondergang:"; doelTijd = sunsetVandaag; } 
+            else { weergaveTekst = "🌅 Zonsopkomst morgen:"; const sunriseMorgen = new Date(data.daily.sunrise[1] || data.daily.sunrise[0]); doelTijd = sunriseMorgen; }
+
+            const tijdGeformatteerd = doelTijd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('sun-container').innerHTML = `${weergaveTekst} <strong id="sun-time" style="color: #111;">${tijdGeformatteerd}</strong>`;
+            document.getElementById('moon-phase').innerText = berekenMaanfase();
+        } catch (error) { console.error("Fout bij ophalen astronomie-data:", error); }
+    }
+
+    function berekenMaanfase() {
+        const date = new Date(); let year = date.getFullYear(); let month = date.getMonth() + 1; let day = date.getDate();
+        if (month < 3) { year--; month += 12; } ++month;
+        let c = 365.25 * year; let e = 30.6 * month; let jd = c + e + day - 694039.09; 
+        jd /= 29.530588853; let b = parseInt(jd); jd -= b; let phase = Math.round(jd * 8); 
+        if (phase >= 8) phase = 0;
+        const phases = ["Nieuwe maan 🌑", "Jonge maansikkel 🌒", "Eerste kwartier 🌓", "Wassende maan 🌔", "Volle maan 🌕", "Krimpende maan 🌖", "Laatste kwartier 🌗", "Asgrauwe maan 🌘"];
+        return phases[phase];
+    }
+
+    function formatteerTijd(isoString) {
+        if (!isoString) return "";
+        const d = new Date(isoString);
+        return " (om " + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) + ")";
+    }
+
+    function zoekExtreem(feeds, veldNaam, type) {
+        let geselecteerdFeed = null;
+        feeds.forEach(feed => {
+            const waardeStr = feed[veldNaam];
+            if (waardeStr !== null && waardeStr !== undefined && waardeStr !== "") {
+                const waarde = Number(waardeStr);
+                if (geselecteerdFeed === null) { geselecteerdFeed = feed; } else {
+                    const huidigeGeselecteerd = Number(geselecteerdFeed[veldNaam]);
+                    if (type === 'min' && waarde < huidigeGeselecteerd) geselecteerdFeed = feed;
+                    else if (type === 'max' && waarde > huidigeGeselecteerd) geselecteerdFeed = feed;
+                }
+            }
+        });
+        return geselecteerdFeed;
+    }
+
+    function laadMinMaxData() {
+        fetch(historyUrl)
+            .then(response => response.json())
+            .then(data => {
+                const feeds = data.feeds; if (!feeds || feeds.length === 0) return;
+                const velden = [
+                    { idMin: 'temp-min', idMax: 'temp-max', field: 'field1', dec: 2, eenheid: ' °C' },
+                    { idMin: 'vocht-min', idMax: 'vocht-max', field: 'field2', dec: 1, eenheid: ' %' },
+                    { idMin: 'druk-min', idMax: 'druk-max', field: 'field3', dec: 1, eenheid: ' hPa' },
+                    { idMin: 'grond-min', idMax: 'grond-max', field: 'field4', dec: 2, eenheid: ' °C' },
+                    { idMin: 'gronddruk-min', idMax: 'gronddruk-max', field: 'field5', dec: 1, eenheid: ' hPa' },
+                    { idMin: 'grondvocht-min', idMax: 'grondvocht-max', field: 'field6', dec: 1, eenheid: ' %' }
+                ];
+                velden.forEach(v => {
+                    const minFeed = zoekExtreem(feeds, v.field, 'min'); const maxFeed = zoekExtreem(feeds, v.field, 'max');
+                    if (minFeed) { document.getElementById(v.idMin).innerText = Number(minFeed[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMin + "-tijd").innerText = formatteerTijd(minFeed.created_at); }
+                    if (maxFeed) { document.getElementById(v.idMax).innerText = Number(maxFeed[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMax + "-tijd").innerText = formatteerTijd(maxFeed.created_at); }
+                });
+            }).catch(err => console.error("Fout bij laden min/max data:", err));
+    }
+
+    // ON-THE-FLY LADEN: Start direct met laden voor ultieme laadsnelheid
+    laadRegioWeerData().then(() => {
+        laadAlleSensoren();
+    });
+
+    laadAstronomie(); 
+    laadMinMaxData();
+    
+    // Automatische updates elke 20 seconden
+    setInterval(async () => {
+        await laadRegioWeerData(); 
+        laadAlleSensoren();        
+    }, 20000); 
+    
+    // Extremen elk minuut verversen
+    setInterval(laadMinMaxData, 60000);   
+</script>
+
+<div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px; margin-bottom: 30px;">
+  <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=3b&voor=1" scrolling="no" width="550" height="510" frameborder="no" style="max-width: 100%;"></iframe>
+</div>
+
+<section style="max-width: 900px; margin: 30px auto; line-height: 1.5; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 8px; font-size: 13px; color: #555;">
+    <h3 style="margin-top: 0; font-size: 15px; color: #333;">Over PWS Morgenzoneinde in Winterswijk</h3>
+    <p style="margin-bottom: 8px;">
+        Het persoonlijke weerstation (PWS) <strong>Morgenzoneinde</strong> bevindt zich op de overgang van de bebouwde kom naar de buurtschap <strong>Corle (Winterswijk)</strong>. Een unieke plek in Winterswijk om het weer te meten. De metingen worden nauwkeurig bijgehouden met professionele sensoren. Uniek aan deze opstelling is dat er zowel op de standaard meteorologische hoogte van +1,5 meter als direct boven de grond (+10 centimeter) wordt gemeten. Hierdoor krijgen we een perfect beeld van eventuele grondvorst of temperatuurverschillen in de regio Achterhoek.
+    </p>
+</section>
+
+<footer style="text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid #dcdde1;">
+    <p style="font-size: 12px;">© 2026 Mijn Weerpagina — Heb je feedback of vragen?</p>
+    <a href="contact.html" class="weer-knop" style="font-size: 14px;">Bekijk Contact</a>
+</footer>
+
+</body>
+</html>
