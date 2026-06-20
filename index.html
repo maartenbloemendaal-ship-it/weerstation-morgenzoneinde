@@ -6,7 +6,7 @@
 
     <title>Persoonlijk Weerstation Winterswijk - Morgenzoneinde live data</title>
 
-    <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid en luchtdruk direct uit de metingen.">
+    <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid and luchtdruk direct uit de metingen.">
     <meta name="keywords" content="Weerstation Morgenzoneinde, PWS Winterswijk, actuele weer Winterswijk, ThingSpeak weerstation, Corle weer, live weerdata">
     <meta name="robots" content="index, follow">
 
@@ -63,7 +63,6 @@
             display: block;
         }
 
-        /* Handige styling speciaal voor het trend-pijltje */
         .trend-pijl {
             font-size: 14px;
             font-weight: normal;
@@ -137,7 +136,7 @@
     </div>
 </div>
 
-<p style="font-size: 13px; color: #444;"><strong>Actuele & Berekende meetgegevens</strong> — <em>De sensoren worden elke 20 seconden uitgelezen. Trends (pijltjes) tonen de verandering t.o.v. 1 uur geleden:</em></p>
+<p style="font-size: 13px; color: #444;"><strong>Actuele & Berekende meetgegevens</strong> — <em>De sensoren worden elke 20 seconden uitgelezen. Regio-data is afkomstig van KNMI Station Hupsel:</em></p>
 
 <div class="dashboard-rij" style="margin-bottom: 25px;">
 
@@ -198,151 +197,4 @@
 
     <div id="box-f5" class="sensor-container">
         <span id="naam-f5" class="sensor-naam">Luchtdruk (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-f5">-- hPa</span><span id="trend-f5" class="trend-pijl">→</span></span>
-        <span id="tijd-f5" class="tijdstempel">Live data...</span>
-    </div>
-
-    <div id="box-dp4" class="sensor-container">
-        <span class="sensor-naam">Dauwpunt (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-dp4">-- °C</span><span id="trend-dp4" class="trend-pijl">→</span></span>
-        <span id="tijd-dp4" class="tijdstempel">Berekenen...</span>
-    </div>
-
-    <div id="box-absv4" class="sensor-container">
-        <span class="sensor-naam">Abs. Luchtvochtigheid (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-absv4">-- g/m³</span><span id="trend-absv4" class="trend-pijl">→</span></span>
-        <span id="tijd-absv4" class="tijdstempel">Berekenen...</span>
-    </div>
-
-    <div id="box-gladheid" class="sensor-container">
-        <span class="sensor-naam">Indicator Gladheid / Rijp</span>
-        <span id="waarde-gladheid" class="meetwaarde">--</span>
-        <span id="tijd-gladheid" class="tijdstempel">Berekenen...</span>
-    </div>
-
-</div>
-
-<p>Waarnemingen op standaard hoogte (+1,5m):</p>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-
-<p>Waarnemingen op grond hoogte (+10 cm):</p>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #currentColor; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-
-<script>
-    const channelId = '3401293'; 
-    const apiKey = 'WGQMOV6DPXNOEX2R'; 
-
-    // We halen nu de laatste 6 feeds op. Omdat ThingSpeak elke 10-15 seconden een feed maakt, 
-    // bevindt de feed van ~1 uur geleden zich ongeveer 240 tot 360 regels terug.
-    const urlLive = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
-    const urlTrend = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=300`;
-    const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
-    const historyUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&days=1&timescale=10`;
-
-    const LATITUDE = 51.9765;
-    const LONGITUDE = 6.70224;
-    const STATION_HOOGTE = 20; 
-
-    // REKENFORMULES
-    function berekenDauwpunt(t, rh) {
-        const T = Number(t); const RH = Number(rh);
-        if (isNaN(T) || isNaN(RH) || RH <= 0) return null;
-        const b = 17.67; const c = 243.5;
-        const gamma = ((b * T) / (c + T)) + Math.log(RH / 100);
-        return (c * gamma) / (b - gamma);
-    }
-
-    function berekenAbsoluteVocht(t, rh) {
-        const T = Number(t); const RH = Number(rh);
-        if (isNaN(T) || isNaN(RH)) return null;
-        const srv = 6.112 * Math.exp((17.67 * T) / (T + 243.5));
-        const vq = srv * (RH / 100) * 100;
-        return (vq * 216.7) / (T + 273.15);
-    }
-
-    function berekenSchijnbareTemp(t, rh) {
-        const T = Number(t); const RH = Number(rh);
-        if (isNaN(T) || isNaN(RH)) return null;
-        const e = (RH / 100) * 6.105 * Math.exp((17.27 * T) / (237.7 + T));
-        return T + 0.33 * e - 4.0;
-    }
-
-    function berekenQFF(absDruk, t) {
-        const P = Number(absDruk); const T = Number(t);
-        if (isNaN(P) || isNaN(T)) return null;
-        return P * Math.exp((0.03416 * STATION_HOOGTE) / (T + 273.15));
-    }
-
-    // BEPALEN VAN TRENDPIJL
-    function bepaalTrendPijl(nuWaarde, oudWaarde, drempel = 0.15) {
-        const n = Number(nuWaarde); const o = Number(oudWaarde);
-        if (isNaN(n) || isNaN(o)) return "→";
-        if ((n - o) > drempel) return "↗";
-        if ((o - n) > drempel) return "↘";
-        return "→";
-    }
-
-    // KLEURLOGICA
-    function geefKleur(type, waarde) {
-        const getal = Number(waarde);
-        if (isNaN(getal)) return '#ffffff'; 
-
-        if (type === 'temp') {
-            if (getal <= 0) return '#add8e6';    
-            if (getal < 15) return '#e0f7fa';     
-            if (getal <= 24) return '#e8f5e9';    
-            return '#ffcdd2';                     
-        }
-        if (type === 'vocht') {
-            if (getal < 40) return '#fff9c4';     
-            if (getal <= 60) return '#e8f5e9';    
-            return '#bbdefb';                     
-        }
-        if (type === 'druk') {
-            if (getal < 1000) return '#cfd8dc';   
-            if (getal <= 1020) return '#e8f5e9';  
-            return '#fff9c4';                     
-        }
-        if (type === 'absvocht') {
-            if (getal < 5) return '#fff9c4'; 
-            if (getal <= 12) return '#e8f5e9'; 
-            return '#ffcdd2'; 
-        }
-        return '#ffffff';
-    }
-
-    async function laadAstronomie() {
-        try {
-            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LATITUDE}&longitude=${LONGITUDE}&daily=sunrise,sunset&timezone=auto`;
-            const response = await fetch(weatherUrl);
-            const data = await response.json();
-            const nu = new Date();
-            const sunriseVandaag = new Date(data.daily.sunrise[0]);
-            const sunsetVandaag = new Date(data.daily.sunset[0]);
-            let weergaveTekst = ""; let doelTijd;
-
-            if (nu < sunriseVandaag) { weergaveTekst = "🌅 Zonsopkomst:"; doelTijd = sunriseVandaag; } 
-            else if (nu >= sunriseVandaag && nu < sunsetVandaag) { weergaveTekst = "🌇 Zonsondergang:"; doelTijd = sunsetVandaag; } 
-            else { weergaveTekst = "🌅 Zonsopkomst morgen:"; const sunriseMorgen = new Date(data.daily.sunrise[1] || data.daily.sunrise[0]); doelTijd = sunriseMorgen; }
-
-            const tijdGeformatteerd = doelTijd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('sun-container').innerHTML = `${weergaveTekst} <strong id="sun-time" style="color: #111;">${tijdGeformatteerd}</strong>`;
-            document.getElementById('moon-phase').innerText = berekenMaanfase();
-        } catch (error) { console.error("Fout bij ophalen astronomie-data:", error); }
-    }
-
-    function berekenMaanfase() {
-        const date = new Date(); let year = date.getFullYear(); let month = date.getMonth() + 1; let day = date.getDate();
-        if (month < 3) { year--; month += 12; } ++month;
-        let c = 365.25 * year; let e = 30.6 * month; let jd = c + e + day - 694039.09; 
-        jd /= 29.530588853; let b = parseInt(jd); jd -= b; let phase = Math.round(jd * 8); 
-        if (phase >= 8) phase = 0;
-        const phases = ["Nieuwe maan 🌑", "Jonge maansikkel 🌒", "Eerste kwartier 🌓", "Wassende maan 🌔", "Volle maan 🌕", "Krimpende maan 🌖", "Laatste kwartier 🌗", "Asgrauwe maan 🌘"];
-        return phases[phase];
-    }
-
-    function formatteerT
+        <span class="meetwaarde"><span id="waarde-
