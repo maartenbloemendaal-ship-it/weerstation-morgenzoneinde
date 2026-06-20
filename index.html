@@ -138,6 +138,7 @@
 
 <h1>Persoonlijk Weerstation Morgenzoneinde <span style="font-size: 0.8em; font-weight: normal; color: #666;">Winterswijk</span></h1>
 
+<!-- Hoofd-weerwidget -->
 <div style="margin-bottom: 15px; width: 100%;">
   <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
   <script>
@@ -145,6 +146,7 @@
   </script>
 </div>
 
+<!-- Astronomie balk -->
 <div id="astro-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
     <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444;">✨ Zon & Maan (Winterswijk)</span>
     <div style="display: flex; gap: 25px; flex-wrap: wrap;">
@@ -153,6 +155,7 @@
     </div>
 </div>
 
+<!-- Extremen (Min/Max) balk -->
 <div id="minmax-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.10); color: #222; padding: 15px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; font-size: 13px;">
     <div style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444; margin-bottom: 10px;">📊 Extremen afgelopen 24u (incl. tijdstip)</div>
 
@@ -174,8 +177,10 @@
 
 <p style="font-size: 13px; color: #444;"><strong>Actuele & Berekende meetgegevens</strong> — <em>De sensoren worden elke 20 seconden uitgelezen:</em></p>
 
+<!-- DRIE-KOLOMS DASHBOARD GRID -->
 <div class="dashboard-grid">
 
+    <!-- KOLOM 1: STANDAARDHOOGTE -->
     <div class="grid-kolom">
         <h2 class="kolom-titel">🌡️ Standaardhoogte (+1,5m)</h2>
         
@@ -216,6 +221,7 @@
         </div>
     </div>
 
+    <!-- KOLOM 2: GRONDHOOGTE -->
     <div class="grid-kolom">
         <h2 class="kolom-titel">🌱 Grondhoogte (+10cm)</h2>
         
@@ -256,6 +262,7 @@
         </div>
     </div>
 
+    <!-- KOLOM 3: WIND & REGIO DATA -->
     <div class="grid-kolom">
         <h2 class="kolom-titel">💨 Regio & Gevoel (Hupsel)</h2>
 
@@ -265,19 +272,19 @@
             <span id="tijd-windchill" class="tijdstempel">Berekenen...</span>
         </div>
         
-        <div id="box-regiowind" class="sensor-container" style="border-left: 4px solid #0056b3;">
+        <div id="box-regiowind" class="sensor-container">
             <span class="sensor-naam">Regio Windsnelheid</span>
             <span id="waarde-regiowind" class="meetwaarde">-- km/u</span>
             <span id="tijd-regiowind" class="tijdstempel">KNMI data...</span>
         </div>
 
-        <div id="box-regiorichting" class="sensor-container" style="border-left: 4px solid #0056b3;">
+        <div id="box-regiorichting" class="sensor-container">
             <span class="sensor-naam">Regio Windrichting</span>
             <span id="waarde-regiorichting" class="meetwaarde">--</span>
             <span id="tijd-regiorichting" class="tijdstempel">KNMI data...</span>
         </div>
 
-        <div id="box-regioneerslag" class="sensor-container" style="border-left: 4px solid #0056b3;">
+        <div id="box-regioneerslag" class="sensor-container">
             <span class="sensor-naam">Regio Neerslag (afgelopen uur)</span>
             <span id="waarde-regioneerslag" class="meetwaarde">-- mm</span>
             <span id="tijd-regioneerslag" class="tijdstempel">KNMI data...</span>
@@ -390,8 +397,17 @@
             if (getal < 5) return '#fff9c4'; if (getal <= 12) return '#e8f5e9'; return '#ffcdd2'; 
         }
         if (type === 'regen') {
-            if (getal > 0) return '#bbdefb'; 
-            return '#e8f5e9';
+            if (getal > 0) return '#bbdefb'; // Blauw bij regen
+            return '#e8f5e9'; // Groen bij droog weer
+        }
+        if (type === 'wind') {
+            if (getal < 11) return '#e8f5e9';  // Zachtgroen (Bft 0-2)
+            if (getal < 29) return '#fff9c4';  // Geel (Bft 3-4)
+            if (getal < 50) return '#ffe0b2';  // Oranje (Bft 5-6)
+            return '#ffcdd2';                  // Roodachtig (Bft 7+)
+        }
+        if (type === 'richting') {
+            return '#e1f5fe'; // Rustig, neutraal weersblauw voor kompasrichting
         }
         return '#ffffff';
     }
@@ -411,17 +427,25 @@
 
                 const nu = new Date();
                 const knmiTijd = nu.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
                 const bft = kmToBeaufort(windKmu);
+
+                // Update Windsnelheid Blok
+                const windBox = document.getElementById('box-regiowind');
                 document.getElementById('waarde-regiowind').innerText = `${windKmu.toFixed(1)} km/u (Bft ${bft})`;
                 document.getElementById('tijd-regiowind').innerText = `Hupsel om ${knmiTijd}`;
+                windBox.style.backgroundColor = geefKleur('wind', windKmu);
                 
+                // Update Windrichting Blok
+                const richtingBox = document.getElementById('box-regiorichting');
                 document.getElementById('waarde-regiorichting').innerText = gradenNaarRichting(windRichtingGraden);
                 document.getElementById('tijd-regiorichting').innerText = `Hupsel om ${knmiTijd}`;
+                richtingBox.style.backgroundColor = geefKleur('richting', windRichtingGraden);
 
+                // Update Neerslag Blok
+                const regenBox = document.getElementById('box-regioneerslag');
                 document.getElementById('waarde-regioneerslag').innerText = `${regenMm.toFixed(1)} mm`;
                 document.getElementById('tijd-regioneerslag').innerText = `Hupsel om ${knmiTijd}`;
-                document.getElementById('box-regioneerslag').style.backgroundColor = geefKleur('regen', regenMm);
+                regenBox.style.backgroundColor = geefKleur('regen', regenMm);
             }
         } catch (error) {
             console.error("Fout bij het ophalen van de KNMI-regiodata:", error);
