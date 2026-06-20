@@ -410,16 +410,22 @@
         return 13.12 + 0.6215 * T -  11.37 * Math.pow(W, 0.16) + 0.3965 * T * Math.pow(W, 0.16);
     }
 
+    // HERSTELDE HITTE INDEX FORMULE (REKENT RECHTSTREEKS EN NAUWKEURIG MET CELSIUS OMZETTING)
     function berekenHitteIndex(t, rh) {
-        const T = Number(t); const RH = Number(rh);
-        if (isNaN(T) || isNaN(RH) || T < 20) return T; 
+        const tc = Number(t); const RH = Number(rh);
+        if (isNaN(tc) || isNaN(RH) || tc < 20) return tc; 
+        
+        // Formule vereist Fahrenheit
+        const T = (tc * 9/5) + 32;
         
         const c1 = -42.379, c2 = 2.04901523, c3 = 10.14333127, c4 = -0.22475541, 
               c5 = -0.00683783, c6 = -0.05481717, c7 = 0.00122874, c8 = 0.0085282, c9 = -0.00000199;
         
-        let hi = c1 + (c2 * T) + (c3 * RH) + (c4 * T * RH) + (c5 * T * T) + (c6 * RH * RH) + 
-                 (c7 * T * T * RH) + (c8 * T * RH * RH) + (c9 * T * T * RH * RH);
-        return hi;
+        let hiFahrenheit = c1 + (c2 * T) + (c3 * RH) + (c4 * T * RH) + (c5 * T * T) + (c6 * RH * RH) + 
+                           (c7 * T * T * RH) + (c8 * T * RH * RH) + (c9 * T * T * RH * RH);
+        
+        // Terugrekenen naar Celsius
+        return (hiFahrenheit - 32) * 5/9;
     }
 
     function evalueerWeerAlerts() {
@@ -460,7 +466,6 @@
         return P * Math.exp((0.03416 * STATION_HOOGTE) / (T + 273.15));
     }
 
-    // SCHONERE TREND INDICATOR: RETURNT ENKEL DE PIJL EN HET ENKELE VERSCHIL
     function bepaalTrendPijl(nuWaarde, oudWaarde, type = 'normaal') {
         const n = Number(nuWaarde); const o = Number(oudWaarde);
         if (isNaN(n) || isNaN(o)) return "→";
@@ -474,7 +479,6 @@
         return "→";
     }
 
-    // NIEUWE FUNCTIE OM METEO REKENWAARDE TEXTUEEL WEER TE GEVEN ONDER DE SENSOR
     function haalTrendTeksthPa(nuWaarde, oudWaarde) {
         const n = Number(nuWaarde); const o = Number(oudWaarde);
         if (isNaN(n) || isNaN(o)) return "";
@@ -539,9 +543,9 @@
                 document.getElementById('waarde-regiowind').innerText = `${windKmu.toFixed(1)} km/u (Bft ${bft})`;
                 document.getElementById('tijd-regiowind').innerText = `Hupsel om ${knmiTijd}`; windBox.style.backgroundColor = geefKleur('wind', windKmu);
                 
-                const richtingBox = document.getElementById('box-regiorichting');
+                constBox = document.getElementById('box-regiorichting');
                 document.getElementById('waarde-regiorichting').innerText = gradenNaarRichting(windRichtingGraden);
-                document.getElementById('tijd-regiorichting').innerText = `Hupsel om ${knmiTijd}`; richtingBox.style.backgroundColor = geefKleur('richting', windRichtingGraden);
+                document.getElementById('tijd-regiorichting').innerText = `Hupsel om ${knmiTijd}`; vanRichting = windRichtingGraden;
                 document.getElementById('kompas-pijl').style.transform = `rotate(${windRichtingGraden}deg)`;
 
                 const regenBox = document.getElementById('box-regioneerslag');
@@ -575,6 +579,7 @@
             const veldConfig = { 1: "temp", 2: "vocht", 3: "druk", 4: "temp", 5: "druk", 6: "vocht" };
             const eenheden = { 1: " °C", 2: " %", 3: " hPa", 4: " °C", 5: " hPa", 6: " %" };
 
+            // VOLLEDIG GEFIXTE LOOP WAARBIJ DE WAARDE EN PIJL ELKAAR NIET MEER OVERSCHRIJVEN
             for (let i = 1; i <= 6; i++) {
                 const waarde = liveData[`field${i}`];
                 const oudWaarde = oudFeed[`field${i}`];
@@ -583,14 +588,14 @@
                 const containerElement = document.getElementById(`box-f${i}`);
 
                 if (containerElement && waarde !== null && waarde !== undefined && waarde !== "") {
-                    waardeElement.innerText = Number(waarde).toFixed(2) + eenheden[i];
+                    // Schrijf de waarde ALLEEN in zijn eigen element, laat de pijl met rust!
+                    waardeElement.firstChild.textContent = Number(waarde).toFixed(2) + eenheden[i];
                     
                     if (trendElement) {
                         const typeTrend = (i === 3 || i === 5) ? 'druk' : 'normaal';
                         trendElement.innerText = trendData && oudWaarde !== undefined ? bepaalTrendPijl(waarde, oudWaarde, typeTrend) : "→";
                     }
                     
-                    // Zet de extra hPa text onder de sensor i.p.v. in het grote vak
                     if (i === 3 || i === 5) {
                         const hpaTrendGlijder = haalTrendTeksthPa(waarde, oudWaarde);
                         document.getElementById(`tijd-f${i}`).innerText = tijdTekst + hpaTrendGlijder;
@@ -613,14 +618,14 @@
             // DAUWPUNTEN
             const dp15 = berekenDauwpunt(t15, rh15); const dp15_oud = berekenDauwpunt(t15_oud, rh15_oud);
             if (dp15 !== null) {
-                document.getElementById('waarde-dp1').innerText = dp15.toFixed(2) + " °C";
+                document.getElementById('waarde-dp1').firstChild.textContent = dp15.toFixed(2) + " °C";
                 document.getElementById('trend-dp1').innerText = trendData ? bepaalTrendPijl(dp15, dp15_oud) : "→";
                 document.getElementById('tijd-dp1').innerText = tijdTekst;
                 document.getElementById('box-dp1').style.backgroundColor = geefKleur('temp', dp15);
             }
             const dp10 = berekenDauwpunt(t10, rh10); const dp10_oud = berekenDauwpunt(t10_oud, rh10_oud);
             if (dp10 !== null) {
-                document.getElementById('waarde-dp4').innerText = dp10.toFixed(2) + " °C";
+                document.getElementById('waarde-dp4').firstChild.textContent = dp10.toFixed(2) + " °C";
                 document.getElementById('trend-dp4').innerText = trendData ? bepaalTrendPijl(dp10, dp10_oud) : "→";
                 document.getElementById('tijd-dp4').innerText = tijdTekst;
                 document.getElementById('box-dp4').style.backgroundColor = geefKleur('temp', dp10);
@@ -629,38 +634,38 @@
             // ABSOLUTE VOCHTIGHEID
             const av15 = berekenAbsoluteVocht(t15, rh15); const av15_oud = berekenAbsoluteVocht(t15_oud, rh15_oud);
             if (av15 !== null) {
-                document.getElementById('waarde-absv1').innerText = av15.toFixed(2) + " g/m³";
+                document.getElementById('waarde-absv1').firstChild.textContent = av15.toFixed(2) + " g/m³";
                 document.getElementById('trend-absv1').innerText = trendData ? bepaalTrendPijl(av15, av15_oud) : "→";
                 document.getElementById('tijd-absv1').innerText = tijdTekst;
                 document.getElementById('box-absv1').style.backgroundColor = geefKleur('absvocht', av15);
             }
             const av4 = berekenAbsoluteVocht(t10, rh10); const av4_oud = berekenAbsoluteVocht(t10_oud, rh10_oud);
             if (av4 !== null) {
-                document.getElementById('waarde-absv4').innerText = av4.toFixed(2) + " g/m³";
+                document.getElementById('waarde-absv4').firstChild.textContent = av4.toFixed(2) + " g/m³";
                 document.getElementById('trend-absv4').innerText = trendData ? bepaalTrendPijl(av4, av4_oud) : "→";
                 document.getElementById('tijd-absv4').innerText = tijdTekst;
                 document.getElementById('box-absv4').style.backgroundColor = geefKleur('absvocht', av4);
             }
 
-            // GEVOELSTEMPERATUUR
+            // GEVOELSTEMPERATUUR MET NUU EEN ACCURATE HITTE-INDEX REKENAAR
             if (t15 >= 20) {
                 actueleHitteIndex = berekenHitteIndex(t15, rh15); const hi_oud = berekenHitteIndex(t15_oud, rh15_oud);
                 document.getElementById('naam-windchill').innerText = "Hitte-index / Gevoel (+1,5m)";
-                document.getElementById('waarde-windchill').innerText = actueleHitteIndex.toFixed(2) + " °C";
+                document.getElementById('waarde-windchill').firstChild.textContent = actueleHitteIndex.toFixed(2) + " °C";
                 document.getElementById('trend-windchill').innerText = trendData ? bepaalTrendPijl(actueleHitteIndex, hi_oud) : "→";
                 document.getElementById('box-windchill').style.backgroundColor = geefKleur('temp', actueleHitteIndex);
             } else {
                 actueleHitteIndex = 0; const wc = berekenEchteWindchill(t15, actueleWindsnelheidKmu); const wc_oud = berekenEchteWindchill(t15_oud, actueleWindsnelheidKmu);
                 document.getElementById('naam-windchill').innerText = "Gevoelstemperatuur (+1,5m)";
-                document.getElementById('waarde-windchill').innerText = wc.toFixed(2) + " °C";
+                document.getElementById('waarde-windchill').firstChild.textContent = wc.toFixed(2) + " °C";
                 document.getElementById('trend-windchill').innerText = trendData ? bepaalTrendPijl(wc, wc_oud) : "→";
                 document.getElementById('box-windchill').style.backgroundColor = geefKleur('temp', wc);
             }
 
-            // QFF (ZEENIVEAU)
+            // QFF (ZEENIVEAU) GEFIXT
             const qff = berekenQFF(p15, t15); const qff_oud = berekenQFF(p15_oud, t15_oud);
             if (qff !== null) {
-                document.getElementById('waarde-qff').innerText = qff.toFixed(1) + " hPa";
+                document.getElementById('waarde-qff').firstChild.textContent = qff.toFixed(1) + " hPa";
                 document.getElementById('trend-qff').innerText = trendData ? bepaalTrendPijl(qff, qff_oud, 'druk') : "→";
                 const qffTrendGlijder = haalTrendTeksthPa(qff, qff_oud);
                 document.getElementById('tijd-qff').innerText = tijdTekst + qffTrendGlijder;
