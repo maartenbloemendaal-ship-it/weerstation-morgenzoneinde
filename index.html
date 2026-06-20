@@ -18,6 +18,26 @@
             color: #333;
         }
 
+        /* DYNAMISCHE WEER-ALARMBALK STYLE */
+        #weer-alert-balk {
+            display: none; /* Standaard onzichtbaar */
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* PROFESSIONELE GRID INDELING */
         .dashboard-grid {
             display: grid;
@@ -29,7 +49,7 @@
 
         @media (min-width: 900px) {
             .dashboard-grid {
-                grid-template-columns: repeat(3, 1fr); /* 3 strakke kolommen op desktop */
+                grid-template-columns: repeat(3, 1fr); 
             }
         }
 
@@ -63,7 +83,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             box-sizing: border-box;
             transition: background-color 0.5s ease; 
-            margin-bottom: 12px; /* Ruimte tussen blokken in dezelfde kolom */
+            margin-bottom: 12px; 
         }
 
         .sensor-container:last-child {
@@ -88,14 +108,19 @@
             color: #111;
             line-height: 1.1;
             margin-bottom: 8px;
-            display: block;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .trend-pijl {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: normal;
             margin-left: 8px;
-            color: #444;
+            color: #555;
+            background: rgba(0,0,0,0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
         }
 
         .tijdstempel {
@@ -103,6 +128,41 @@
             color: #888;
             font-style: italic;
             display: block;
+        }
+
+        /* CSS WINDROOS / KOMPAS */
+        .wind-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .kompas-ring {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #2c3e50;
+            border-radius: 50%;
+            position: relative;
+            background: #f8f9fa;
+        }
+        .kompas-noord {
+            position: absolute;
+            top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 7px;
+            font-weight: bold;
+            color: #b30000;
+        }
+        .kompas-naald {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, #b30000 50%, #2c3e50 50%);
+            position: absolute;
+            top: 5px;
+            left: 19px;
+            transform: rotate(0deg);
+            transition: transform 1s ease-in-out;
         }
 
         .iframe-container {
@@ -138,7 +198,8 @@
 
 <h1>Persoonlijk Weerstation Morgenzoneinde <span style="font-size: 0.8em; font-weight: normal; color: #666;">Winterswijk</span></h1>
 
-<!-- Hoofd-weerwidget -->
+<div id="weer-alert-balk"></div>
+
 <div style="margin-bottom: 15px; width: 100%;">
   <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
   <script>
@@ -146,7 +207,6 @@
   </script>
 </div>
 
-<!-- Astronomie balk -->
 <div id="astro-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
     <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444;">✨ Zon & Maan (Winterswijk)</span>
     <div style="display: flex; gap: 25px; flex-wrap: wrap;">
@@ -155,7 +215,6 @@
     </div>
 </div>
 
-<!-- Extremen (Min/Max) balk -->
 <div id="minmax-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.10); color: #222; padding: 15px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; font-size: 13px;">
     <div style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444; margin-bottom: 10px;">📊 Extremen afgelopen 24u (incl. tijdstip)</div>
 
@@ -177,10 +236,8 @@
 
 <p style="font-size: 13px; color: #444;"><strong>Actuele & Berekende meetgegevens</strong> — <em>De sensoren worden elke 20 seconden uitgelezen:</em></p>
 
-<!-- DRIE-KOLOMS DASHBOARD GRID -->
 <div class="dashboard-grid">
 
-    <!-- KOLOM 1: STANDAARDHOOGTE -->
     <div class="grid-kolom">
         <h2 class="kolom-titel">🌡️ Standaardhoogte (+1,5m)</h2>
         
@@ -192,7 +249,7 @@
 
         <div id="box-f2" class="sensor-container">
             <span id="naam-f2" class="sensor-naam">Luchtvochtigheid</span>
-            <span class="meetwaarde"><span id="waarde-f2">-- %</span><span id="trend-f2" class="trend-pijl">→</span></span>
+            <span class="meetwaarde"><span id="icoon-f2"></span> <span id="waarde-f2">-- %</span><span id="trend-f2" class="trend-pijl">→</span></span>
             <span id="tijd-f2" class="tijdstempel">Live data...</span>
         </div>
 
@@ -221,13 +278,12 @@
         </div>
     </div>
 
-    <!-- KOLOM 2: GRONDHOOGTE -->
     <div class="grid-kolom">
         <h2 class="kolom-titel">🌱 Grondhoogte (+10cm)</h2>
         
         <div id="box-f4" class="sensor-container">
             <span id="naam-f4" class="sensor-naam">Grondtemperatuur</span>
-            <span class="meetwaarde"><span id="waarde-f4">-- °C</span><span id="trend-f4" class="trend-pijl">→</span></span>
+            <span class="meetwaarde"><span id="icoon-f4"></span> <span id="waarde-f4">-- °C</span><span id="trend-f4" class="trend-pijl">→</span></span>
             <span id="tijd-f4" class="tijdstempel">Live data...</span>
         </div>
 
@@ -262,12 +318,11 @@
         </div>
     </div>
 
-    <!-- KOLOM 3: WIND & REGIO DATA -->
     <div class="grid-kolom">
         <h2 class="kolom-titel">💨 Regio & Gevoel (Hupsel)</h2>
 
         <div id="box-windchill" class="sensor-container">
-            <span class="sensor-naam">Gevoelstemperatuur (+1,5m)</span>
+            <span id="naam-windchill" class="sensor-naam">Gevoelstemperatuur (+1,5m)</span>
             <span class="meetwaarde"><span id="waarde-windchill">-- °C</span><span id="trend-windchill" class="trend-pijl">→</span></span>
             <span id="tijd-windchill" class="tijdstempel">Berekenen...</span>
         </div>
@@ -280,8 +335,14 @@
 
         <div id="box-regiorichting" class="sensor-container">
             <span class="sensor-naam">Regio Windrichting</span>
-            <span id="waarde-regiorichting" class="meetwaarde">--</span>
-            <span id="tijd-regiorichting" class="tijdstempel">KNMI data...</span>
+            <div class="wind-layout">
+                <span id="waarde-regiorichting" class="meetwaarde" style="margin-bottom:0;">--</span>
+                <div class="kompas-ring">
+                    <div class="kompas-noord">N</div>
+                    <div id="kompas-pijl" class="kompas-naald"></div>
+                </div>
+            </div>
+            <span id="tijd-regiorichting" class="tijdstempel" style="margin-top:8px;">KNMI data...</span>
         </div>
 
         <div id="box-regioneerslag" class="sensor-container">
@@ -320,7 +381,11 @@
     const LONGITUDE = 6.70224;
     const STATION_HOOGTE = 20; 
 
+    // Globale variabelen om data tussen functies te delen voor de alarmbalk
     let actueleWindsnelheidKmu = 0; 
+    let actueleNeerslagMm = 0;
+    let actueleHitteIndex = 0;
+    let grondIsGlad = false;
 
     function berekenDauwpunt(t, rh) {
         const T = Number(t); const RH = Number(rh);
@@ -345,17 +410,102 @@
         return 13.12 + 0.6215 * T -  11.37 * Math.pow(W, 0.16) + 0.3965 * T * Math.pow(W, 0.16);
     }
 
+    function berekenHitteIndex(t, rh) {
+        const T = Number(t); const RH = Number(rh);
+        if (isNaN(T) || isNaN(RH) || T < 20) return T; 
+        
+        const c1 = -42.379, c2 = 2.04901523, c3 = 10.14333127, c4 = -0.22475541, 
+              c5 = -0.00683783, c6 = -0.05481717, c7 = 0.00122874, c8 = 0.0085282, c9 = -0.00000199;
+        
+        let hi = c1 + (c2 * T) + (c3 * RH) + (c4 * T * RH) + (c5 * T * T) + (c6 * RH * RH) + 
+                 (c7 * T * T * RH) + (c8 * T * RH * RH) + (c9 * T * T * RH * RH);
+        return hi;
+    }
+
+    // GEAUTOMATISEERDE UNIVERSELE WEER-ALARMBALK (Controleert alle parameters)
+    function evalueerWeerAlerts() {
+        const alertBalk = document.getElementById('weer-alert-balk');
+        if (!alertBalk) return;
+
+        // Reset balk naar onzichtbaar
+        alertBalk.style.display = 'none';
+        alertBalk.style.animation = 'none';
+
+        // 1. PRIORITEIT: Extreem hittegevaar (Rood)
+        if (actueleHitteIndex >= 41) {
+            alertBalk.style.display = 'block';
+            alertBalk.style.backgroundColor = '#ffcdd2';
+            alertBalk.style.color = '#b71c1c';
+            alertBalk.innerHTML = `⚠️ <strong>GEVAARLIJKE HITTE (Hitte-index ${actueleHitteIndex.toFixed(1)}°C):</strong> Extreem hoge belasting! Groot risico op hitteberoerte of zonnesteek bij inspanning.`;
+            return;
+        }
+
+        // 2. PRIORITEIT: Storm / Zware Windstoten (Oranje)
+        if (actueleWindsnelheidKmu >= 50) {
+            alertBalk.style.display = 'block';
+            alertBalk.style.backgroundColor = '#ffe0b2';
+            alertBalk.style.color = '#e65100';
+            alertBalk.innerHTML = `💨 <strong>STORM / ZWARE WIND (Hupsel: ${actueleWindsnelheidKmu.toFixed(1)} km/u):</strong> Kans op rondvliegende takken en voorwerpen. Wees voorzichtig op de weg!`;
+            return;
+        }
+
+        // 3. PRIORITEIT: Gladheid / Rijp (Blauw / Gevaar op de weg)
+        if (grondIsGlad) {
+            alertBalk.style.display = 'block';
+            alertBalk.style.backgroundColor = '#bbdefb';
+            alertBalk.style.color = '#0d47a1';
+            alertBalk.innerHTML = `⚠️ <strong>GLADHEIDSWAARSCHUWING:</strong> Sensoren op +10cm meten rijp- en gladheidscondities direct aan de grond! Gevaar voor bevriezing.`;
+            return;
+        }
+
+        // 4. PRIORITEIT: Matige tot hoge Hittestress (Oranje/Geel)
+        if (actueleHitteIndex >= 32 && actueleHitteIndex < 41) {
+            alertBalk.style.display = 'block';
+            alertBalk.style.backgroundColor = '#ffe0b2';
+            alertBalk.style.color = '#333';
+            alertBalk.innerHTML = `🔥 <strong>Hitte-waarschuwing (Hitte-index ${actueleHitteIndex.toFixed(1)}°C):</strong> Verhoogde voorzichtigheid. Kans op hittekrampen en zonne-uitputting. Rustig aan en drink voldoende!`;
+            return;
+        }
+
+        // 5. PRIORITEIT: Wateroverlast / Hevige regenval (Lichtblauw)
+        if (actueleNeerslagMm >= 10) {
+            alertBalk.style.display = 'block';
+            alertBalk.style.backgroundColor = '#e0f7fa';
+            alertBalk.style.color = '#006064';
+            alertBalk.innerHTML = `🌧️ <strong>HEVIGE REGENVAL (Hupsel: ${actueleNeerslagMm.toFixed(1)} mm/u):</strong> Lokale wateroverlast en verminderd zicht mogelijk.`;
+            return;
+        }
+
+        // 6. PRIORITEIT: Lichte Hittestress (Geel)
+        if (actueleHitteIndex >= 27 && actueleHitteIndex < 32) {
+            alertBalk.style.display = 'block';
+            alertBalk.style.backgroundColor = '#fff9c4';
+            alertBalk.style.color = '#333';
+            alertBalk.innerHTML = `☀️ <strong>Hitte-waarschuwing (Hitte-index ${actueleHitteIndex.toFixed(1)}°C):</strong> Voorzichtigheid geboden. Kans op lichte hittestress of vermoeidheid bij langdurige inspanning.`;
+            return;
+        }
+    }
+
     function berekenQFF(absDruk, t) {
         const P = Number(absDruk); const T = Number(t);
         if (isNaN(P) || isNaN(T)) return null;
         return P * Math.exp((0.03416 * STATION_HOOGTE) / (T + 273.15));
     }
 
-    function bepaalTrendPijl(nuWaarde, oudWaarde, drempel = 0.15) {
+    function bepaalTrendPijl(nuWaarde, oudWaarde, type = 'normaal') {
         const n = Number(nuWaarde); const o = Number(oudWaarde);
         if (isNaN(n) || isNaN(o)) return "→";
-        if ((n - o) > drempel) return "↗";
-        if ((o - n) > drempel) return "↘";
+        const verschil = n - o;
+
+        let drempel = 0.15;
+        if (type === 'druk') drempel = 0.3;
+
+        if (verschil > drempel) {
+            return type === 'druk' ? `↗ (+${verschil.toFixed(1)} hPa)` : "↗";
+        }
+        if (verschil < -drempel) {
+            return type === 'druk' ? `↘ (${verschil.toFixed(1)} hPa)` : "↘";
+        }
         return "→";
     }
 
@@ -397,17 +547,17 @@
             if (getal < 5) return '#fff9c4'; if (getal <= 12) return '#e8f5e9'; return '#ffcdd2'; 
         }
         if (type === 'regen') {
-            if (getal > 0) return '#bbdefb'; // Blauw bij regen
-            return '#e8f5e9'; // Groen bij droog weer
+            if (getal > 0) return '#bbdefb'; 
+            return '#e8f5e9'; 
         }
         if (type === 'wind') {
-            if (getal < 11) return '#e8f5e9';  // Zachtgroen (Bft 0-2)
-            if (getal < 29) return '#fff9c4';  // Geel (Bft 3-4)
-            if (getal < 50) return '#ffe0b2';  // Oranje (Bft 5-6)
-            return '#ffcdd2';                  // Roodachtig (Bft 7+)
+            if (getal < 11) return '#e8f5e9';  
+            if (getal < 29) return '#fff9c4';  
+            if (getal < 50) return '#ffe0b2';  
+            return '#ffcdd2';                  
         }
         if (type === 'richting') {
-            return '#e1f5fe'; // Rustig, neutraal weersblauw voor kompasrichting
+            return '#e1f5fe'; 
         }
         return '#ffffff';
     }
@@ -423,29 +573,33 @@
                 const windRichtingGraden = data.current.wind_direction_10m;
                 const regenMm = data.current.rain;
                 
+                // Opslaan in globale variabelen voor alarmbalk
                 actueleWindsnelheidKmu = windKmu;
+                actueleNeerslagMm = regenMm;
 
                 const nu = new Date();
                 const knmiTijd = nu.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 const bft = kmToBeaufort(windKmu);
 
-                // Update Windsnelheid Blok
                 const windBox = document.getElementById('box-regiowind');
                 document.getElementById('waarde-regiowind').innerText = `${windKmu.toFixed(1)} km/u (Bft ${bft})`;
                 document.getElementById('tijd-regiowind').innerText = `Hupsel om ${knmiTijd}`;
                 windBox.style.backgroundColor = geefKleur('wind', windKmu);
                 
-                // Update Windrichting Blok
                 const richtingBox = document.getElementById('box-regiorichting');
                 document.getElementById('waarde-regiorichting').innerText = gradenNaarRichting(windRichtingGraden);
                 document.getElementById('tijd-regiorichting').innerText = `Hupsel om ${knmiTijd}`;
                 richtingBox.style.backgroundColor = geefKleur('richting', windRichtingGraden);
+                
+                document.getElementById('kompas-pijl').style.transform = `rotate(${windRichtingGraden}deg)`;
 
-                // Update Neerslag Blok
                 const regenBox = document.getElementById('box-regioneerslag');
                 document.getElementById('waarde-regioneerslag').innerText = `${regenMm.toFixed(1)} mm`;
                 document.getElementById('tijd-regioneerslag').innerText = `Hupsel om ${knmiTijd}`;
                 regenBox.style.backgroundColor = geefKleur('regen', regenMm);
+
+                // Start alert evaluatie na ophalen regio-data
+                evalueerWeerAlerts();
             }
         } catch (error) {
             console.error("Fout bij het ophalen van de KNMI-regiodata:", error);
@@ -484,7 +638,8 @@
                 if (containerElement && waarde !== null && waarde !== undefined && waarde !== "") {
                     waardeElement.innerText = Number(waarde).toFixed(2) + eenheden[i];
                     if (trendElement) {
-                        trendElement.innerText = trendData && oudWaarde !== undefined ? bepaalTrendPijl(waarde, oudWaarde, i===3||i===5 ? 0.3 : 0.15) : "→";
+                        const typeTrend = (i === 3 || i === 5) ? 'druk' : 'normaal';
+                        trendElement.innerText = trendData && oudWaarde !== undefined ? bepaalTrendPijl(waarde, oudWaarde, typeTrend) : "→";
                     }
                     document.getElementById(`tijd-f${i}`).innerText = tijdTekst;
                     containerElement.style.backgroundColor = geefKleur(veldConfig[i], waarde);
@@ -495,6 +650,13 @@
             const t10 = Number(liveData.field4);  const p10 = Number(liveData.field5);   const rh10 = Number(liveData.field6);
             const t15_oud = Number(oudFeed.field1); const rh15_oud = Number(oudFeed.field2); const p15_oud = Number(oudFeed.field3);
             const t10_oud = Number(oudFeed.field4); const rh10_oud = Number(oudFeed.field6);
+
+            // DYNAMISCHE ICONEN
+            if (rh15 > 80) { document.getElementById('icoon-f2').innerText = "💧"; } 
+            else { document.getElementById('icoon-f2').innerText = ""; }
+
+            if (t10 <= 0) { document.getElementById('icoon-f4').innerText = "❄️"; } 
+            else { document.getElementById('icoon-f4').innerText = ""; }
 
             // BEREKENINGEN
             const dp15 = berekenDauwpunt(t15, rh15); const dp15_oud = berekenDauwpunt(t15_oud, rh15_oud);
@@ -515,31 +677,40 @@
             const av15 = berekenAbsoluteVocht(t15, rh15); const av15_oud = berekenAbsoluteVocht(t15_oud, rh15_oud);
             if (av15 !== null) {
                 document.getElementById('waarde-absv1').innerText = av15.toFixed(2) + " g/m³";
-                document.getElementById('trend-absv1').innerText = trendData ? bepaalTrendPijl(av15, av15_oud, 0.2) : "→";
+                document.getElementById('trend-absv1').innerText = trendData ? bepaalTrendPijl(av15, av15_oud) : "→";
                 document.getElementById('tijd-absv1').innerText = tijdTekst;
                 document.getElementById('box-absv1').style.backgroundColor = geefKleur('absvocht', av15);
             }
             const av4 = berekenAbsoluteVocht(t10, rh10); const av4_oud = berekenAbsoluteVocht(t10_oud, rh10_oud);
             if (av4 !== null) {
                 document.getElementById('waarde-absv4').innerText = av4.toFixed(2) + " g/m³";
-                document.getElementById('trend-absv4').innerText = trendData ? bepaalTrendPijl(av4, av4_oud, 0.2) : "→";
+                document.getElementById('trend-absv4').innerText = trendData ? bepaalTrendPijl(av4, av4_oud) : "→";
                 document.getElementById('tijd-absv4').innerText = tijdTekst;
                 document.getElementById('box-absv4').style.backgroundColor = geefKleur('absvocht', av4);
             }
 
-            const wc = berekenEchteWindchill(t15, actueleWindsnelheidKmu);
-            const wc_oud = berekenEchteWindchill(t15_oud, actueleWindsnelheidKmu);
-            if (wc !== null) {
+            // SEIZOENSDYNAMIEK & HITTE PARAMETER VULLEN
+            if (t15 >= 20) {
+                actueleHitteIndex = berekenHitteIndex(t15, rh15);
+                const hi_oud = berekenHitteIndex(t15_oud, rh15_oud);
+                document.getElementById('naam-windchill').innerText = "Hitte-index / Gevoel (+1,5m)";
+                document.getElementById('waarde-windchill').innerText = actueleHitteIndex.toFixed(2) + " °C";
+                document.getElementById('trend-windchill').innerText = trendData ? bepaalTrendPijl(actueleHitteIndex, hi_oud) : "→";
+                document.getElementById('box-windchill').style.backgroundColor = geefKleur('temp', actueleHitteIndex);
+            } else {
+                actueleHitteIndex = 0; // Geen hittegevaar in winterstand
+                const wc = berekenEchteWindchill(t15, actueleWindsnelheidKmu);
+                const wc_oud = berekenEchteWindchill(t15_oud, actueleWindsnelheidKmu);
+                document.getElementById('naam-windchill').innerText = "Gevoelstemperatuur (+1,5m)";
                 document.getElementById('waarde-windchill').innerText = wc.toFixed(2) + " °C";
                 document.getElementById('trend-windchill').innerText = trendData ? bepaalTrendPijl(wc, wc_oud) : "→";
-                document.getElementById('tijd-windchill').innerText = tijdTekst;
                 document.getElementById('box-windchill').style.backgroundColor = geefKleur('temp', wc);
             }
 
             const qff = berekenQFF(p15, t15); const qff_oud = berekenQFF(p15_oud, t15_oud);
             if (qff !== null) {
                 document.getElementById('waarde-qff').innerText = qff.toFixed(1) + " hPa";
-                document.getElementById('trend-qff').innerText = trendData ? bepaalTrendPijl(qff, qff_oud, 0.3) : "→";
+                document.getElementById('trend-qff').innerText = trendData ? bepaalTrendPijl(qff, qff_oud, 'druk') : "→";
                 document.getElementById('tijd-qff').innerText = tijdTekst;
                 document.getElementById('box-qff').style.backgroundColor = geefKleur('druk', qff);
             }
@@ -550,14 +721,21 @@
                 if (t10 <= 0 && (t10 - dp10) <= 1.5) {
                     document.getElementById('waarde-gladheid').innerText = "⚠️ RIJP / GLADHEID";
                     gladBox.style.backgroundColor = '#1565c0'; gladBox.querySelector('.meetwaarde').style.color = '#ffffff';
+                    grondIsGlad = true;
                 } else if (t10 <= 0) {
                     document.getElementById('waarde-gladheid').innerText = "❄️ GRONDVORST";
                     gladBox.style.backgroundColor = '#add8e6'; gladBox.querySelector('.meetwaarde').style.color = '#111';
+                    grondIsGlad = false;
                 } else {
                     document.getElementById('waarde-gladheid').innerText = "✅ Geen Gevaar";
                     gladBox.style.backgroundColor = '#e8f5e9'; gladBox.querySelector('.meetwaarde').style.color = '#111';
+                    grondIsGlad = false;
                 }
             }
+
+            // Evalueer de alarmsystemen opnieuw met de nieuwste sensorwaarden
+            evalueerWeerAlerts();
+
         }).catch(err => console.error(err));
 
         fetch(infoUrl).then(res => res.json()).then(infoData => {
