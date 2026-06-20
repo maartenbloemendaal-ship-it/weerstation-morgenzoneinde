@@ -18,12 +18,41 @@
             color: #333;
         }
 
-        .dashboard-rij {
+        /* PROFESSIONELE GRID INDELING */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        @media (min-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 strakke kolommen op desktop */
+            }
+        }
+
+        .grid-kolom {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        .kolom-titel {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
             display: flex;
-            flex-wrap: wrap;       
-            gap: 15px;             
-            align-items: flex-start;
-            width: 100%; 
+            align-items: center;
+            gap: 5px;
         }
 
         .sensor-container {
@@ -34,12 +63,11 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             box-sizing: border-box;
             transition: background-color 0.5s ease; 
+            margin-bottom: 12px; /* Ruimte tussen blokken in dezelfde kolom */
         }
 
-        @media (min-width: 600px) {
-            .sensor-container {
-                width: calc((100% - 30px) / 3); 
-            }
+        .sensor-container:last-child {
+            margin-bottom: 0;
         }
 
         .sensor-naam {
@@ -55,7 +83,7 @@
         }
 
         .meetwaarde {
-            font-size: 16px;       
+            font-size: 18px;       
             font-weight: bold;
             color: #111;
             line-height: 1.1;
@@ -64,10 +92,10 @@
         }
 
         .trend-pijl {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: normal;
-            margin-left: 5px;
-            color: #555;
+            margin-left: 8px;
+            color: #444;
         }
 
         .tijdstempel {
@@ -77,7 +105,15 @@
             display: block;
         }
 
-        .dashboard-rij iframe {
+        .iframe-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        iframe {
             border: 1px solid #cccccc;
             border-radius: 8px;
             max-width: 100%;
@@ -136,126 +172,140 @@
     </div>
 </div>
 
-<p style="font-size: 13px; color: #444;"><strong>Actuele & Berekende meetgegevens</strong> — <em>De sensoren worden elke 20 seconden uitgelezen. Regio-data is afkomstig van KNMI Station Hupsel:</em></p>
+<p style="font-size: 13px; color: #444;"><strong>Actuele & Berekende meetgegevens</strong> — <em>De sensoren worden elke 20 seconden uitgelezen:</em></p>
 
-<div class="dashboard-rij" style="margin-bottom: 25px;">
+<div class="dashboard-grid">
 
-    <div id="box-f1" class="sensor-container">
-        <span id="naam-f1" class="sensor-naam">Temperatuur (+1,5m)</span>
-        <span class="meetwaarde"><span id="waarde-f1">-- °C</span><span id="trend-f1" class="trend-pijl">→</span></span>
-        <span id="tijd-f1" class="tijdstempel">Live data...</span>
+    <div class="grid-kolom">
+        <h2 class="kolom-titel">🌡️ Standaardhoogte (+1,5m)</h2>
+        
+        <div id="box-f1" class="sensor-container">
+            <span id="naam-f1" class="sensor-naam">Temperatuur</span>
+            <span class="meetwaarde"><span id="waarde-f1">-- °C</span><span id="trend-f1" class="trend-pijl">→</span></span>
+            <span id="tijd-f1" class="tijdstempel">Live data...</span>
+        </div>
+
+        <div id="box-f2" class="sensor-container">
+            <span id="naam-f2" class="sensor-naam">Luchtvochtigheid</span>
+            <span class="meetwaarde"><span id="waarde-f2">-- %</span><span id="trend-f2" class="trend-pijl">→</span></span>
+            <span id="tijd-f2" class="tijdstempel">Live data...</span>
+        </div>
+
+        <div id="box-f3" class="sensor-container">
+            <span id="naam-f3" class="sensor-naam">Luchtdruk</span>
+            <span class="meetwaarde"><span id="waarde-f3">-- hPa</span><span id="trend-f3" class="trend-pijl">→</span></span>
+            <span id="tijd-f3" class="tijdstempel">Live data...</span>
+        </div>
+
+        <div id="box-dp1" class="sensor-container">
+            <span class="sensor-naam">Dauwpunt</span>
+            <span class="meetwaarde"><span id="waarde-dp1">-- °C</span><span id="trend-dp1" class="trend-pijl">→</span></span>
+            <span id="tijd-dp1" class="tijdstempel">Berekenen...</span>
+        </div>
+
+        <div id="box-absv1" class="sensor-container">
+            <span class="sensor-naam">Abs. Luchtvochtigheid</span>
+            <span class="meetwaarde"><span id="waarde-absv1">-- g/m³</span><span id="trend-absv1" class="trend-pijl">→</span></span>
+            <span id="tijd-absv1" class="tijdstempel">Berekenen...</span>
+        </div>
+
+        <div id="box-qff" class="sensor-container">
+            <span class="sensor-naam">Luchtdruk Zeeniveau (QFF)</span>
+            <span class="meetwaarde"><span id="waarde-qff">-- hPa</span><span id="trend-qff" class="trend-pijl">→</span></span>
+            <span id="tijd-qff" class="tijdstempel">Berekenen...</span>
+        </div>
     </div>
 
-    <div id="box-f2" class="sensor-container">
-        <span id="naam-f2" class="sensor-naam">Luchtvochtigheid (+1,5m)</span>
-        <span class="meetwaarde"><span id="waarde-f2">-- %</span><span id="trend-f2" class="trend-pijl">→</span></span>
-        <span id="tijd-f2" class="tijdstempel">Live data...</span>
+    <div class="grid-kolom">
+        <h2 class="kolom-titel">🌱 Grondhoogte (+10cm)</h2>
+        
+        <div id="box-f4" class="sensor-container">
+            <span id="naam-f4" class="sensor-naam">Grondtemperatuur</span>
+            <span class="meetwaarde"><span id="waarde-f4">-- °C</span><span id="trend-f4" class="trend-pijl">→</span></span>
+            <span id="tijd-f4" class="tijdstempel">Live data...</span>
+        </div>
+
+        <div id="box-f6" class="sensor-container">
+            <span id="naam-f6" class="sensor-naam">Luchtvochtigheid</span>
+            <span class="meetwaarde"><span id="waarde-f6">-- %</span><span id="trend-f6" class="trend-pijl">→</span></span>
+            <span id="tijd-f6" class="tijdstempel">Live data...</span>
+        </div>
+
+        <div id="box-f5" class="sensor-container">
+            <span id="naam-f5" class="sensor-naam">Luchtdruk</span>
+            <span class="meetwaarde"><span id="waarde-f5">-- hPa</span><span id="trend-f5" class="trend-pijl">→</span></span>
+            <span id="tijd-f5" class="tijdstempel">Live data...</span>
+        </div>
+
+        <div id="box-dp4" class="sensor-container">
+            <span class="sensor-naam">Dauwpunt</span>
+            <span class="meetwaarde"><span id="waarde-dp4">-- °C</span><span id="trend-dp4" class="trend-pijl">→</span></span>
+            <span id="tijd-dp4" class="tijdstempel">Berekenen...</span>
+        </div>
+
+        <div id="box-absv4" class="sensor-container">
+            <span class="sensor-naam">Abs. Luchtvochtigheid</span>
+            <span class="meetwaarde"><span id="waarde-absv4">-- g/m³</span><span id="trend-absv4" class="trend-pijl">→</span></span>
+            <span id="tijd-absv4" class="tijdstempel">Berekenen...</span>
+        </div>
+
+        <div id="box-gladheid" class="sensor-container">
+            <span class="sensor-naam">Indicator Gladheid / Rijp</span>
+            <span id="waarde-gladheid" class="meetwaarde">--</span>
+            <span id="tijd-gladheid" class="tijdstempel">Berekenen...</span>
+        </div>
     </div>
 
-    <div id="box-f3" class="sensor-container">
-        <span id="naam-f3" class="sensor-naam">Luchtdruk (+1,5m)</span>
-        <span class="meetwaarde"><span id="waarde-f3">-- hPa</span><span id="trend-f3" class="trend-pijl">→</span></span>
-        <span id="tijd-f3" class="tijdstempel">Live data...</span>
-    </div>
+    <div class="grid-kolom">
+        <h2 class="kolom-titel">💨 Regio & Gevoel (Hupsel)</h2>
 
-    <div id="box-dp1" class="sensor-container">
-        <span class="sensor-naam">Dauwpunt (+1,5m)</span>
-        <span class="meetwaarde"><span id="waarde-dp1">-- °C</span><span id="trend-dp1" class="trend-pijl">→</span></span>
-        <span id="tijd-dp1" class="tijdstempel">Berekenen...</span>
-    </div>
+        <div id="box-windchill" class="sensor-container">
+            <span class="sensor-naam">Gevoelstemperatuur (+1,5m)</span>
+            <span class="meetwaarde"><span id="waarde-windchill">-- °C</span><span id="trend-windchill" class="trend-pijl">→</span></span>
+            <span id="tijd-windchill" class="tijdstempel">Berekenen...</span>
+        </div>
+        
+        <div id="box-regiowind" class="sensor-container" style="border-left: 4px solid #0056b3;">
+            <span class="sensor-naam">Regio Windsnelheid</span>
+            <span id="waarde-regiowind" class="meetwaarde">-- km/u</span>
+            <span id="tijd-regiowind" class="tijdstempel">KNMI data...</span>
+        </div>
 
-    <div id="box-absv1" class="sensor-container">
-        <span class="sensor-naam">Abs. Luchtvochtigheid (+1,5m)</span>
-        <span class="meetwaarde"><span id="waarde-absv1">-- g/m³</span><span id="trend-absv1" class="trend-pijl">→</span></span>
-        <span id="tijd-absv1" class="tijdstempel">Berekenen...</span>
-    </div>
+        <div id="box-regiorichting" class="sensor-container" style="border-left: 4px solid #0056b3;">
+            <span class="sensor-naam">Regio Windrichting</span>
+            <span id="waarde-regiorichting" class="meetwaarde">--</span>
+            <span id="tijd-regiorichting" class="tijdstempel">KNMI data...</span>
+        </div>
 
-    <div id="box-windchill" class="sensor-container">
-        <span class="sensor-naam">Gevoelstemperatuur (+1,5m)</span>
-        <span class="meetwaarde"><span id="waarde-windchill">-- °C</span><span id="trend-windchill" class="trend-pijl">→</span></span>
-        <span id="tijd-windchill" class="tijdstempel">Berekenen...</span>
-    </div>
-
-    <div id="box-qff" class="sensor-container">
-        <span class="sensor-naam">Luchtdruk Zeeniveau (QFF)</span>
-        <span class="meetwaarde"><span id="waarde-qff">-- hPa</span><span id="trend-qff" class="trend-pijl">→</span></span>
-        <span id="tijd-qff" class="tijdstempel">Berekenen...</span>
-    </div>
-
-
-    <div id="box-f4" class="sensor-container">
-        <span id="naam-f4" class="sensor-naam">Grondtemperatuur (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-f4">-- °C</span><span id="trend-f4" class="trend-pijl">→</span></span>
-        <span id="tijd-f4" class="tijdstempel">Live data...</span>
-    </div>
-
-    <div id="box-f6" class="sensor-container">
-        <span id="naam-f6" class="sensor-naam">Luchtvochtigheid (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-f6">-- %</span><span id="trend-f6" class="trend-pijl">→</span></span>
-        <span id="tijd-f6" class="tijdstempel">Live data...</span>
-    </div>
-
-    <div id="box-f5" class="sensor-container">
-        <span id="naam-f5" class="sensor-naam">Luchtdruk (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-f5">-- hPa</span><span id="trend-f5" class="trend-pijl">→</span></span>
-        <span id="tijd-f5" class="tijdstempel">Live data...</span>
-    </div>
-
-    <div id="box-dp4" class="sensor-container">
-        <span class="sensor-naam">Dauwpunt (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-dp4">-- °C</span><span id="trend-dp4" class="trend-pijl">→</span></span>
-        <span id="tijd-dp4" class="tijdstempel">Berekenen...</span>
-    </div>
-
-    <div id="box-absv4" class="sensor-container">
-        <span class="sensor-naam">Abs. Luchtvochtigheid (+10cm)</span>
-        <span class="meetwaarde"><span id="waarde-absv4">-- g/m³</span><span id="trend-absv4" class="trend-pijl">→</span></span>
-        <span id="tijd-absv4" class="tijdstempel">Berekenen...</span>
-    </div>
-
-    <div id="box-gladheid" class="sensor-container">
-        <span class="sensor-naam">Indicator Gladheid / Rijp</span>
-        <span id="waarde-gladheid" class="meetwaarde">--</span>
-        <span id="tijd-gladheid" class="tijdstempel">Berekenen...</span>
-    </div>
-
-
-    <div id="box-regiowind" class="sensor-container" style="border-left: 4px solid #0056b3;">
-        <span class="sensor-naam">💨 Regio Windsnelheid (Hupsel)</span>
-        <span id="waarde-regiowind" class="meetwaarde">-- km/u</span>
-        <span id="tijd-regiowind" class="tijdstempel">KNMI data...</span>
-    </div>
-
-    <div id="box-regiorichting" class="sensor-container" style="border-left: 4px solid #0056b3;">
-        <span class="sensor-naam">🧩 Regio Windrichting (Hupsel)</span>
-        <span id="waarde-regiorichting" class="meetwaarde">--</span>
-        <span id="tijd-regiorichting" class="tijdstempel">KNMI data...</span>
-    </div>
-
-    <div id="box-regioneerslag" class="sensor-container" style="border-left: 4px solid #0056b3;">
-        <span class="sensor-naam">🌧️ Regio Neerslag (Afgelopen uur)</span>
-        <span id="waarde-regioneerslag" class="meetwaarde">-- mm</span>
-        <span id="tijd-regioneerslag" class="tijdstempel">KNMI data...</span>
+        <div id="box-regioneerslag" class="sensor-container" style="border-left: 4px solid #0056b3;">
+            <span class="sensor-naam">Regio Neerslag (afgelopen uur)</span>
+            <span id="waarde-regioneerslag" class="meetwaarde">-- mm</span>
+            <span id="tijd-regioneerslag" class="tijdstempel">KNMI data...</span>
+        </div>
     </div>
 
 </div>
 
-<p>Waarnemingen op standaard hoogte (+1,5m):</p>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+<p><strong>Waarnemingen op standaard hoogte (+1,5m):</strong></p>
+<div class="iframe-container">
+    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+</div>
 
-<p>Waarnemingen op grond hoogte (+10 cm):</p>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #cccccc; margin-right: 10px; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
-<iframe width="450" height="260" style="border: 1px solid #currentColor; margin-bottom: 10px;" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+<p style="margin-top: 20px;"><strong>Waarnemingen op grond hoogte (+10 cm):</strong></p>
+<div class="iframe-container">
+    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+    <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+</div>
 
 <script>
     const channelId = '3401293'; 
     const apiKey = 'WGQMOV6DPXNOEX2R'; 
 
     const urlLive = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
-    const urlTrend = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=150`; // results verlaagd naar 150 voor snellere laadtijd
+    const urlTrend = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=150`; 
     const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
     const historyUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&days=1&timescale=10`;
 
@@ -265,7 +315,6 @@
 
     let actueleWindsnelheidKmu = 0; 
 
-    // REKENFORMULES
     function berekenDauwpunt(t, rh) {
         const T = Number(t); const RH = Number(rh);
         if (isNaN(T) || isNaN(RH) || RH <= 0) return null;
@@ -274,7 +323,6 @@
         return (c * gamma) / (b - gamma);
     }
 
-    // Absolute vochtigheid in g/m³
     function berekenAbsoluteVocht(t, rh) {
         const T = Number(t); const RH = Number(rh);
         if (isNaN(T) || isNaN(RH)) return null;
@@ -283,7 +331,6 @@
         return (vq * 216.7) / (T + 273.15);
     }
 
-    // Officiële JAG/TI Windchill-formule (KNMI/Buienradar standaard)
     function berekenEchteWindchill(t, windKmu) {
         const T = Number(t); const W = Number(windKmu);
         if (isNaN(T) || isNaN(W)) return T;
@@ -320,7 +367,6 @@
         return richtingen[index] + ` (${g}°)`;
     }
 
-    // DYNAMISCHE METEO-KLEUREN
     function geefKleur(type, waarde) {
         const getal = Number(waarde);
         if (isNaN(getal)) return '#ffffff'; 
@@ -350,7 +396,6 @@
         return '#ffffff';
     }
 
-    // REGIO DATA INLADEN (KNMI HUPSEL)
     async function laadRegioWeerData() {
         try {
             const regioUrl = `https://api.open-meteo.com/v1/forecast?latitude=52.0633&longitude=6.6511&current=rain,wind_speed_10m,wind_direction_10m&timezone=auto`;
@@ -383,22 +428,18 @@
         }
     }
 
-    // HOOFDFUNCTIE DASHBOARD (GEOPTIMALISEERD & ASYNCHROON)
     function laadAlleSensoren() {
         Promise.all([
             fetch(urlLive).then(res => res.json()).catch(err => { console.error("Fout bij live data:", err); return null; }),
             fetch(urlTrend).then(res => res.json()).catch(err => { console.error("Fout bij trend data:", err); return null; })
         ])
         .then(([liveData, trendData]) => {
-            if (!liveData) {
-                console.error("Geen live data ontvangen van ThingSpeak.");
-                return;
-            }
+            if (!liveData) return;
 
             let tijdTekst = "Onbekend";
             if (liveData.created_at) {
                 const rawDate = new Date(liveData.created_at);
-                tijdTekst = rawDate.toLocaleDateString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                tijdTekst = rawDate.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
             }
 
             let oudFeed = liveData;
@@ -409,7 +450,6 @@
             const veldConfig = { 1: "temp", 2: "vocht", 3: "druk", 4: "temp", 5: "druk", 6: "vocht" };
             const eenheden = { 1: " °C", 2: " %", 3: " hPa", 4: " °C", 5: " hPa", 6: " %" };
 
-            // UPDATE BASIS SENSOREN
             for (let i = 1; i <= 6; i++) {
                 const waarde = liveData[`field${i}`];
                 const oudWaarde = oudFeed[`field${i}`];
@@ -419,15 +459,9 @@
 
                 if (containerElement && waarde !== null && waarde !== undefined && waarde !== "") {
                     waardeElement.innerText = Number(waarde).toFixed(2) + eenheden[i];
-                    
                     if (trendElement) {
-                        if (trendData && oudWaarde !== undefined) {
-                            trendElement.innerText = bepaalTrendPijl(waarde, oudWaarde, i===3||i===5 ? 0.3 : 0.15);
-                        } else {
-                            trendElement.innerText = "→"; 
-                        }
+                        trendElement.innerText = trendData && oudWaarde !== undefined ? bepaalTrendPijl(waarde, oudWaarde, i===3||i===5 ? 0.3 : 0.15) : "→";
                     }
-                    
                     document.getElementById(`tijd-f${i}`).innerText = tijdTekst;
                     containerElement.style.backgroundColor = geefKleur(veldConfig[i], waarde);
                 }
@@ -435,11 +469,10 @@
 
             const t15 = Number(liveData.field1);  const rh15 = Number(liveData.field2); const p15 = Number(liveData.field3);
             const t10 = Number(liveData.field4);  const p10 = Number(liveData.field5);   const rh10 = Number(liveData.field6);
-
             const t15_oud = Number(oudFeed.field1); const rh15_oud = Number(oudFeed.field2); const p15_oud = Number(oudFeed.field3);
             const t10_oud = Number(oudFeed.field4); const rh10_oud = Number(oudFeed.field6);
 
-            // BEREKENINGEN: Dauwpunten
+            // BEREKENINGEN
             const dp15 = berekenDauwpunt(t15, rh15); const dp15_oud = berekenDauwpunt(t15_oud, rh15_oud);
             if (dp15 !== null) {
                 document.getElementById('waarde-dp1').innerText = dp15.toFixed(2) + " °C";
@@ -455,7 +488,6 @@
                 document.getElementById('box-dp4').style.backgroundColor = geefKleur('temp', dp10);
             }
 
-            // BEREKENINGEN: Absolute Vochtigheid
             const av15 = berekenAbsoluteVocht(t15, rh15); const av15_oud = berekenAbsoluteVocht(t15_oud, rh15_oud);
             if (av15 !== null) {
                 document.getElementById('waarde-absv1').innerText = av15.toFixed(2) + " g/m³";
@@ -471,7 +503,6 @@
                 document.getElementById('box-absv4').style.backgroundColor = geefKleur('absvocht', av4);
             }
 
-            // BEREKENINGEN: Gevoelstemperatuur (Echte windchill op basis van regio-wind)
             const wc = berekenEchteWindchill(t15, actueleWindsnelheidKmu);
             const wc_oud = berekenEchteWindchill(t15_oud, actueleWindsnelheidKmu);
             if (wc !== null) {
@@ -481,7 +512,6 @@
                 document.getElementById('box-windchill').style.backgroundColor = geefKleur('temp', wc);
             }
 
-            // BEREKENINGEN: Luchtdruk Zeeniveau (QFF)
             const qff = berekenQFF(p15, t15); const qff_oud = berekenQFF(p15_oud, t15_oud);
             if (qff !== null) {
                 document.getElementById('waarde-qff').innerText = qff.toFixed(1) + " hPa";
@@ -490,7 +520,6 @@
                 document.getElementById('box-qff').style.backgroundColor = geefKleur('druk', qff);
             }
 
-            // BEREKENINGEN: Gladheid / Rijp
             const gladBox = document.getElementById('box-gladheid');
             if (gladBox && t10 !== null && dp10 !== null) {
                 document.getElementById('tijd-gladheid').innerText = tijdTekst;
@@ -505,68 +534,56 @@
                     gladBox.style.backgroundColor = '#e8f5e9'; gladBox.querySelector('.meetwaarde').style.color = '#111';
                 }
             }
+        }).catch(err => console.error(err));
 
-        }).catch(err => console.error("Algemene dashboardfout:", err));
-
-        // Namen ophalen van het ThingSpeak kanaal
-        fetch(infoUrl)
-            .then(res => res.json())
-            .then(infoData => {
-                for (let i = 1; i <= 6; i++) {
-                    const standaardNamen = {1: "Temperatuur", 2: "Luchtvochtigheid", 3: "Luchtdruk", 4: "Temperatuur 2", 5: "Luchtdruk 2", 6: "Luchtvochtigheid 2"};
-                    const veldNaam = infoData.channel[`field${i}`];
-                    const naamElement = document.getElementById(`naam-f${i}`);
-                    if (naamElement) { naamElement.innerText = veldNaam || standaardNamen[i]; }
-                }
-            }).catch(err => console.error("Fout bij laden kanaalnamen:", err));
+        fetch(infoUrl).then(res => res.json()).then(infoData => {
+            for (let i = 1; i <= 6; i++) {
+                const standaardNamen = {1: "Temperatuur", 2: "Luchtvochtigheid", 3: "Luchtdruk", 4: "Temperatuur 2", 5: "Luchtdruk 2", 6: "Luchtvochtigheid 2"};
+                const naamElement = document.getElementById(`naam-f${i}`);
+                if (naamElement) { naamElement.innerText = infoData.channel[`field${i}`] || standaardNamen[i]; }
+            }
+        });
     }
 
     async function laadAstronomie() {
         try {
             const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LATITUDE}&longitude=${LONGITUDE}&daily=sunrise,sunset&timezone=auto`;
-            const response = await fetch(weatherUrl);
-            const data = await response.json();
-            const nu = new Date();
-            const sunriseVandaag = new Date(data.daily.sunrise[0]);
-            const sunsetVandaag = new Date(data.daily.sunset[0]);
+            const response = await fetch(weatherUrl); const data = await response.json();
+            const nu = new Date(); const sunriseVandaag = new Date(data.daily.sunrise[0]); const sunsetVandaag = new Date(data.daily.sunset[0]);
             let weergaveTekst = ""; let doelTijd;
-
             if (nu < sunriseVandaag) { weergaveTekst = "🌅 Zonsopkomst:"; doelTijd = sunriseVandaag; } 
             else if (nu >= sunriseVandaag && nu < sunsetVandaag) { weergaveTekst = "🌇 Zonsondergang:"; doelTijd = sunsetVandaag; } 
-            else { weergaveTekst = "🌅 Zonsopkomst morgen:"; const sunriseMorgen = new Date(data.daily.sunrise[1] || data.daily.sunrise[0]); doelTijd = sunriseMorgen; }
-
-            const tijdGeformatteerd = doelTijd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('sun-container').innerHTML = `${weergaveTekst} <strong id="sun-time" style="color: #111;">${tijdGeformatteerd}</strong>`;
+            else { weergaveTekst = "🌅 Zonsopkomst morgen:"; doelTijd = new Date(data.daily.sunrise[1]); }
+            document.getElementById('sun-container').innerHTML = `${weergaveTekst} <strong style="color: #111;">${doelTijd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong>`;
             document.getElementById('moon-phase').innerText = berekenMaanfase();
-        } catch (error) { console.error("Fout bij ophalen astronomie-data:", error); }
+        } catch (e) {}
     }
 
     function berekenMaanfase() {
         const date = new Date(); let year = date.getFullYear(); let month = date.getMonth() + 1; let day = date.getDate();
         if (month < 3) { year--; month += 12; } ++month;
-        let c = 365.25 * year; let e = 30.6 * month; let jd = c + e + day - 694039.09; 
-        jd /= 29.530588853; let b = parseInt(jd); jd -= b; let phase = Math.round(jd * 8); 
-        if (phase >= 8) phase = 0;
+        let jd = (365.25 * year) + (30.6 * month) + day - 694039.09; jd /= 29.530588853;
+        let phase = Math.round((jd - parseInt(jd)) * 8); if (phase >= 8) phase = 0;
         const phases = ["Nieuwe maan 🌑", "Jonge maansikkel 🌒", "Eerste kwartier 🌓", "Wassende maan 🌔", "Volle maan 🌕", "Krimpende maan 🌖", "Laatste kwartier 🌗", "Asgrauwe maan 🌘"];
         return phases[phase];
     }
 
     function formatteerTijd(isoString) {
         if (!isoString) return "";
-        const d = new Date(isoString);
-        return " (om " + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) + ")";
+        return " (om " + new Date(isoString).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) + ")";
     }
 
     function zoekExtreem(feeds, veldNaam, type) {
         let geselecteerdFeed = null;
         feeds.forEach(feed => {
-            const waardeStr = feed[veldNaam];
-            if (waardeStr !== null && waardeStr !== undefined && waardeStr !== "") {
-                const waarde = Number(waardeStr);
-                if (geselecteerdFeed === null) { geselecteerdFeed = feed; } else {
-                    const huidigeGeselecteerd = Number(geselecteerdFeed[veldNaam]);
-                    if (type === 'min' && waarde < huidigeGeselecteerd) geselecteerdFeed = feed;
-                    else if (type === 'max' && waarde > huidigeGeselecteerd) geselecteerdFeed = feed;
+            const wStr = feed[veldNaam];
+            if (wStr !== null && wStr !== undefined && wStr !== "") {
+                const w = Number(wStr);
+                if (geselecteerdFeed === null) geselecteerdFeed = feed;
+                else {
+                    const hGeselecteerd = Number(geselecteerdFeed[veldNaam]);
+                    if (type === 'min' && w < hGeselecteerd) geselecteerdFeed = feed;
+                    else if (type === 'max' && w > hGeselecteerd) geselecteerdFeed = feed;
                 }
             }
         });
@@ -574,41 +591,28 @@
     }
 
     function laadMinMaxData() {
-        fetch(historyUrl)
-            .then(response => response.json())
-            .then(data => {
-                const feeds = data.feeds; if (!feeds || feeds.length === 0) return;
-                const velden = [
-                    { idMin: 'temp-min', idMax: 'temp-max', field: 'field1', dec: 2, eenheid: ' °C' },
-                    { idMin: 'vocht-min', idMax: 'vocht-max', field: 'field2', dec: 1, eenheid: ' %' },
-                    { idMin: 'druk-min', idMax: 'druk-max', field: 'field3', dec: 1, eenheid: ' hPa' },
-                    { idMin: 'grond-min', idMax: 'grond-max', field: 'field4', dec: 2, eenheid: ' °C' },
-                    { idMin: 'gronddruk-min', idMax: 'gronddruk-max', field: 'field5', dec: 1, eenheid: ' hPa' },
-                    { idMin: 'grondvocht-min', idMax: 'grondvocht-max', field: 'field6', dec: 1, eenheid: ' %' }
-                ];
-                velden.forEach(v => {
-                    const minFeed = zoekExtreem(feeds, v.field, 'min'); const maxFeed = zoekExtreem(feeds, v.field, 'max');
-                    if (minFeed) { document.getElementById(v.idMin).innerText = Number(minFeed[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMin + "-tijd").innerText = formatteerTijd(minFeed.created_at); }
-                    if (maxFeed) { document.getElementById(v.idMax).innerText = Number(maxFeed[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMax + "-tijd").innerText = formatteerTijd(maxFeed.created_at); }
-                });
-            }).catch(err => console.error("Fout bij laden min/max data:", err));
+        fetch(historyUrl).then(res => res.json()).then(data => {
+            const feeds = data.feeds; if (!feeds || feeds.length === 0) return;
+            const velden = [
+                { idMin: 'temp-min', idMax: 'temp-max', field: 'field1', dec: 2, eenheid: ' °C' },
+                { idMin: 'vocht-min', idMax: 'vocht-max', field: 'field2', dec: 1, eenheid: ' %' },
+                { idMin: 'druk-min', idMax: 'druk-max', field: 'field3', dec: 1, eenheid: ' hPa' },
+                { idMin: 'grond-min', idMax: 'grond-max', field: 'field4', dec: 2, eenheid: ' °C' },
+                { idMin: 'gronddruk-min', idMax: 'gronddruk-max', field: 'field5', dec: 1, eenheid: ' hPa' },
+                { idMin: 'grondvocht-min', idMax: 'grondvocht-max', field: 'field6', dec: 1, eenheid: ' %' }
+            ];
+            velden.forEach(v => {
+                const minF = zoekExtreem(feeds, v.field, 'min'); const maxF = zoekExtreem(feeds, v.field, 'max');
+                if (minF) { document.getElementById(v.idMin).innerText = Number(minF[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMin + "-tijd").innerText = formatteerTijd(minF.created_at); }
+                if (maxF) { document.getElementById(v.idMax).innerText = Number(maxF[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMax + "-tijd").innerText = formatteerTijd(maxF.created_at); }
+            });
+        }).catch(err => console.error(err));
     }
 
-    // ON-THE-FLY LADEN: Start direct met laden voor ultieme laadsnelheid
-    laadRegioWeerData().then(() => {
-        laadAlleSensoren();
-    });
-
-    laadAstronomie(); 
-    laadMinMaxData();
+    laadRegioWeerData().then(() => laadAlleSensoren());
+    laadAstronomie(); laadMinMaxData();
     
-    // Automatische updates elke 20 seconden
-    setInterval(async () => {
-        await laadRegioWeerData(); 
-        laadAlleSensoren();        
-    }, 20000); 
-    
-    // Extremen elk minuut verversen
+    setInterval(async () => { await laadRegioWeerData(); laadAlleSensoren(); }, 20000); 
     setInterval(laadMinMaxData, 60000);   
 </script>
 
