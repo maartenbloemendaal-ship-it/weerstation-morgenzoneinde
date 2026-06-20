@@ -3,205 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Persoonlijk Weerstation Winterswijk - Morgenzoneinde live data</title>
-
     <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid en luchtdruk direct uit de metingen.">
-    <meta name="keywords" content="Weerstation Morgenzoneinde, PWS Winterswijk, actuele weer Winterswijk, ThingSpeak weerstation, Corle weer, live weerdata">
-    <meta name="robots" content="index, follow">
-
     <style>
-        body {
-            background-color: #b0c2d4; 
-            margin: 20px;              
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-        }
-
-        /* DYNAMISCHE UNIVERSELE WEER-ALARMBALK STYLE */
-        #weer-alert-balk {
-            display: none; 
-            width: 100%;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            box-sizing: border-box;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* PROFESSIONELE GRID INDELING */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            width: 100%;
-            margin-bottom: 25px;
-        }
-
-        @media (min-width: 900px) {
-            .dashboard-grid {
-                grid-template-columns: repeat(3, 1fr); 
-            }
-        }
-
-        .grid-kolom {
-            background: rgba(255, 255, 255, 0.4);
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-        }
-
-        .kolom-titel {
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #2c3e50;
-            margin-top: 0;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .sensor-container {
-            width: 100%;           
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            box-sizing: border-box;
-            transition: background-color 0.5s ease; 
-            margin-bottom: 12px; 
-        }
-
-        .sensor-container:last-child {
-            margin-bottom: 0;
-        }
-
-        .sensor-naam {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #666;
-            margin-bottom: 5px;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .meetwaarde {
-            font-size: 18px;       
-            font-weight: bold;
-            color: #111;
-            line-height: 1.1;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Zet waarde links en pijl rechts */
-            width: 100%;
-        }
-
-        .trend-pijl {
-            font-size: 12px;
-            font-weight: bold;
-            color: #444;
-            background: rgba(0, 0, 0, 0.08);
-            padding: 3px 7px;
-            border-radius: 4px;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .tijdstempel {
-            font-size: 10px;
-            color: #888;
-            font-style: italic;
-            display: block;
-            line-height: 1.3;
-        }
-
-        /* CSS WINDROOS / KOMPAS */
-        .wind-layout {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .kompas-ring {
-            width: 40px;
-            height: 40px;
-            border: 2px solid #2c3e50;
-            border-radius: 50%;
-            position: relative;
-            background: #f8f9fa;
-        }
-        .kompas-noord {
-            position: absolute;
-            top: 2px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 7px;
-            font-weight: bold;
-            color: #b30000;
-        }
-        .kompas-naald {
-            width: 2px;
-            height: 30px;
-            background: linear-gradient(to bottom, #b30000 50%, #2c3e50 50%);
-            position: absolute;
-            top: 5px;
-            left: 19px;
-            transform: rotate(0deg);
-            transition: transform 1s ease-in-out;
-        }
-
-        .iframe-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        iframe {
-            border: 1px solid #cccccc;
-            border-radius: 8px;
-            max-width: 100%;
-        }
-
-        .minmax-kolom {
-            flex: 1;
-            min-width: 280px;
-        }
-        .minmax-item {
-            margin-bottom: 6px;
-            line-height: 1.4;
-        }
-        .mm-tijd {
-            font-size: 10px;
-            color: #666;
-            font-weight: normal;
-        }
+        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        #weer-alert-balk { display: none; width: 100%; padding: 15px 20px; margin-bottom: 20px; border-radius: 8px; font-weight: bold; font-size: 14px; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; margin-bottom: 25px; }
+        @media (min-width: 900px) { .dashboard-grid { grid-template-columns: repeat(3, 1fr); } }
+        .grid-kolom { background: rgba(255, 255, 255, 0.4); padding: 15px; border-radius: 12px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+        .kolom-titel { font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid rgba(0,0,0,0.1); display: flex; align-items: center; gap: 5px; }
+        .sensor-container { width: 100%; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); box-sizing: border-box; transition: background-color 0.5s ease; margin-bottom: 12px; }
+        .sensor-naam { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 5px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .meetwaarde { font-size: 18px; font-weight: bold; color: #111; line-height: 1.1; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .trend-pijl { font-size: 12px; font-weight: bold; color: #444; background: rgba(0, 0, 0, 0.08); padding: 3px 7px; border-radius: 4px; flex-shrink: 0; margin-left: 10px; }
+        .tijdstempel { font-size: 10px; color: #888; font-style: italic; display: block; line-height: 1.3; }
+        .wind-layout { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .kompas-ring { width: 40px; height: 40px; border: 2px solid #2c3e50; border-radius: 50%; position: relative; background: #f8f9fa; }
+        .kompas-naald { width: 2px; height: 30px; background: linear-gradient(to bottom, #b30000 50%, #2c3e50 50%); position: absolute; top: 5px; left: 19px; transform: rotate(0deg); transition: transform 1s ease-in-out; }
     </style>
 </head>
 <body>
+    <h1>Persoonlijk Weerstation Morgenzoneinde</h1>
+    <div id="weer-alert-balk"></div>
+    ```
 
-<h1>Persoonlijk Weerstation Morgenzoneinde <span style="font-size: 0.8em; font-weight: normal; color: #666;">Winterswijk</span></h1>
+*(Geef me een seintje, dan stuur ik direct Deel 2 met de volledige, gecorrigeerde JavaScript-logica die je eronder kunt plakken.)*
 
-<div id="weer-alert-balk"></div>
 
 <div style="margin-bottom: 15px; width: 100%;">
   <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
