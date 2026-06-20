@@ -6,7 +6,6 @@
 
     <title>Persoonlijk Weerstation Winterswijk - Morgenzoneinde live data</title>
 
-    <!-- Hier zijn de meta-tags voor de zoekmachines -->
     <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid en luchtdruk direct uit de metingen.">
     <meta name="keywords" content="Weerstation Morgenzoneinde, PWS Winterswijk, actuele weer Winterswijk, ThingSpeak weerstation, Corle weer, live weerdata">
     <meta name="robots" content="index, follow">
@@ -29,7 +28,7 @@
             width: 100%; 
         }
 
-        /* Stijl voor de 6 sensorblokken - Standaard (op mobiel) 100% breed */
+        /* Stijl voor de sensorblokken - Standaard (op mobiel) 100% breed */
         .sensor-container {
             width: 100%;           
             background: white;
@@ -40,7 +39,7 @@
             transition: background-color 0.5s ease; 
         }
 
-        /* Als het scherm breder is dan 600px (zoals op een tablet of computer), zet ze dan in 2 rijen van 3 */
+        /* Als het scherm breder is dan 600px, zet ze dan in rijen van 3 */
         @media (min-width: 600px) {
             .sensor-container {
                 width: calc((100% - 30px) / 3); 
@@ -105,7 +104,6 @@
 
 <h1>Persoonlijk Weerstation Morgenzoneinde <span style="font-size: 0.8em; font-weight: normal; color: #666;">Winterswijk</span></h1>
 
-<!-- Hoofd-weerwidget -->
 <div style="margin-bottom: 15px; width: 100%;">
   <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
   <script>
@@ -113,7 +111,6 @@
   </script>
 </div>
 
-<!-- Astronomie balk over de volledige breedte -->
 <div id="astro-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
     <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444;">✨ Zon & Maan (Winterswijk)</span>
     <div style="display: flex; gap: 25px; flex-wrap: wrap;">
@@ -122,20 +119,17 @@
     </div>
 </div>
 
-<!-- Extremen (Min/Max) balk inclusief tijdstippen -->
 <div id="minmax-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.10); color: #222; padding: 15px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; font-size: 13px;">
     <div style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444; margin-bottom: 10px;">📊 Extremen afgelopen 24u (incl. tijdstip)</div>
-    
+
     <div style="display: flex; flex-wrap: wrap; gap: 20px 40px;">
-        <!-- Kolom Standaardhoogte -->
         <div class="minmax-kolom">
             <div style="font-weight: bold; color: #555; margin-bottom: 5px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 2px;">🌡️ Standaardhoogte (+1,5m)</div>
             <div class="minmax-item">Temp: Min <strong id="temp-min" style="color: #0056b3;">-- °C</strong><span id="temp-min-tijd" class="mm-tijd"></span> | Max <strong id="temp-max" style="color: #b30000;">-- °C</strong><span id="temp-max-tijd" class="mm-tijd"></span></div>
             <div class="minmax-item">Vocht: Min <strong id="vocht-min" style="color: #0056b3;">-- %</strong><span id="vocht-min-tijd" class="mm-tijd"></span> | Max <strong id="vocht-max" style="color: #b30000;">-- %</strong><span id="vocht-max-tijd" class="mm-tijd"></span></div>
             <div class="minmax-item">Druk: Min <strong id="druk-min" style="color: #0056b3;">-- hPa</strong><span id="druk-min-tijd" class="mm-tijd"></span> | Max <strong id="druk-max" style="color: #b30000;">-- hPa</strong><span id="druk-max-tijd" class="mm-tijd"></span></div>
         </div>
-        
-        <!-- Kolom Grondhoogte -->
+
         <div class="minmax-kolom">
             <div style="font-weight: bold; color: #555; margin-bottom: 5px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 2px;">🌱 Grondhoogte (+10cm)</div>
             <div class="minmax-item">Temp: Min <strong id="grond-min" style="color: #0056b3;">-- °C</strong><span id="grond-min-tijd" class="mm-tijd"></span> | Max <strong id="grond-max" style="color: #b30000;">-- °C</strong><span id="grond-max-tijd" class="mm-tijd"></span></div>
@@ -145,7 +139,7 @@
     </div>
 </div>
 
-<p style="font-size: 13px; color: #444;"><strong>Actuele meetgegevens</strong> — <em>De sensoren worden elke 20 seconden uitgelezen voor een exacte weergave van de huidige weersituatie:</em></p>
+<p style="font-size: 13px; color: #444;"><strong>Actuele & Berekende meetgegevens</strong> — <em>De sensoren worden elke 20 seconden uitgelezen en direct geanalyseerd:</em></p>
 
 <div class="dashboard-rij" style="margin-bottom: 25px;">
 
@@ -155,22 +149,53 @@
         <span id="tijd-f1" class="tijdstempel">Live data...</span>
     </div>
 
-    <div id="box-f3" class="sensor-container">
-        <span id="naam-f3" class="sensor-naam">Luchtdruk (+1,5m)</span>
-        <span id="waarde-f3" class="meetwaarde">-- hPa</span>
-        <span id="tijd-f3" class="tijdstempel">Live data...</span>
-    </div>
-
     <div id="box-f2" class="sensor-container">
         <span id="naam-f2" class="sensor-naam">Luchtvochtigheid (+1,5m)</span>
         <span id="waarde-f2" class="meetwaarde">-- %</span>
         <span id="tijd-f2" class="tijdstempel">Live data...</span>
     </div>
 
+    <div id="box-f3" class="sensor-container">
+        <span id="naam-f3" class="sensor-naam">Luchtdruk (+1,5m)</span>
+        <span id="waarde-f3" class="meetwaarde">-- hPa</span>
+        <span id="tijd-f3" class="tijdstempel">Live data...</span>
+    </div>
+
+    <div id="box-dp1" class="sensor-container">
+        <span class="sensor-naam">Dauwpunt (+1,5m)</span>
+        <span id="waarde-dp1" class="meetwaarde">-- °C</span>
+        <span id="tijd-dp1" class="tijdstempel">Berekenen...</span>
+    </div>
+
+    <div id="box-absv1" class="sensor-container">
+        <span class="sensor-naam">Abs. Luchtvochtigheid (+1,5m)</span>
+        <span id="waarde-absv1" class="meetwaarde">-- g/m³</span>
+        <span id="tijd-absv1" class="tijdstempel">Berekenen...</span>
+    </div>
+
+    <div id="box-windchill" class="sensor-container">
+        <span class="sensor-naam">Gevoelstemperatuur (+1,5m)</span>
+        <span id="waarde-windchill" class="meetwaarde">-- °C</span>
+        <span id="tijd-windchill" class="tijdstempel">Berekenen...</span>
+    </div>
+
+    <div id="box-qff" class="sensor-container">
+        <span class="sensor-naam">Luchtdruk Zeeniveau (QFF)</span>
+        <span id="waarde-qff" class="meetwaarde">-- hPa</span>
+        <span id="tijd-qff" class="tijdstempel">Berekenen...</span>
+    </div>
+
+
     <div id="box-f4" class="sensor-container">
         <span id="naam-f4" class="sensor-naam">Grondtemperatuur (+10cm)</span>
         <span id="waarde-f4" class="meetwaarde">-- °C</span>
         <span id="tijd-f4" class="tijdstempel">Live data...</span>
+    </div>
+
+    <div id="box-f6" class="sensor-container">
+        <span id="naam-f6" class="sensor-naam">Luchtvochtigheid (+10cm)</span>
+        <span id="waarde-f6" class="meetwaarde">-- %</span>
+        <span id="tijd-f6" class="tijdstempel">Live data...</span>
     </div>
 
     <div id="box-f5" class="sensor-container">
@@ -179,11 +204,24 @@
         <span id="tijd-f5" class="tijdstempel">Live data...</span>
     </div>
 
-    <div id="box-f6" class="sensor-container">
-        <span id="naam-f6" class="sensor-naam">Luchtvochtigheid (+10cm)</span>
-        <span id="waarde-f6" class="meetwaarde">-- %</span>
-        <span id="tijd-f6" class="tijdstempel">Live data...</span>
+    <div id="box-dp4" class="sensor-container">
+        <span class="sensor-naam">Dauwpunt (+10cm)</span>
+        <span id="waarde-dp4" class="meetwaarde">-- °C</span>
+        <span id="tijd-dp4" class="tijdstempel">Berekenen...</span>
     </div>
+
+    <div id="box-absv4" class="sensor-container">
+        <span class="sensor-naam">Abs. Luchtvochtigheid (+10cm)</span>
+        <span id="waarde-absv4" class="meetwaarde">-- g/m³</span>
+        <span id="tijd-absv4" class="tijdstempel">Berekenen...</span>
+    </div>
+
+    <div id="box-gladheid" class="sensor-container">
+        <span class="sensor-naam">Indicator Gladheid / Rijp</span>
+        <span id="waarde-gladheid" class="meetwaarde">--</span>
+        <span id="tijd-gladheid" class="tijdstempel">Berekenen...</span>
+    </div>
+
 </div>
 
 <p>Waarnemingen op standaard hoogte (+1,5m):</p>
@@ -206,26 +244,63 @@
 
     const LATITUDE = 51.9765;
     const LONGITUDE = 6.70224;
+    const STATION_HOOGTE = 20; // Winterswijk hoogte t.o.v. NAP in meters
 
-    function geefKleur(veldNummer, waarde) {
+    // --- REKENFUNCTIES ---
+    function berekenDauwpunt(t, rh) {
+        const T = Number(t); const RH = Number(rh);
+        if (isNaN(T) || isNaN(RH) || RH <= 0) return null;
+        const b = 17.67; const c = 243.5;
+        const gamma = ((b * T) / (c + T)) + Math.log(RH / 100);
+        return (c * gamma) / (b - gamma);
+    }
+
+    function berekenAbsoluteVocht(t, rh) {
+        const T = Number(t); const RH = Number(rh);
+        if (isNaN(T) || isNaN(RH)) return null;
+        const srv = 6.112 * Math.exp((17.67 * T) / (T + 243.5));
+        const vq = srv * (RH / 100) * 100;
+        return (vq * 216.7) / (T + 273.15);
+    }
+
+    function berekenSchijnbareTemp(t, rh) {
+        const T = Number(t); const RH = Number(rh);
+        if (isNaN(T) || isNaN(RH)) return null;
+        const e = (RH / 100) * 6.105 * Math.exp((17.27 * T) / (237.7 + T));
+        return T + 0.33 * e - 4.0;
+    }
+
+    function berekenQFF(absDruk, t) {
+        const P = Number(absDruk); const T = Number(t);
+        if (isNaN(P) || isNaN(T)) return null;
+        return P * Math.exp((0.03416 * STATION_HOOGTE) / (T + 273.15));
+    }
+
+    // --- AUTOMATISCH MEEKLEUREN ---
+    function geefKleur(type, waarde) {
         const getal = Number(waarde);
         if (isNaN(getal)) return '#ffffff'; 
 
-        if (veldNummer === 1 || veldNummer === 4) {
-            if (getal <= 0) return '#add8e6';    
-            if (getal < 15) return '#e0f7fa';     
-            if (getal <= 24) return '#e8f5e9';    
-            return '#ffcdd2';                     
+        if (type === 'temp') {
+            if (getal <= 0) return '#add8e6';    // Lichtblauw (Vorst)
+            if (getal < 15) return '#e0f7fa';     // Koel
+            if (getal <= 24) return '#e8f5e9';    // Groen (Comfortabel)
+            return '#ffcdd2';                     // Rood (Warm)
         }
-        if (veldNummer === 2 || veldNummer === 6) {
-            if (getal < 40) return '#fff9c4';     
-            if (getal <= 60) return '#e8f5e9';    
-            return '#bbdefb';                     
+        if (type === 'vocht') {
+            if (getal < 40) return '#fff9c4';     // Droog geel
+            if (getal <= 60) return '#e8f5e9';    // Optimaal groen
+            return '#bbdefb';                     // Vochtiger blauw
         }
-        if (veldNummer === 3 || veldNummer === 5) {
+        if (type === 'druk') {
             if (getal < 1000) return '#cfd8dc';   
             if (getal <= 1020) return '#e8f5e9';  
             return '#fff9c4';                     
+        }
+        if (type === 'absvocht') {
+            if (getal < 5) return '#fff9c4'; 
+            if (getal <= 12) return '#e8f5e9'; 
+            return '#ffcdd2'; 
         }
         return '#ffffff';
     }
@@ -235,20 +310,17 @@
             const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LATITUDE}&longitude=${LONGITUDE}&daily=sunrise,sunset&timezone=auto`;
             const response = await fetch(weatherUrl);
             const data = await response.json();
-            
+
             const nu = new Date();
             const sunriseVandaag = new Date(data.daily.sunrise[0]);
             const sunsetVandaag = new Date(data.daily.sunset[0]);
-            
-            let weergaveTekst = "";
-            let doelTijd;
+
+            let weergaveTekst = ""; let doelTijd;
 
             if (nu < sunriseVandaag) {
-                weergaveTekst = "🌅 Zonsopkomst:";
-                doelTijd = sunriseVandaag;
+                weergaveTekst = "🌅 Zonsopkomst:"; doelTijd = sunriseVandaag;
             } else if (nu >= sunriseVandaag && nu < sunsetVandaag) {
-                weergaveTekst = "🌇 Zonsondergang:";
-                doelTijd = sunsetVandaag;
+                weergaveTekst = "🌇 Zonsondergang:"; doelTijd = sunsetVandaag;
             } else {
                 weergaveTekst = "🌅 Zonsopkomst morgen:";
                 const sunriseMorgen = new Date(data.daily.sunrise[1] || data.daily.sunrise[0]);
@@ -266,23 +338,11 @@
     }
 
     function berekenMaanfase() {
-        const date = new Date();
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-
-        if (month < 3) { year--; month += 12; }
-        ++month;
-        
-        let c = 365.25 * year;
-        let e = 30.6 * month;
-        let jd = c + e + day - 694039.09; 
-        jd /= 29.530588853; 
-        let b = parseInt(jd);
-        jd -= b; 
-        let phase = Math.round(jd * 8); 
+        const date = new Date(); let year = date.getFullYear(); let month = date.getMonth() + 1; let day = date.getDate();
+        if (month < 3) { year--; month += 12; } ++month;
+        let c = 365.25 * year; let e = 30.6 * month; let jd = c + e + day - 694039.09; 
+        jd /= 29.530588853; let b = parseInt(jd); jd -= b; let phase = Math.round(jd * 8); 
         if (phase >= 8) phase = 0;
-
         const phases = [
             "Nieuwe maan 🌑", "Jonge maansikkel 🌒", "Eerste kwartier 🌓", "Wassende maan 🌔", 
             "Volle maan 🌕", "Krimpende maan 🌖", "Laatste kwartier 🌗", "Asgrauwe maan 🌘"
@@ -290,17 +350,14 @@
         return phases[phase];
     }
 
-    // Helper om tijdstempel mooi te formatteren naar 'om HH:MM'
     function formatteerTijd(isoString) {
         if (!isoString) return "";
         const d = new Date(isoString);
         return " (om " + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) + ")";
     }
 
-    // Zoekt de extremen én onthoudt de bijbehorende tijdstempel
     function zoekExtreem(feeds, veldNaam, type) {
         let geselecteerdFeed = null;
-        
         feeds.forEach(feed => {
             const waardeStr = feed[veldNaam];
             if (waardeStr !== null && waardeStr !== undefined && waardeStr !== "") {
@@ -317,7 +374,6 @@
                 }
             }
         });
-        
         return geselecteerdFeed;
     }
 
@@ -325,8 +381,7 @@
         fetch(historyUrl)
             .then(response => response.json())
             .then(data => {
-                const feeds = data.feeds;
-                if (!feeds || feeds.length === 0) return;
+                const feeds = data.feeds; if (!feeds || feeds.length === 0) return;
 
                 const velden = [
                     { idMin: 'temp-min', idMax: 'temp-max', field: 'field1', dec: 2, eenheid: ' °C' },
@@ -364,11 +419,10 @@
                     tijdTekst = rawDate.toLocaleDateString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                 }
 
-                const veldConfig = {
-                    1: " °C", 2: " %", 3: " hPa",
-                    4: " °C", 5: " hPa", 6: " %"
-                };
+                const veldConfig = { 1: "temp", 2: "vocht", 3: "druk", 4: "temp", 5: "druk", 6: "vocht" };
+                const eenheden = { 1: " °C", 2: " %", 3: " hPa", 4: " °C", 5: " hPa", 6: " %" };
 
+                // Update de 6 basissensoren
                 for (let i = 1; i <= 6; i++) {
                     const waarde = data[`field${i}`];
                     const waardeElement = document.getElementById(`waarde-f${i}`);
@@ -376,16 +430,79 @@
                     const containerElement = document.getElementById(`box-f${i}`);
 
                     if (containerElement && waarde !== null && waarde !== undefined && waarde !== "") {
-                        const afgerond = Number(waarde).toFixed(3);
-                        waardeElement.innerText = afgerond + veldConfig[i];
+                        waardeElement.innerText = Number(waarde).toFixed(2) + eenheden[i];
                         tijdElement.innerText = tijdTekst;
-                        containerElement.style.backgroundColor = geefKleur(i, waarde);
-                    } else if (containerElement) {
-                        waardeElement.innerText = "--";
-                        tijdElement.innerText = "Geen data";
-                        containerElement.style.backgroundColor = '#ffffff';
+                        containerElement.style.backgroundColor = geefKleur(veldConfig[i], waarde);
                     }
                 }
+
+                // Getallen klaarzetten voor de berekeningen
+                const t15 = Number(data.field1);  const rh15 = Number(data.field2); const p15 = Number(data.field3);
+                const t10 = Number(data.field4);  const p10 = Number(data.field5);   const rh10 = Number(data.field6);
+
+                // 1 & 2. Dauwpunten berekenen en updaten
+                const dp15 = berekenDauwpunt(t15, rh15);
+                if (dp15 !== null) {
+                    document.getElementById('waarde-dp1').innerText = dp15.toFixed(2) + " °C";
+                    document.getElementById('tijd-dp1').innerText = tijdTekst;
+                    document.getElementById('box-dp1').style.backgroundColor = geefKleur('temp', dp15);
+                }
+                const dp10 = berekenDauwpunt(t10, rh10);
+                if (dp10 !== null) {
+                    document.getElementById('waarde-dp4').innerText = dp10.toFixed(2) + " °C";
+                    document.getElementById('tijd-dp4').innerText = tijdTekst;
+                    document.getElementById('box-dp4').style.backgroundColor = geefKleur('temp', dp10);
+                }
+
+                // 3 & 4. Absolute Luchtvochtigheid berekenen en updaten
+                const av15 = berekenAbsoluteVocht(t15, rh15);
+                if (av15 !== null) {
+                    document.getElementById('waarde-absv1').innerText = av15.toFixed(2) + " g/m³";
+                    document.getElementById('tijd-absv1').innerText = tijdTekst;
+                    document.getElementById('box-absv1').style.backgroundColor = geefKleur('absvocht', av15);
+                }
+                const av4 = berekenAbsoluteVocht(t10, rh10);
+                if (av4 !== null) {
+                    document.getElementById('waarde-absv4').innerText = av4.toFixed(2) + " g/m³";
+                    document.getElementById('tijd-absv4').innerText = tijdTekst;
+                    document.getElementById('box-absv4').style.backgroundColor = geefKleur('absvocht', av4);
+                }
+
+                // 5. Gevoelstemperatuur berekenen en updaten
+                const wc = berekenSchijnbareTemp(t15, rh15);
+                if (wc !== null) {
+                    document.getElementById('waarde-windchill').innerText = wc.toFixed(2) + " °C";
+                    document.getElementById('tijd-windchill').innerText = tijdTekst;
+                    document.getElementById('box-windchill').style.backgroundColor = geefKleur('temp', wc);
+                }
+
+                // 6. Luchtdruk gereduceerd naar Zeeniveau (QFF) updaten
+                const qff = berekenQFF(p15, t15);
+                if (qff !== null) {
+                    document.getElementById('waarde-qff').innerText = qff.toFixed(1) + " hPa";
+                    document.getElementById('tijd-qff').innerText = tijdTekst;
+                    document.getElementById('box-qff').style.backgroundColor = geefKleur('druk', qff);
+                }
+
+                // 7. Speciale Gladheidsindicator analyseren en updaten
+                const gladBox = document.getElementById('box-gladheid');
+                if (gladBox && t10 !== null && dp10 !== null) {
+                    document.getElementById('tijd-gladheid').innerText = tijdTekst;
+                    if (t10 <= 0 && (t10 - dp10) <= 1.5) {
+                        document.getElementById('waarde-gladheid').innerText = "⚠️ RIJP / GLADHEID";
+                        gladBox.style.backgroundColor = '#1565c0'; // Veiligheidsblauw
+                        gladBox.querySelector('.meetwaarde').style.color = '#ffffff';
+                    } else if (t10 <= 0) {
+                        document.getElementById('waarde-gladheid').innerText = "❄️ GRONDVORST";
+                        gladBox.style.backgroundColor = '#add8e6'; // Lichtblauw
+                        gladBox.querySelector('.meetwaarde').style.color = '#111';
+                    } else {
+                        document.getElementById('waarde-gladheid').innerText = "✅ Geen Gevaar";
+                        gladBox.style.backgroundColor = '#e8f5e9'; // Rustgevend groen
+                        gladBox.querySelector('.meetwaarde').style.color = '#111';
+                    }
+                }
+
             })
             .catch(err => console.error("Fout bij laden data:", err));
 
@@ -396,27 +513,20 @@
                     const standaardNamen = {1: "Temperatuur", 2: "Luchtvochtigheid", 3: "Luchtdruk", 4: "Temperatuur 2", 5: "Luchtdruk 2", 6: "Luchtvochtigheid 2"};
                     const veldNaam = infoData.channel[`field${i}`];
                     const naamElement = document.getElementById(`naam-f${i}`);
-                    if (naamElement) {
-                        naamElement.innerText = veldNaam || standaardNamen[i];
-                    }
+                    if (naamElement) { naamElement.innerText = veldNaam || standaardNamen[i]; }
                 }
             })
             .catch(err => console.error("Fout bij laden namen:", err));
     }
 
-    laadAlleSensoren();
-    laadAstronomie();
-    laadMinMaxData();
-    
-    setInterval(laadAlleSensoren, 15000); 
-    setInterval(laadMinMaxData, 60000);   
+    laadAlleSensoren(); laadAstronomie(); laadMinMaxData();
+    setInterval(laadAlleSensoren, 15000); setInterval(laadMinMaxData, 60000);   
 </script>
 
 <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px; margin-bottom: 30px;">
   <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=3b&voor=1" scrolling="no" width="550" height="510" frameborder="no" style="max-width: 100%;"></iframe>
 </div>
 
-<!-- Extra informatieve tekst voor zoekmachines zoals Google -->
 <section style="max-width: 900px; margin: 30px auto; line-height: 1.5; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 8px; font-size: 13px; color: #555;">
     <h3 style="margin-top: 0; font-size: 15px; color: #333;">Over PWS Morgenzoneinde in Winterswijk</h3>
     <p style="margin-bottom: 8px;">
