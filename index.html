@@ -221,13 +221,17 @@
         return (c * gamma) / (b - gamma);
     }
 
-    function berekenAbsoluteVocht(t, rh) {
+        function berekenAbsoluteVocht(t, rh) {
         const T = Number(t); const RH = Number(rh);
         if (isNaN(T) || isNaN(RH)) return null;
+        // Verzadigingsdampdruk berekenen
         const srv = 6.112 * Math.exp((17.67 * T) / (T + 243.5));
-        const vq = srv * (RH / 100) * 100;
+        // Werkelijke dampdruk
+        const vq = srv * (RH / 100); 
+        // Absolute luchtvochtigheid in g/m³
         return (vq * 216.7) / (T + 273.15);
     }
+
 
     function berekenEchteWindchill(t, windKmu) {
         const T = Number(t); const W = Number(windKmu);
