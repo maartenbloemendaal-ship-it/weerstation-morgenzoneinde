@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+sitemap: https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/
