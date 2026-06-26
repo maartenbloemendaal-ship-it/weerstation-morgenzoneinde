@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-sitemap: /sitemap.xml
+Sitemap: https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/sitemap.xml
 
