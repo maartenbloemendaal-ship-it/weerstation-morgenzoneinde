@@ -8,9 +8,12 @@ Persoonlijk Weerstation Morgenzoneinde - Winterswijk.
 
 ​Unieke meetmethode.
 
-​Wat dit station bijzonder maakt, is de opstelling voor temperatuurmetingen. Ik meet op twee hoogtes om een compleet beeld te krijgen:
+​Wat dit station bijzonder maakt, is mijn opstelling voor temperatuurmetingen. Ik meet op twee hoogtes om een compleet beeld te krijgen:
+
 ​Standaard meteorologische hoogte (+1,5 meter): Voor de algemene weersomstandigheden.
+
 ​Grondniveau (+10 centimeter): Voor het nauwkeurig in kaart brengen van grondvorst en temperatuurgradiënten.
+
 ​Deze aanpak stelt mij in staat om unieke inzichten te bieden in lokale temperatuurverschillen die op standaard weerstations vaak onopgemerkt blijven.
 
 ​Bekijk de live data.
