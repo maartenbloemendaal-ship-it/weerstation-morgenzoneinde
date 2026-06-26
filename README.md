@@ -8,16 +8,16 @@ Persoonlijk Weerstation Morgenzoneinde - Winterswijk.
 
 ​Unieke meetmethode.
 
-​Wat ons station bijzonder maakt, is onze opstelling voor temperatuurmetingen. Wij meten op twee hoogtes om een compleet beeld te krijgen:
+​Wat dit station bijzonder maakt, is de opstelling voor temperatuurmetingen. Ik meet op twee hoogtes om een compleet beeld te krijgen:
 ​Standaard meteorologische hoogte (+1,5 meter): Voor de algemene weersomstandigheden.
 ​Grondniveau (+10 centimeter): Voor het nauwkeurig in kaart brengen van grondvorst en temperatuurgradiënten.
-​Deze aanpak stelt ons in staat om unieke inzichten te bieden in lokale temperatuurverschillen die op standaard weerstations vaak onopgemerkt blijven.
+​Deze aanpak stelt mij in staat om unieke inzichten te bieden in lokale temperatuurverschillen die op standaard weerstations vaak onopgemerkt blijven.
 
 ​Bekijk de live data.
 
-​Volg onze actuele metingen en bekijk historische grafieken op:
+​Volg mijn actuele metingen en bekijk historische grafieken op:
 https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/
 
 ​Contact.
 
-​Heeft u vragen over onze meetmethode of de weersomstandigheden in Corle/Winterswijk? Neem gerust contact op via onze contactpagina.
+​Heeft u vragen over mijn meetmethode of de weersomstandigheden in de overgangszone winterswij metbde buurtschap Corle? Neem gerust contact op via mijn contactpagina onderaan de homepage.
