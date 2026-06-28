@@ -597,13 +597,23 @@
 
         }).catch(err => console.error(err));
 
-        fetch(infoUrl).then(res => res.json()).then(infoData => {
-            for (let i = 1; i <= 6; i++) {
-                const standaardNamen = {1: "Temperatuur", 2: "Luchtvochtigheid", 3: "Luchtdruk", 4: "Temperatuur 2", 5: "Luchtdruk 2", 6: "Luchtvochtigheid 2"};
-                const naamElement = document.getElementById(`naam-f${i}`);
-                if (naamElement) { naamElement.innerText = infoData.channel[`field${i}`] || standaardNamen[i]; }
+                // Handmatige namen, ongeacht wat er op ThingSpeak staat
+        const eigenNamen = {
+            1: "Temperatuur", 
+            2: "Luchtvochtigheid", 
+            3: "Luchtdruk", 
+            4: "Grondtemperatuur", 
+            5: "Luchtdruk (grond)", 
+            6: "Vochtigheid (grond)"
+        };
+
+        for (let i = 1; i <= 6; i++) {
+            const naamElement = document.getElementById(`naam-f${i}`);
+            if (naamElement) {
+                naamElement.innerText = eigenNamen[i];
             }
-        });
+        }
+
     }
 
     async function laadAstronomie() {
