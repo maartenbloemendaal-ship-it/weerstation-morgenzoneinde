@@ -109,11 +109,6 @@
             <div class="minmax-item">Vocht: Min <strong id="grondvocht-min" style="color: #0056b3;">-- %</strong><span id="grondvocht-min-tijd" class="mm-tijd"></span> | Max <strong id="grondvocht-max" style="color: #b30000;">-- %</strong><span id="grondvocht-max-tijd" class="mm-tijd"></span></div>
             <div class="minmax-item">Druk: Min <strong id="gronddruk-min" style="color: #0056b3;">-- hPa</strong><span id="gronddruk-min-tijd" class="mm-tijd"></span> | Max <strong id="gronddruk-max" style="color: #b30000;">-- hPa</strong><span id="gronddruk-max-tijd" class="mm-tijd"></span></div>
         </div>
-<div class="minmax-kolom">
-    <div style="font-weight: bold; color: #555; margin-bottom: 5px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 2px;">☀️ Straling & Wind</div>
-    <div class="minmax-item">Wind: Min <strong id="wind-min" style="color: #0056b3;">-- km/u</strong><span id="wind-min-tijd" class="mm-tijd"></span> | Max <strong id="wind-max" style="color: #b30000;">-- km/u</strong><span id="wind-max-tijd" class="mm-tijd"></span></div>
-    <div class="minmax-item">UV: Min <strong id="uv-min" style="color: #0056b3;">--</strong><span id="uv-min-tijd" class="mm-tijd"></span> | Max <strong id="uv-max" style="color: #b30000;">--</strong><span id="uv-max-tijd" class="mm-tijd"></span></div>
-    <div class="minmax-item">Lux: Min <strong id="lux-min" style="color: #0056b3;">-- lx</strong><span id="lux-min-tijd" class="mm-tijd"></span> | Max <strong id="lux-max" style="color: #b30000;">-- lx</strong><span id="lux-max-tijd" class="mm-tijd"></span></div>
     </div>
 </div>
 
@@ -656,43 +651,21 @@
     }
 
     function laadMinMaxData() {
-    // Bestaande data (kanaal 3401293)
-    fetch(historyUrl).then(res => res.json()).then(data => {
-        const feeds = data.feeds;
-        if (!feeds) return;
-        const velden = [
-            { idMin: 'temp-min', idMax: 'temp-max', field: 'field1', dec: 2, eenheid: ' °C' },
-            { idMin: 'vocht-min', idMax: 'vocht-max', field: 'field2', dec: 1, eenheid: ' %' },
-            { idMin: 'druk-min', idMax: 'druk-max', field: 'field3', dec: 1, eenheid: ' hPa' },
-            { idMin: 'grond-min', idMax: 'grond-max', field: 'field4', dec: 2, eenheid: ' °C' },
-            { idMin: 'gronddruk-min', idMax: 'gronddruk-max', field: 'field5', dec: 1, eenheid: ' hPa' },
-            { idMin: 'grondvocht-min', idMax: 'grondvocht-max', field: 'field6', dec: 1, eenheid: ' %' }
-        ];
-        velden.forEach(v => {
-            const minF = zoekExtreem(feeds, v.field, 'min'); const maxF = zoekExtreem(feeds, v.field, 'max');
-            if (minF) { document.getElementById(v.idMin).innerText = Number(minF[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMin + "-tijd").innerText = formatteerTijd(minF.created_at); }
-            if (maxF) { document.getElementById(v.idMax).innerText = Number(maxF[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMax + "-tijd").innerText = formatteerTijd(maxF.created_at); }
-        });
-    });
-
-    // Nieuwe data (kanaal 3417767 - Straling/Wind)
-    const urlStraling = `https://api.thingspeak.com/channels/3417767/feeds.json?api_key=WGQMOV6DPXNOEX2R&days=1`;
-    fetch(urlStraling).then(res => res.json()).then(data => {
-        const feeds = data.feeds;
-        if (!feeds) return;
-        const stralingVelden = [
-            { idMin: 'wind-min', idMax: 'wind-max', field: 'field3', dec: 1, eenheid: ' km/u' }, // Pas veldnummer aan indien nodig
-            { idMin: 'uv-min', idMax: 'uv-max', field: 'field2', dec: 1, eenheid: '' },
-            { idMin: 'lux-min', idMax: 'lux-max', field: 'field1', dec: 0, eenheid: ' lx' }
-        ];
-        stralingVelden.forEach(v => {
-            const minF = zoekExtreem(feeds, v.field, 'min'); const maxF = zoekExtreem(feeds, v.field, 'max');
-            if (minF) { document.getElementById(v.idMin).innerText = Number(minF[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMin + "-tijd").innerText = formatteerTijd(minF.created_at); }
-            if (maxF) { document.getElementById(v.idMax).innerText = Number(maxF[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMax + "-tijd").innerText = formatteerTijd(maxF.created_at); }
-        });
-    });
-}
-
+        fetch(historyUrl).then(res => res.json()).then(data => {
+            const feeds = data.feeds; if (!feeds || feeds.length === 0) return;
+            const velden = [
+                { idMin: 'temp-min', idMax: 'temp-max', field: 'field1', dec: 2, eenheid: ' °C' },
+                { idMin: 'vocht-min', idMax: 'vocht-max', field: 'field2', dec: 1, eenheid: ' %' },
+                { idMin: 'druk-min', idMax: 'druk-max', field: 'field3', dec: 1, eenheid: ' hPa' },
+                { idMin: 'grond-min', idMax: 'grond-max', field: 'field4', dec: 2, eenheid: ' °C' },
+                { idMin: 'gronddruk-min', idMax: 'gronddruk-max', field: 'field5', dec: 1, eenheid: ' hPa' },
+                { idMin: 'grondvocht-min', idMax: 'grondvocht-max', field: 'field6', dec: 1, eenheid: ' %' }
+            ];
+            velden.forEach(v => {
+                const minF = zoekExtreem(feeds, v.field, 'min'); const maxF = zoekExtreem(feeds, v.field, 'max');
+                if (minF) { document.getElementById(v.idMin).innerText = Number(minF[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMin + "-tijd").innerText = formatteerTijd(minF.created_at); }
+                if (maxF) { document.getElementById(v.idMax).innerText = Number(maxF[v.field]).toFixed(v.dec) + v.eenheid; document.getElementById(v.idMax + "-tijd").innerText = formatteerTijd(maxF.created_at); }
+            });
         }).catch(err => console.error(err));
     }
 
