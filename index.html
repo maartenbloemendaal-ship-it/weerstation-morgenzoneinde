@@ -7,6 +7,28 @@
     <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid en luchtdruk direct uit de metingen.">
     <style>
         body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        
+        /* NIEUW: Lay-out voor logo links van de tekst */
+        .header-container {
+            display: flex;
+            align-items: center; /* Lijn logo en tekst verticaal uit */
+            gap: 20px; /* Ruimte tussen logo en tekst */
+            margin-bottom: 25px;
+        }
+        .pws-logo {
+            max-width: 100px; /* Pas dit aan om het logo groter/kleiner te maken */
+            height: auto;
+            display: block;
+        }
+        .header-tekst h1 {
+            margin: 0 0 5px 0; /* Verwijdert standaard witruimte rond de titel */
+            font-size: 28px;
+        }
+        .header-tekst p {
+            margin: 0;
+            color: #4f5d6b;
+        }
+
         #weer-alert-balk { display: none; width: 100%; padding: 15px 20px; margin-bottom: 20px; border-radius: 8px; font-weight: bold; font-size: 14px; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; margin-bottom: 25px; }
@@ -20,10 +42,20 @@
         .tijdstempel { font-size: 10px; color: #888; font-style: italic; display: block; line-height: 1.3; }
         .wind-layout { display: flex; align-items: center; justify-content: space-between; width: 100%; }
         .windroos-svg { width: 40px; height: 40px; }
-#kompas-pijl {
-    transform-origin: 20px 22px; /* Draaipunt in het midden van de cirkel */
-    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        #kompas-pijl {
+            transform-origin: 20px 22px; /* Draaipunt in het midden van de cirkel */
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* NIEUW: Mobiele optimalisatie (logo verspringt naar boven op telefoons) */
+        @media (max-width: 480px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
 
 
         /* De "Bekijk Contact" knop */
@@ -71,11 +103,20 @@
 }
 
 
-
-    </style>
+</style>
 </head>
 <body>
-    <h1>Persoonlijk Weerstation Morgenzoneinde</h1>
+
+    <!-- HEADER GEBIED MET LOGO LINKS -->
+    <div class="header-container">
+        <img src="logo.png" alt="Logo PWS Morgenzoneinde" class="pws-logo">
+        <div class="header-tekst">
+            <h1>PWS Morgenzoneinde</h1>
+            <p>Actuele live metingen uit Winterswijk (Morgenzoneinde)</p>
+        </div>
+    </div>
+
+    <!-- Alert balk voor extreme weersomstandigheden (Standaard verborgen) -->
     <div id="weer-alert-balk"></div>
 
 <div style="margin-bottom: 15px; width: 100%;">
@@ -190,6 +231,7 @@
         </div>
 
         <div id="box-gladheid" class="sensor-container">
+
             <span class="sensor-naam">Indicator Gladheid / Rijp</span>
             <span id="waarde-gladheid" class="meetwaarde">--</span>
             <span id="tijd-gladheid" class="tijdstempel">Berekenen...</span>
