@@ -6,89 +6,22 @@
     <title>Persoonlijk Weerstation Winterswijk - Morgenzoneinde live data</title>
     <meta name="description" content="Bekijk de live weermetingen van Persoonlijk Weerstation (PWS) Morgenzoneinde in Winterswijk. Actuele temperatuur, luchtvochtigheid en luchtdruk direct uit de metingen.">
     <style>
-        /* STICKY MENUHEALDER HELEMAAL BOVENAAN */
-        .hoofdmenu {
-            background-color: #2c3e50;
-            position: fixed; /* Altijd in beeld bij scrollen */
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000; /* Zorgt dat het menu boven alle meters blijft */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        /* De container waar de knoppen in zitten */
-        .menu-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .menu-knop {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 8px 12px;
-            border-radius: 4px;
-            transition: background-color 0.2s ease;
-        }
-
-        .menu-knop:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .menu-knop.actief {
-            background-color: #34495e;
-            border-bottom: 2px solid #b0c2d4;
-        }
-
-        /* HET DRIE STREEPJES ICOON (STANDAARD VERBORGEN OP LAPTOP) */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .menu-toggle .streep {
-            width: 25px;
-            height: 3px;
-            background-color: white;
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-
-        /* BODY MEET INSTELLINGEN */
-        body { 
-            background-color: #b0c2d4; 
-            margin: 20px; 
-            padding-top: 75px; /* Ruimte voor de menubalk zodat tekst er niet achter valt */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            color: #333; 
-        }
+        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
         
-        /* Lay-out voor logo links van de tekst */
+        /* NIEUW: Lay-out voor logo links van de tekst */
         .header-container {
             display: flex;
-            align-items: center; 
-            gap: 20px; 
+            align-items: center; /* Lijn logo en tekst verticaal uit */
+            gap: 20px; /* Ruimte tussen logo en tekst */
             margin-bottom: 25px;
         }
         .pws-logo {
-            max-width: 100px; 
+            max-width: 100px; /* Pas dit aan om het logo groter/kleiner te maken */
             height: auto;
             display: block;
         }
         .header-tekst h1 {
-            margin: 0 0 5px 0; 
+            margin: 0 0 5px 0; /* Verwijdert standaard witruimte rond de titel */
             font-size: 28px;
         }
         .header-tekst p {
@@ -110,42 +43,18 @@
         .wind-layout { display: flex; align-items: center; justify-content: space-between; width: 100%; }
         .windroos-svg { width: 40px; height: 40px; }
         #kompas-pijl {
-            transform-origin: 20px 22px; 
+            transform-origin: 20px 22px; /* Draaipunt in het midden van de cirkel */
             transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* MOBIELE OPTIMALISATIE VOOR HET MENU (HET DIENSTBLAD EFFECT) */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex; 
-            }
-            .menu-links {
-                display: none; 
-                flex-direction: column;
-                width: 100%;
-                position: absolute;
-                top: 100%; 
-                left: 0;
-                background-color: #2c3e50;
-                padding: 10px 0;
-                box-shadow: 0 4px 5px rgba(0,0,0,0.2);
-            }
-            .menu-links.toon-menu {
-                display: flex;
-            }
-            .menu-knop {
-                width: 100%;
-                box-sizing: border-box;
-                padding: 12px 20px;
-                border-radius: 0;
-            }
+        /* NIEUW: Mobiele optimalisatie (logo verspringt naar boven op telefoons) */
+        @media (max-width: 480px) {
             .header-container {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
             }
         }
-
 
 
 
@@ -198,26 +107,6 @@
 </head>
 <body>
 
-    <!-- HET VASTE HOOFDMENU -->
-    <nav class="hoofdmenu">
-        <div style="color: white; font-weight: bold; font-size: 14px;">☁️ PWS</div>
-        
-        <!-- De drie streepjes voor mobiel -->
-        <button class="menu-toggle" id="mobiel-menu-knop" aria-label="Menu openen">
-            <span class="streep"></span>
-            <span class="streep"></span>
-            <span class="streep"></span>
-        </button>
-
-        <!-- De feitelijke paginalinks -->
-        <div class="menu-links" id="nav-links">
-            <a href="index.html" class="menu-knop actief">Home</a>
-            <a href="grafieken.html" class="menu-knop">Grafieken</a>
-            <a href="over.html" class="menu-knop">Over PWS</a>
-            <a href="contact.html" class="menu-knop">Contact</a>
-        </div>
-    </nav>
-
     <!-- HEADER GEBIED MET LOGO LINKS -->
     <div class="header-container">
         <img src="logo.png" alt="Logo PWS Morgenzoneinde" class="pws-logo">
@@ -227,13 +116,13 @@
         </div>
     </div>
 
-    <!-- Alert balk voor extreme weersomstandigheden -->
+    <!-- Alert balk voor extreme weersomstandigheden (Standaard verborgen) -->
     <div id="weer-alert-balk"></div>
 
 <div style="margin-bottom: 15px; width: 100%;">
-  <a class="weatherwidget-io" href="https://forecast7.com" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
+  <a class="weatherwidget-io" href="https://forecast7.com/nl/51d976d66/corle/" data-label_1="Morgenzoneinde" data-label_2="Winterswijk" data-theme="original" style="margin: 0; padding: 0; line-height: 0;">Morgenzoneinde Winterswijk</a>
   <script>
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io;}}(document,'script','weatherwidget-io-js');
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
   </script>
 </div>
 
@@ -388,44 +277,46 @@
     </div>
 
 </div>
+
 <p><strong>Waarnemingen op standaard hoogte (+1,5m):</strong></p>
 <div class="iframe-container">
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperatuur+standaardhoogte&type=line&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtdruk+standaardhoogte&type=line&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid++standaardhoogte&type=line&xaxis=Tijd"></iframe>
 </div>
 
 <p style="margin-top: 20px;"><strong>Waarnemingen op grond hoogte (+10 cm):</strong></p>
 <div class="iframe-container">
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperatuur+grondhoogte&type=line&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtdruk+grondhoogte&type=line&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid++grondhoogte&type=line&xaxis=Tijd"></iframe>
 </div>
 
 <p style="margin-top: 20px;"><strong>Waarnemingen Straling en Wind:</strong></p>
 <div class="iframe-container">
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Windsnelheid&type=column&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/7?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Windvlaag&type=column&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=UV+Index&type=line&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Lichtintensiteit&type=line&xaxis=Tijd"></iframe>
+<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/8?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Globale+Straling&type=line&xaxis=Tijd"></iframe>
+
 </div>
 
 <p style="margin-top: 20px;"><strong>Waarnemingen Bodemtemperatuur (10cm, 30cm en 50cm diepte):</strong></p>
 <div class="iframe-container">
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+10cm+diepte&type=line&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+30cm+diepte&type=line&xaxis=Tijd"></iframe>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+50cm+diepte&type=line&xaxis=Tijd"></iframe>
 </div>
 
 <script>
     const channelId = '3401293'; 
     const apiKey = 'WGQMOV6DPXNOEX2R'; 
 
-    const urlLive = `https://thingspeak.com{channelId}/feeds/last.json?api_key=${apiKey}`;
-    const urlTrend = `https://thingspeak.com{channelId}/feeds.json?api_key=${apiKey}&results=150`; 
-    const infoUrl = `https://thingspeak.com{channelId}/feeds.json?api_key=${apiKey}&results=0`;
-    const historyUrl = `https://thingspeak.com{channelId}/feeds.json?api_key=${apiKey}&days=1&timescale=10`;
+    const urlLive = `https://api.thingspeak.com/channels/${channelId}/feeds/last.json?api_key=${apiKey}`;
+    const urlTrend = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=150`; 
+    const infoUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&results=0`;
+    const historyUrl = `https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${apiKey}&days=1&timescale=10`;
 
     const LATITUDE = 51.9765;
     const LONGITUDE = 6.70224;
@@ -444,13 +335,17 @@
         return (c * gamma) / (b - gamma);
     }
 
-    function berekenAbsoluteVocht(t, rh) {
+        function berekenAbsoluteVocht(t, rh) {
         const T = Number(t); const RH = Number(rh);
         if (isNaN(T) || isNaN(RH)) return null;
+        // Verzadigingsdampdruk berekenen
         const srv = 6.112 * Math.exp((17.67 * T) / (T + 243.5));
+        // Werkelijke dampdruk
         const vq = srv * (RH / 100); 
+        // Absolute luchtvochtigheid in g/m³
         return (vq * 216.7) / (T + 273.15);
     }
+
 
     function berekenEchteWindchill(t, windKmu) {
         const T = Number(t); const W = Number(windKmu);
@@ -459,11 +354,13 @@
         return 13.12 + 0.6215 * T -  11.37 * Math.pow(W, 0.16) + 0.3965 * T * Math.pow(W, 0.16);
     }
 
+    // HITTE INDEX FORMULE COMPLEET GEFIXD (NULLETJE TOEGEVOEGD BIJ C8)
     function berekenHitteIndex(t, rh) {
         const tc = Number(t); const RH = Number(rh);
         if (isNaN(tc) || isNaN(RH) || tc < 20) return tc; 
         
         const T = (tc * 9/5) + 32;
+        
         const c1 = -42.379, c2 = 2.04901523, c3 = 10.14333127, c4 = -0.22475541, 
               c5 = -0.00683783, c6 = -0.05481717, c7 = 0.00122874, c8 = 0.00085282, c9 = -0.00000199;
         
@@ -833,11 +730,7 @@
     setInterval(async () => { await laadRegioWeerData(); laadAlleSensoren(); }, 20000); 
     setInterval(laadMinMaxData, 60000);   
 </script>
-<script>
-    document.getElementById('mobiel-menu-knop').addEventListener('click', function() {
-        document.getElementById('nav-links').classList.toggle('toon-menu');
-    });
-</script>
+
 <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px; margin-bottom: 30px;">
   <iframe src="https://gadgets.buienradar.nl/gadget/zoommap/?lat=51.9765&lng=6.70224&overname=2&zoom=13&naam=7101bj&size=3b&voor=1" scrolling="no" width="550" height="510" frameborder="no" style="max-width: 100%;"></iframe>
 </div>
