@@ -104,24 +104,27 @@
 /* Terug naar boven knop */
 .back-to-top {
     position: fixed;
-    bottom: 20px;
+    /* Verhoog de afstand vanaf onderkant en gebruik safe-area voor mobiel */
+    bottom: 70px; 
+    bottom: calc(70px + env(safe-area-inset-bottom));
     right: 20px;
-    padding: 10px 15px;
+    padding: 12px 18px; /* Iets groter tikvlak voor mobiel */
     background-color: #2c3e50;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 50px; /* Mooier rond design */
     font-size: 14px;
     z-index: 9999;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
 }
 
-.back-to-top:hover {
-    background-color: #1a252f;
-}
-
-html {
-    scroll-behavior: smooth;
+/* Zorg dat de knop niet te groot is op mobiel */
+@media (max-width: 480px) {
+    .back-to-top {
+        padding: 10px 15px;
+        right: 10px; /* Iets meer naar de kant voor betere bereikbaarheid */
+    }
 }
 
 
