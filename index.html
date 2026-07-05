@@ -70,10 +70,46 @@
     #back-to-top-widget {
         display: none !important;
     }
+
+/* Navigatie Menu */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
+.nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
+
+.hamburger { display: none; font-size: 24px; cursor: pointer; }
+
+/* Mobiele weergave */
+@media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
+    .nav-links.active { display: flex; }
+    .hamburger { display: block; }
+}
+
 </style>
 
 </head>
 <body>
+
+
+<nav class="navbar">
+    <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="grafieken.html">Grafieken</a></li>
+        <li><a href="weerfoto.html">Weerfoto</a></li>
+        <li><a href="over.html">Over</a></li>
+    </ul>
+</nav>
 
     <!-- HEADER GEBIED MET LOGO LINKS -->
     <div class="header-container">
@@ -719,9 +755,13 @@
 <a href="#" class="back-to-top">▲ Terug naar boven</a>
 
 <script>
-    // Jouw bestaande scriptfuncties staan hierboven
+    // 1. Functie voor het Hamburgermenu
+    function toggleMenu() {
+        const links = document.getElementById("nav-links");
+        links.classList.toggle("active");
+    }
 
-    // Logica voor de knop
+    // 2. Logica voor de Terug naar boven knop
     const backToTopButton = document.querySelector(".back-to-top");
     window.addEventListener("scroll", () => {
         if (window.scrollY > 300) {
@@ -731,6 +771,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>
