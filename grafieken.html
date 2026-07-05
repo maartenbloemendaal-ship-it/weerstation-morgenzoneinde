@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PWS Morgenzoneinde - Winterswijk</title>
+    <title>Grafieken - PWS Morgenzoneinde</title>
     <style>
         /* Basisstijl */
         body { background-color: #b0c2d4; margin: 0; padding: 20px; font-family: sans-serif; color: #333; }
-        
+
         /* Menu */
         .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 0; z-index: 1000; }
         .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; }
-        
+
         /* Alert */
         #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; }
 
@@ -44,8 +44,16 @@
 
     <!-- Pagina Inhoud -->
     <main>
-        <h1>Pagina Titel</h1>
-        <p>Hier komt de unieke inhoud van deze pagina.</p>
+        <h1>Actuele Grafieken</h1>
+        
+        <!-- Grafieken in raw-blok zodat GitHub deze niet verwerkt -->
+        {% raw %}
+        <div class="iframe-container">
+            <!-- Hier komen je <iframe> codes -->
+            <!-- Voorbeeld: <iframe src="URL_VAN_JE_GRAFIEK"></iframe> -->
+        </div>
+        {% endraw %}
+        
     </main>
 
     <script>
