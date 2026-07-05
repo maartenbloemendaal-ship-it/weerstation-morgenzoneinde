@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PWS Morgenzoneinde - Winterswijk</title>
+    <title>Weerfoto van de week - PWS Morgenzoneinde</title>
     <style>
         /* Basisstijl */
         body { background-color: #b0c2d4; margin: 0; padding: 20px; font-family: sans-serif; color: #333; }
-        
+
         /* Menu */
         .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 0; z-index: 1000; }
         .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; }
-        
+
         /* Alert */
         #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; }
 
@@ -23,6 +23,10 @@
             .nav-links.active { display: flex; }
             .hamburger { display: block; }
         }
+        
+        /* Foto container */
+        .foto-content { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+        .weerfoto { max-width: 100%; height: auto; border-radius: 5px; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -43,9 +47,12 @@
     <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
 
     <!-- Pagina Inhoud -->
-    <main>
+    <main class="foto-content">
         <h1>Weerfoto van de week</h1>
-        <p>Hier komt de unieke inhoud van deze pagina.</p>
+        <p>Hieronder zie je de actuele weerfoto uit de omgeving van Winterswijk.</p>
+        
+        <!-- Vervang 'jouw-foto.jpg' door de naam van je fotobestand -->
+        <img src="jouw-foto.jpg" alt="Weerfoto van de week" class="weerfoto">
     </main>
 
     <script>
