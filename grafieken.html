@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWS Morgenzoneinde - Winterswijk</title>
+    <style>
+        /* Basisstijl */
+        body { background-color: #b0c2d4; margin: 0; padding: 20px; font-family: sans-serif; color: #333; }
+        
+        /* Menu */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 0; z-index: 1000; }
+        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; }
+        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
+        .hamburger { display: none; font-size: 24px; cursor: pointer; }
+        
+        /* Alert */
+        #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; }
+
+        /* Mobiel */
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
+            .nav-links.active { display: flex; }
+            .hamburger { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menu -->
+    <nav class="navbar">
+        <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="grafieken.html">Grafieken</a></li>
+            <li><a href="weerfoto.html">Weerfoto</a></li>
+            <li><a href="over.html">Over</a></li>
+        </ul>
+    </nav>
+
+    <!-- Alert balk -->
+    <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
+
+    <!-- Pagina Inhoud -->
+    <main>
+        <h1>Pagina Titel</h1>
+        <p>Hier komt de unieke inhoud van deze pagina.</p>
+    </main>
+
+    <script>
+        function toggleMenu() { document.getElementById("nav-links").classList.toggle("active"); }
+    </script>
+</body>
+</html>
