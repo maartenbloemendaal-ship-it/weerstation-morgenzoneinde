@@ -6,11 +6,22 @@
     <title>Over PWS Morgenzoneinde</title>
     <style>
         /* Basisstijl */
-        body { background-color: #b0c2d4; margin: 0; padding: 20px; font-family: sans-serif; color: #333; }
+        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
 
-        /* Menu */
-        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 0; z-index: 1000; }
-        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; }
+        /* Nieuwe Navigatie Menu stijl */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; }
 
@@ -23,17 +34,17 @@
             .nav-links.active { display: flex; }
             .hamburger { display: block; }
         }
-        
+
         /* Specifieke content stijlen */
-        .over-content { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .over-content { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
-    <!-- Menu -->
+    <!-- Menu met nieuwe stijl -->
     <nav class="navbar">
         <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
         <ul class="nav-links" id="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="grafieken.html">Grafieken</a></li>
@@ -46,7 +57,7 @@
     <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
 
     <!-- Pagina Inhoud -->
-       <main class="over-content">
+    <main class="over-content">
         <h1>Over PWS Morgenzoneinde in Winterswijk</h1>
         <p>
             Het persoonlijke weerstation (PWS) <strong>Morgenzoneinde</strong> bevindt zich op de overgang 
@@ -60,9 +71,5 @@
         </p>
     </main>
 
-
-    <script>
-        function toggleMenu() { document.getElementById("nav-links").classList.toggle("active"); }
-    </script>
 </body>
 </html>
