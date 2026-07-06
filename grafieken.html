@@ -23,7 +23,7 @@
         }
         .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
-        .hamburger { display: none; font-size: 24px; cursor: pointer; }
+        .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
         /* Alert balk styling */
         #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
@@ -33,7 +33,7 @@
 
         /* Grafieken container */
         .iframe-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 25px; }
-        .iframe-container iframe { background: white; border-radius: 8px; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .iframe-container iframe { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
         h1 { color: #2c3e50; margin-top: 0; }
         p { color: #2c3e50; font-weight: bold; margin-bottom: 10px; }
@@ -50,6 +50,7 @@
 
     <nav class="navbar">
         <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
+        <!-- Hamburger activeert nu correct het ID van de menulijst -->
         <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
         <ul class="nav-links" id="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -69,7 +70,7 @@
         </div>
     </div>
 
-    <!-- HTML ALERT BALK -->
+    <!-- ALERT BALK -->
     <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
 
     <main>
@@ -85,38 +86,37 @@
 
         <p><strong>Waarnemingen op standaard hoogte (+1,5m):</strong></p>
         <div class="iframe-container">
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperatuur+standaardhoogte&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtdruk+standaardhoogte&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid++standaardhoogte&type=line&xaxis=Tijd"></iframe>
         </div>
 
         <p style="margin-top: 20px;"><strong>Waarnemingen op grond hoogte (+10 cm):</strong></p>
         <div class="iframe-container">
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperatuur+grondhoogte&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtdruk+grondhoogte&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid++grondhoogte&type=line&xaxis=Tijd"></iframe>
         </div>
 
         <p style="margin-top: 20px;"><strong>Waarnemingen Straling en Wind:</strong></p>
         <div class="iframe-container">
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Windsnelheid&type=column&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/7?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Windvlaag&type=column&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=UV+Index&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Lichtintensiteit&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/8?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Globale+Straling&type=line&xaxis=Tijd"></iframe>
         </div>
 
         <p style="margin-top: 20px;"><strong>Waarnemingen Bodemtemperatuur (10cm, 30cm en 50cm diepte):</strong></p>
         <div class="iframe-container">
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+10cm+diepte&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+30cm+diepte&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/3417767/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+50cm+diepte&type=line&xaxis=Tijd"></iframe>
         </div>
     </main>
 
-    <!-- SCRIPT TAG WEER HERSTELD ONDERAAN -->
     <script>
-        // Voeg hier je eigen javascript functies toe als dat nodig is voor het dashboard menu
+        // Ruimte voor eventuele aanvullende scripts
     </script>
 </body>
 </html>
