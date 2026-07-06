@@ -6,12 +6,7 @@
     <title>Grafieken - PWS Morgenzoneinde</title>
     <style>
         /* Gelijkgetrokken met de Homepage */
-        body { 
-            background-color: #b0c2d4; 
-            margin: 20px; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            color: #333; 
-        }
+        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
 
         /* Navigatie Menu - Dashboard stijl van de homepage */
         .navbar {
@@ -28,27 +23,17 @@
         }
         .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
-        .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
+        .hamburger { display: none; font-size: 24px; cursor: pointer; }
 
-        /* Alert balk styling - NU COMPLEET TOEGEVOEGD */
-        #weer-alert-balk { 
-            display: none; 
-            width: 100%; 
-            padding: 15px; 
-            margin-bottom: 20px; 
-            border-radius: 8px; 
-            background: #ff9999; 
-            font-weight: bold; 
-            text-align: center; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
+        /* Alert balk styling */
+        #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-        /* Informatieblok - Originele transparante kaart behouden */
-        .info-box { background: rgba(255, 255, 255, 0.4); padding: 15px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 25px; }
+        /* Informatieblok */
+        .info-box { background: rgba(255, 255, 255, 0.4); padding: 15px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-        /* Grafieken container - Originele flexibele brede schaling */
+        /* Grafieken container */
         .iframe-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 25px; }
-        .iframe-container iframe { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .iframe-container iframe { background: white; border-radius: 8px; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
         h1 { color: #2c3e50; margin-top: 0; }
         p { color: #2c3e50; font-weight: bold; margin-bottom: 10px; }
@@ -76,7 +61,7 @@
     </nav>
 
     <!-- LOGO EN INTRO SECTIE -->
-    <div style="display: flex; align-items: center; gap: 15px;">
+    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
         <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
         <div>
             <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold;">PWS Morgenzoneinde</h2>
@@ -84,10 +69,10 @@
         </div>
     </div>
 
-    <main>
-        <!-- HTML ALERT BALK HIER TOEGEVOEGD -->
-        <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
+    <!-- HTML ALERT BALK -->
+    <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
 
+    <main>
         <div class="info-box">
             <h1 style="font-size: 24px; margin-bottom: 10px;">Actuele Grafieken</h1>
             <p style="font-weight: normal; margin: 0;">
@@ -128,5 +113,10 @@
             <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com"></iframe>
         </div>
     </main>
+
+    <!-- SCRIPT TAG WEER HERSTELD ONDERAAN -->
+    <script>
+        // Voeg hier je eigen javascript functies toe als dat nodig is voor het dashboard menu
+    </script>
 </body>
 </html>
