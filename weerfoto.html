@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -5,46 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weerfoto van de week - PWS Morgenzoneinde</title>
     <style>
-        /* Basisstijl gelijk aan dashboard */
-        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        /* Basisstijl */
+        body { background-color: #b0c2d4; margin: 0; padding: 20px; font-family: sans-serif; color: #333; }
 
-        /* Navigatie Menu - Aangepast naar dashboard stijl */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
+        /* Menu */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 0; z-index: 1000; }
+        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; }
 
-        /* Foto sectie */
-        .foto-content { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
-        .weerfoto { max-width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .foto-bijschrift { margin-top: 15px; font-size: 1.1em; color: #2c3e50; }
-        
-        h1 { color: #2c3e50; margin-top: 0; }
+        /* Alert */
+        #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; }
 
-        /* Mobiele weergave */
+        /* Mobiel */
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
             .nav-links.active { display: flex; }
             .hamburger { display: block; }
         }
+
+        /* Foto container */
+        .foto-content { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+        .weerfoto { max-width: 100%; height: auto; border-radius: 5px; margin-top: 15px; }
+        .foto-bijschrift { margin-top: 10px; font-size: 1.1em; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
-        <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
         <ul class="nav-links" id="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="grafieken.html">Grafieken</a></li>
@@ -53,14 +44,20 @@
         </ul>
     </nav>
 
-    <main class="foto-content">
-        <h1>Weerfoto van de week</h1>
-        <p>Hieronder zie je de actuele weerfoto uit de omgeving van het Persoonlijk Weerstation Morgenzoneinde.</p>
+    <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
+<main class="foto-content">
+    <h1>Weerfoto van de week</h1>
+    <p>Hieronder zie je de actuele weerfoto uit de omgeving van het Persoonlijk Weerstation Morgenzoneinde.</p>
 
-        <img src="weerfoto.jpg" alt="Weerfoto van de week" class="weerfoto">
+    <img src="weerfoto.jpg" alt="Weerfoto van de week" class="weerfoto">
 
-        <p class="foto-bijschrift"><strong>Week 28</strong> <em>"Korenburgerveenweg"</em></p>
-    </main>
+    <p class="foto-bijschrift"><strong>Week 28</strong> <em>"Korenburgerveenweg"</em></p>
+</main>
 
+
+
+    <script>
+        function toggleMenu() { document.getElementById("nav-links").classList.toggle("active"); }
+    </script>
 </body>
 </html>
