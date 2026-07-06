@@ -6,13 +6,26 @@
     <title>Grafieken - PWS Morgenzoneinde</title>
     <style>
         /* Basisstijl */
-        body { background-color: #b0c2d4; margin: 0; padding: 20px; font-family: sans-serif; color: #333; }
+        body { background-color: #b0c2d4; margin: 0; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
 
-        /* Menu */
-        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 0; z-index: 1000; }
-        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; }
-        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
-        .hamburger { display: none; font-size: 24px; cursor: pointer; }
+        /* Navigatie Menu (Aangepast aan index.html stijl) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2c3e50; /* Donkere achtergrond */
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo { color: white; font-weight: bold; }
+        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; }
+        .hamburger { display: none; font-size: 24px; cursor: pointer; color: white; }
 
         /* Informatieblok */
         .info-box { background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -25,8 +38,9 @@
 
         /* Mobiel menu */
         @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
+            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: #2c3e50; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
             .nav-links.active { display: flex; }
+            .nav-links a { padding: 10px; display: block; }
             .hamburger { display: block; }
         }
     </style>
