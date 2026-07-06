@@ -5,25 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grafieken - PWS Morgenzoneinde</title>
     <style>
-        /* Basisstijl */
-        body { background-color: #b0c2d4; margin: 0; padding: 20px; font-family: sans-serif; color: #333; }
+        /* Basisstijl gelijk aan dashboard */
+        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
 
-        /* Menu */
-        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; position: sticky; top: 0; z-index: 1000; }
-        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; }
+        /* Navigatie Menu - Aangepast naar dashboard stijl */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; }
 
         /* Informatieblok */
-        .info-box { background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .info-box { background: rgba(255, 255, 255, 0.4); padding: 15px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-        /* Container voor grafieken */
-        .iframe-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        /* Grafieken container */
+        .iframe-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 25px; }
+        .iframe-container iframe { background: white; border-radius: 8px; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-        /* IFRAME STIJL */
-        .iframe-container iframe { background: white; border-radius: 8px; border: 1px solid #cccccc; }
+        h1 { color: #2c3e50; margin-top: 0; }
+        p { color: #2c3e50; font-weight: bold; margin-bottom: 10px; }
 
-        /* Mobiel menu */
+        /* Mobiele weergave */
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
             .nav-links.active { display: flex; }
@@ -35,7 +47,7 @@
 
     <nav class="navbar">
         <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
         <ul class="nav-links" id="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="grafieken.html">Grafieken</a></li>
@@ -48,7 +60,7 @@
         <h1>Actuele Grafieken</h1>
 
         <div class="info-box">
-            <p>
+            <p style="font-weight: normal;">
                 Op deze pagina vind je de actuele weergegevens van PWS Morgenzoneinde. 
                 De <strong>basiswaarnemingen</strong> (standaardhoogte en grondhoogte) worden elke <strong>20 seconden</strong> ververst, 
                 terwijl de <strong>overige metingen</strong> elke <strong>30 seconden</strong> 
@@ -56,21 +68,21 @@
             </p>
         </div>
 
-        <p><strong>Waarnemingen op standaard hoogte (+1,5m):</strong></p>
+        <p>Waarnemingen op standaard hoogte (+1,5m):</p>
         <div class="iframe-container">
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperatuur+standaardhoogte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtdruk+standaardhoogte&type=line&xaxis=Tijd"></iframe>
-            <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid++standaardhoogte&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid+standaardhoogte&type=line&xaxis=Tijd"></iframe>
         </div>
 
-        <p><strong>Waarnemingen op grond hoogte (+10 cm):</strong></p>
+        <p>Waarnemingen op grond hoogte (+10 cm):</p>
         <div class="iframe-container">
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperatuur+grondhoogte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtdruk+grondhoogte&type=line&xaxis=Tijd"></iframe>
-            <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid++grondhoogte&type=line&xaxis=Tijd"></iframe>
+            <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid+grondhoogte&type=line&xaxis=Tijd"></iframe>
         </div>
 
-        <p><strong>Waarnemingen Straling en Wind:</strong></p>
+        <p>Waarnemingen Straling en Wind:</p>
         <div class="iframe-container">
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Windsnelheid&type=column&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/7?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Windvlaag&type=column&xaxis=Tijd"></iframe>
@@ -79,16 +91,12 @@
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/8?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Globale+Straling&type=line&xaxis=Tijd"></iframe>
         </div>
 
-        <p><strong>Waarnemingen Bodemtemperatuur (10cm, 30cm en 50cm diepte):</strong></p>
+        <p>Waarnemingen Bodemtemperatuur:</p>
         <div class="iframe-container">
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+10cm+diepte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+30cm+diepte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+50cm+diepte&type=line&xaxis=Tijd"></iframe>
         </div>
     </main>
-
-    <script>
-        function toggleMenu() { document.getElementById("nav-links").classList.toggle("active"); }
-    </script>
 </body>
 </html>
