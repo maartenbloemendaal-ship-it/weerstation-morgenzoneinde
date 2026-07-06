@@ -5,63 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grafieken - PWS Morgenzoneinde</title>
     <style>
-        /* Basisstijl gelijk aan dashboard */
-        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        /* Basis Instellingen & CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body { 
+            background-color: #cbd7e3; /* Exact matchende dashboard achtergrond */
+            margin: 0; 
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #2c3e50; 
+            line-height: 1.6;
+        }
 
-        /* Navigatie Menu - Aangepast naar dashboard stijl */
+        /* ----- NAVIGATIEBALK STYLING ----- */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(203, 213, 225, 0.95);
+            background: rgba(255, 255, 255, 0.85); /* Wit met lichte transparantie */
             padding: 10px 20px;
             border-radius: 8px;
-            margin-bottom: 25px;
+            margin: 20px auto 10px auto; 
+            max-width: 1430px; /* Bredere max-width zodat de grafieken er mooi onder passen */
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
+        .navbar-brand { font-weight: bold; color: #2c3e50; }
         .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
-        .hamburger { display: none; font-size: 24px; cursor: pointer; }
+        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 14px; transition: color 0.2s; }
+        .nav-links a:hover { color: #3498db; }
+        .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
+
+        /* Algemene breedte container voor de content */
+        .container {
+            max-width: 1430px;
+            margin: 20px auto 40px auto;
+            padding: 0 20px;
+        }
 
         /* Informatieblok */
-        .info-box { background: rgba(255, 255, 255, 0.4); padding: 15px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .info-box { 
+            background: #ffffff; 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+        }
+
+        /* Grafieken sectie koppen */
+        .section-title { 
+            color: #1a252f; 
+            font-weight: bold; 
+            margin-top: 30px; 
+            margin-bottom: 15px; 
+            font-size: 16px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
 
         /* Grafieken container */
-        .iframe-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 25px; }
-        .iframe-container iframe { background: white; border-radius: 8px; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .iframe-container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+            justify-content: flex-start; 
+            margin-bottom: 25px; 
+        }
+        .iframe-container iframe { 
+            background: white; 
+            border-radius: 8px; 
+            border: none; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+        }
 
-        h1 { color: #2c3e50; margin-top: 0; }
-        p { color: #2c3e50; font-weight: bold; margin-bottom: 10px; }
+        h1 { color: #2c3e50; margin-top: 0; font-size: 28px; }
 
         /* Mobiele weergave */
         @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
+            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
             .nav-links.active { display: flex; }
             .hamburger { display: block; }
+            .iframe-container { justify-content: center; }
+            .iframe-container iframe { width: 100%; max-width: 450px; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
-        <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="grafieken.html">Grafieken</a></li>
-            <li><a href="weerfoto.html">Weerfoto</a></li>
-            <li><a href="over.html">Over</a></li>
-            <li><a href="contact.html">Contact</a></li>    
-        </ul>
-    </nav>
+    <!-- NAVIGATIEBALK -->
+    <div style="padding: 0 20px;">
+        <nav class="navbar">
+            <div class="navbar-brand"><strong>PWS Morgenzoneinde</strong></div>
+            <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="grafieken.html">Grafieken</a></li>
+                <li><a href="weerfoto.html">Weerfoto</a></li>
+                <li><a href="over.html">Over</a></li>
+                <li><a href="contact.html">Contact</a></li>    
+            </ul>
+        </nav>
+    </div>
 
-    <main>
+    <!-- LOGO EN INTRO SECTIE -->
+    <div style="max-width: 1430px; margin: 20px auto 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 15px;">
+        <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
+        <div>
+            <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold;">PWS Morgenzoneinde</h2>
+            <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 14px; font-weight: normal;">Actuele live metingen uit Winterswijk (Morgenzoneinde)</p>
+        </div>
+    </div>
+
+    <!-- INHOUD CONTAINER -->
+    <main class="container">
         <h1>Actuele Grafieken</h1>
 
         <div class="info-box">
-            <p style="font-weight: normal;">
+            <p style="margin: 0; color: #7f8c8d; font-weight: normal; font-size: 15px;">
                 Op deze pagina vind je de actuele weergegevens van PWS Morgenzoneinde. 
                 De <strong>basiswaarnemingen</strong> (standaardhoogte en grondhoogte) worden elke <strong>20 seconden</strong> ververst, 
                 terwijl de <strong>overige metingen</strong> elke <strong>30 seconden</strong> 
@@ -69,21 +133,21 @@
             </p>
         </div>
 
-        <p>Waarnemingen op standaard hoogte (+1,5m):</p>
+        <div class="section-title">Waarnemingen op standaard hoogte (+1,5m):</div>
         <div class="iframe-container">
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperatuur+standaardhoogte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtdruk+standaardhoogte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid+standaardhoogte&type=line&xaxis=Tijd"></iframe>
         </div>
 
-        <p>Waarnemingen op grond hoogte (+10 cm):</p>
+        <div class="section-title">Waarnemingen op grond hoogte (+10 cm):</div>
         <div class="iframe-container">
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperatuur+grondhoogte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtdruk+grondhoogte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3401293/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Luchtvochtigheid+grondhoogte&type=line&xaxis=Tijd"></iframe>
         </div>
 
-        <p>Waarnemingen Straling en Wind:</p>
+        <div class="section-title">Waarnemingen Straling en Wind:</div>
         <div class="iframe-container">
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Windsnelheid&type=column&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/7?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Windvlaag&type=column&xaxis=Tijd"></iframe>
@@ -92,7 +156,7 @@
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/8?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Globale+Straling&type=line&xaxis=Tijd"></iframe>
         </div>
 
-        <p>Waarnemingen Bodemtemperatuur:</p>
+        <div class="section-title">Waarnemingen Bodemtemperatuur:</div>
         <div class="iframe-container">
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+10cm+diepte&type=line&xaxis=Tijd"></iframe>
             <iframe width="450" height="260" src="https://thingspeak.com/channels/3417767/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Bodemtemperatuur+30cm+diepte&type=line&xaxis=Tijd"></iframe>
