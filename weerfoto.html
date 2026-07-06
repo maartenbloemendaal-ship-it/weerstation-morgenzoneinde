@@ -30,10 +30,10 @@
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
-        /* Alert balk */
-        #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; }
+        /* Alert balk styling */
+        #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-        /* Foto sectie - Originele transparante kaart behouden */
+        /* Hoofd Foto Sectie - Originele transparante kaart behouden */
         .foto-content { 
             background: rgba(255, 255, 255, 0.4); 
             padding: 20px; 
@@ -47,16 +47,56 @@
         h1 { color: #2c3e50; margin-top: 0; text-align: left; }
         .foto-content p { text-align: left; }
 
+        /* NIEUW: Archief Gedeelte Styling */
+        .archief-titel {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: left;
+        }
+        .archief-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .archief-item {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            width: 300px; /* Mooie vaste breedte voor de kaarten in het archief */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .archief-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover; /* Zorgt dat alle oude foto's netjes worden uitgesneden tot dezelfde grootte */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .archief-bijschrift {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+
         /* Mobiele weergave */
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
             .nav-links.active { display: flex; }
             .hamburger { display: block; }
+            .archief-item { width: 100%; } /* Volledige breedte op mobiel */
         }
     </style>
 </head>
 <body>
 
+    <!-- MENUBALK -->
     <nav class="navbar">
         <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
         <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
@@ -69,7 +109,7 @@
         </ul>
     </nav>
 
-    <!-- LOGO EN INTRO SECTIE (Toegevoegd in de juiste stijl) -->
+    <!-- LOGO EN INTRO SECTIE -->
     <div style="display: flex; align-items: center; gap: 15px;">
         <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
         <div>
@@ -78,16 +118,45 @@
         </div>
     </div>
 
+    <!-- ALERT BALK -->
     <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
 
+    <!-- HOOFD FOTO (DEZE WEEK) -->
     <main class="foto-content">
         <h1>Weerfoto van de week</h1>
         <p>Hieronder zie je de actuele weerfoto uit de omgeving van het Persoonlijk Weerstation Morgenzoneinde.</p>
 
-        <img src="weerfoto.jpg" alt="Weerfoto van de week" class="weerfoto">
+        <!-- Pas hier elke week de hoofdfoto aan -->
+        <img src="weerfoto_week28.jpg" alt="Weerfoto van de week" class="weerfoto">
 
+        <!-- Pas hier elke week het bijschrift van de hoofdfoto aan -->
         <p class="foto-bijschrift"><strong>Week 28</strong> <em>"Korenburgerveenweg"</em></p>
     </main>
+
+    <!-- FOTO ARCHIEF (VORIGE WEKEN) -->
+    <section style="text-align: center; margin-bottom: 4px;">
+        <h2 class="archief-titel">Eerdere weerfoto's</h2>
+        
+        <div class="archief-grid">
+            
+            <!-- Foto van Week 27 (Voorbeeld: pas aan wanneer je deze live zet) -->
+            <div class="archief-item">
+                <img src="weerfoto_week27.jpg" alt="Weerfoto week 27">
+                <p class="archief-bijschrift"><strong>Week 27</strong><br><em>"Zonsondergang in Corle"</em></p>
+            </div>
+            
+            <!-- Foto van Week 26 (Voorbeeld: pas aan wanneer je deze live zet) -->
+            <div class="archief-item">
+                <img src="weerfoto_week26.jpg" alt="Weerfoto week 26">
+                <p class="archief-bijschrift"><strong>Week 26</strong><br><em>"Prachtige wolkenlucht boven Winterswijk"</em></p>
+            </div>
+
+            <!-- NIEUWE WEKEN HIERONDER TOEVOEGEN: 
+                 Als er een nieuwe week bijkomt, kopieer je een 'archief-item' blokje hierboven 
+                 en plak je die hier simpelweg onder. -->
+
+        </div>
+    </section>
 
 </body>
 </html>
