@@ -5,72 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Over PWS Morgenzoneinde</title>
     <style>
-        /* Basisstijl */
-        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        /* Basis Instellingen & CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body { 
+            background-color: #cbd7e3; /* Exact matchende dashboard achtergrond */
+            margin: 0; 
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #2c3e50; 
+            line-height: 1.6;
+        }
 
-        /* Nieuwe Navigatie Menu stijl */
+        /* ----- NAVIGATIEBALK STYLING ----- */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(203, 213, 225, 0.95);
+            background: rgba(255, 255, 255, 0.85); /* Wit met lichte transparantie */
             padding: 10px 20px;
             border-radius: 8px;
-            margin-bottom: 25px;
+            margin: 20px auto 10px auto; 
+            max-width: 600px; /* Compacte breedte voor tekstpagina's */
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
+        .navbar-brand { font-weight: bold; color: #2c3e50; }
         .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
-        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
-        .hamburger { display: none; font-size: 24px; cursor: pointer; }
+        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 14px; transition: color 0.2s; }
+        .nav-links a:hover { color: #3498db; }
+        .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
-        /* Alert */
-        #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; }
+        /* Container voor inhoud */
+        .container {
+            max-width: 600px;
+            margin: 20px auto 40px auto;
+            padding: 0 20px;
+        }
 
-        /* Mobiel */
+        /* Alert balk */
+        #weer-alert-balk { 
+            display: none; 
+            width: 100%; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            background: #ff9999; 
+            font-weight: bold; 
+            text-align: center; 
+        }
+
+        /* Witte kaart voor de pagina-inhoud (Dashboard stijl) */
+        .over-content { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+        }
+
+        h1 { 
+            margin-top: 0; 
+            font-size: 24px; 
+            color: #1a252f; 
+            border-left: 4px solid #3498db;
+            padding-left: 12px;
+        }
+
+        p {
+            color: #2c3e50;
+            font-size: 15px;
+            margin-bottom: 0;
+        }
+
+        /* Mobiele weergave */
         @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
+            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
             .nav-links.active { display: flex; }
             .hamburger { display: block; }
         }
-
-        /* Specifieke content stijlen */
-        .over-content { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
-    <!-- Menu met nieuwe stijl -->
-    <nav class="navbar">
-        <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
-        <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="grafieken.html">Grafieken</a></li>
-            <li><a href="weerfoto.html">Weerfoto</a></li>
-            <li><a href="over.html">Over</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
+    <!-- NAVIGATIEBALK -->
+    <div style="padding: 0 20px;">
+        <nav class="navbar">
+            <div class="navbar-brand" id="logo"><strong>PWS Morgenzoneinde</strong></div>
+            <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="grafieken.html">Grafieken</a></li>
+                <li><a href="weerfoto.html">Weerfoto</a></li>
+                <li><a href="over.html">Over</a></li>
+                <li><a href="contact.html">Contact</a></li>    
+            </ul>
+        </nav>
+    </div>
 
-    <!-- Alert balk -->
-    <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
+    <!-- LOGO EN INTRO SECTIE -->
+    <div style="max-width: 600px; margin: 20px auto 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 15px;">
+        <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
+        <div>
+            <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold;">PWS Morgenzoneinde</h2>
+            <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 14px; font-weight: normal;">Actuele live metingen uit Winterswijk (Morgenzoneinde)</p>
+        </div>
+    </div>
 
-    <!-- Pagina Inhoud -->
-    <main class="over-content">
-        <h1>Over PWS Morgenzoneinde in Winterswijk</h1>
-        <p>
-            Het persoonlijke weerstation (PWS) <strong>Morgenzoneinde</strong> bevindt zich op de overgang 
-            van de bebouwde kom naar de buurtschap <strong>Corle (Winterswijk)</strong>. Unieke plek in 
-            Winterswijk om het weer te meten. De metingen worden nauwkeurig bijgehouden met professionele 
-            sensoren die elke 20 en 30 seconden actuele waarnemingen logt en wegschrijft naar de cloud 
-            van ThingSpeak. Uniek aan deze opstelling is dat er niet alleen op de standaard 
-            meteorologische hoogte van +1,5 meter en direct boven de grond op +10 centimeter wordt gemeten, 
-            maar dat ook de bodemtemperatuur op een diepte van 10, 30 en 50 centimeter wordt geregistreerd. 
-            Hierdoor krijgen we een perfect beeld van eventuele grondtemperatuurverschillen in de regio Achterhoek.
-        </p>
-    </main>
+    <!-- INHOUD CONTAINER -->
+    <div class="container">
+        <!-- Alert balk -->
+        <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
+
+        <main class="over-content">
+            <h1>Over PWS Morgenzoneinde in Winterswijk</h1>
+            <p>
+                Het persoonlijke weerstation (PWS) <strong>Morgenzoneinde</strong> bevindt zich op de overgang 
+                van de bebouwde kom naar de buurtschap <strong>Corle (Winterswijk)</strong>. Unieke plek in 
+                Winterswijk om het weer te meten. De metingen worden nauwkeurig bijgehouden met professionele 
+                sensoren die elke 20 en 30 seconden actuele waarnemingen logt Caps en wegschrijft naar de cloud 
+                van ThingSpeak. Uniek aan deze opstelling is dat er niet alleen op de standaard 
+                meteorologische hoogte van +1,5 meter en direct boven de grond op +10 centimeter wordt gemeten, 
+                maar dat ook de bodemtemperatuur op een diepte van 10, 30 en 50 centimeter wordt geregistreerd. 
+                Hierdoor krijgen we een perfect beeld van eventuele grondtemperatuurverschillen in de regio Achterhoek.
+            </p>
+        </main>
+    </div>
 
 </body>
 </html>
