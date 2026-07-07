@@ -5,71 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weerfoto van de week - PWS Morgenzoneinde</title>
     <style>
-        /* Gelijkgetrokken met de Homepage */
-        body { 
-            background-color: #b0c2d4; 
-            margin: 20px; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            color: #333; 
-        }
+        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
 
         /* Navigatie Menu */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(203, 213, 225, 0.95);
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(203, 213, 225, 0.95); padding: 10px 20px; border-radius: 8px; margin-bottom: 25px; position: sticky; top: 0; z-index: 1000; }
         .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
-        /* Alert balk */
-        #weer-alert-balk { display: none; width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ff9999; font-weight: bold; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-
-        /* Video styling */
-        .header-video video {
-            border-radius: 8px;
-            display: block;
-            object-fit: cover;
-        }
+        /* HEADER */
+        .top-header { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 25px; }
+        .logo-tekst-groep { display: flex; align-items: center; gap: 15px; }
+        
+        /* Video alleen op desktop zichtbaar */
+        .header-video { display: block; }
+        .header-video video { border-radius: 8px; display: block; object-fit: cover; }
 
         /* Hoofd Foto Sectie */
-        .foto-content { 
-            background: rgba(255, 255, 255, 0.4); 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            text-align: center; 
-            margin-top: 25px;
-        }
+        .foto-content { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; margin-top: 25px; }
         .weerfoto { max-width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .foto-bijschrift { margin-top: 15px; font-size: 1.1em; color: #2c3e50; }
         h1 { color: #2c3e50; margin-top: 0; text-align: left; }
         .foto-content p { text-align: left; }
 
-        /* Archief Gedeelte */
+        /* Archief */
         .archief-titel { margin-top: 40px; margin-bottom: 20px; font-size: 20px; color: #2c3e50; font-weight: bold; text-align: left; }
         .archief-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 15px; }
         .archief-item { background: rgba(255, 255, 255, 0.4); border-radius: 12px; padding: 15px; width: 300px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
-        .archief-item img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .archief-bijschrift { margin-top: 12px; font-size: 14px; color: #2c3e50; line-height: 1.4; }
+        .archief-item img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
 
-        /* Mobiele weergave */
+        /* MOBIELE AANPASSINGEN */
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
             .nav-links.active { display: flex; }
             .hamburger { display: block; }
-            .archief-item { width: 100%; }
-        }
-        @media (max-width: 480px) {
-            .header-video { display: none; } /* Video verbergen op heel kleine schermen voor ruimte */
+            
+            /* Verberg de video op mobiel */
+            .header-video { display: none; }
         }
     </style>
 </head>
@@ -87,23 +59,24 @@
         </ul>
     </nav>
 
-    <div style="display: flex; align-items: center; gap: 15px;">
-        <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
-        
+    <!-- HEADER: Logo/Tekst links, Video rechts -->
+    <div class="top-header">
+        <div class="logo-tekst-groep">
+            <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
+            <div>
+                <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold;">PWS Morgenzoneinde</h2>
+                <p style="margin: 5px 0 0 0; color: #2c3e50; font-size: 14px;">Actuele live metingen uit Winterswijk (Morgenzoneinde)</p>
+            </div>
+        </div>
+
         <div class="header-video">
-            <video width="120" height="80" autoplay loop muted playsinline>
+            <video width="150" height="90" autoplay loop muted playsinline>
                 <source src="Bliksem.mp4" type="video/mp4">
             </video>
         </div>
-
-        <div>
-            <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold;">PWS Morgenzoneinde</h2>
-            <p style="margin: 5px 0 0 0; color: #2c3e50; font-size: 14px;">Actuele live metingen uit Winterswijk (Morgenzoneinde)</p>
-        </div>
     </div>
 
-    <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
-
+    <!-- Rest van de pagina -->
     <main class="foto-content">
         <h1>Weerfoto van de week</h1>
         <p>Hieronder zie je de actuele weerfoto uit de omgeving van het Persoonlijk Weerstation Morgenzoneinde.</p>
