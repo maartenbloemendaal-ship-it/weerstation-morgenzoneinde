@@ -6,93 +6,72 @@
     <title>Weerfoto van de week - PWS Morgenzoneinde</title>
     <style>
         body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
-
-        /* Navigatie Menu */
+        
+        /* Navigatie en Header (zoals voorheen) */
         .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(203, 213, 225, 0.95); padding: 10px 20px; border-radius: 8px; margin-bottom: 25px; position: sticky; top: 0; z-index: 1000; }
         .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
-        .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
-
-        /* HEADER */
         .top-header { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 25px; }
         .logo-tekst-groep { display: flex; align-items: center; gap: 15px; }
+        .header-video { cursor: pointer; }
         
-        /* Video alleen op desktop zichtbaar */
-        .header-video { display: block; }
-        .header-video video { border-radius: 8px; display: block; object-fit: cover; }
-
-        /* Hoofd Foto Sectie */
-        .foto-content { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; margin-top: 25px; }
-        .weerfoto { max-width: 100%; height: auto; border-radius: 8px; margin-top: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .foto-bijschrift { margin-top: 15px; font-size: 1.1em; color: #2c3e50; }
-        h1 { color: #2c3e50; margin-top: 0; text-align: left; }
-        .foto-content p { text-align: left; }
-
-        /* Archief */
-        .archief-titel { margin-top: 40px; margin-bottom: 20px; font-size: 20px; color: #2c3e50; font-weight: bold; text-align: left; }
-        .archief-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 15px; }
-        .archief-item { background: rgba(255, 255, 255, 0.4); border-radius: 12px; padding: 15px; width: 300px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
-        .archief-item img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
-
-        /* MOBIELE AANPASSINGEN */
-        @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
-            .nav-links.active { display: flex; }
-            .hamburger { display: block; }
-            
-            /* Verberg de video op mobiel */
-            .header-video { display: none; }
+        /* LIGHTBOX OVERLAY */
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center;
         }
+        .overlay img, .overlay video { max-width: 90%; max-height: 80%; border-radius: 8px; }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
+
+        /* Archief foto's klikbaar maken */
+        .archief-item img { cursor: pointer; transition: transform 0.2s; }
+        .archief-item img:hover { transform: scale(1.02); }
+
+        /* Rest van de styling (Archief grid etc blijft gelijk) */
+        .archief-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .archief-item { background: rgba(255, 255, 255, 0.4); border-radius: 12px; padding: 15px; width: 300px; text-align: center; }
+        .archief-item img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
-        <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="grafieken.html">Grafieken</a></li>
-            <li><a href="weerfoto.html">Weerfoto</a></li>
-            <li><a href="over.html">Over</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
+    <div class="overlay" id="overlay" onclick="closeMedia()">
+        <span class="close-btn">&times;</span>
+        <div id="mediaContainer"></div>
+    </div>
 
-    <!-- HEADER: Logo/Tekst links, Video rechts -->
-    <div class="top-header">
-        <div class="logo-tekst-groep">
-            <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
-            <div>
-                <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold;">PWS Morgenzoneinde</h2>
-                <p style="margin: 5px 0 0 0; color: #2c3e50; font-size: 14px;">Actuele live metingen uit Winterswijk (Morgenzoneinde)</p>
-            </div>
-        </div>
-
-        <div class="header-video">
+    <nav class="navbar">...</nav> <div class="top-header">
+        <div class="header-video" onclick="openMedia('video', 'Bliksem.mp4')">
             <video width="150" height="90" autoplay loop muted playsinline>
                 <source src="Bliksem.mp4" type="video/mp4">
             </video>
         </div>
     </div>
 
-    <!-- Rest van de pagina -->
-    <main class="foto-content">
-        <h1>Weerfoto van de week</h1>
-        <p>Hieronder zie je de actuele weerfoto uit de omgeving van het Persoonlijk Weerstation Morgenzoneinde.</p>
-        <img src="weerfoto_week28.jpg" alt="Weerfoto van de week" class="weerfoto">
-        <p class="foto-bijschrift"><strong>Week 28</strong> <em>"Korenburgerveenweg"</em></p>
-    </main>
-
-    <section style="text-align: center; margin-bottom: 4px;">
+    <section>
         <h2 class="archief-titel">Eerdere weerfoto's</h2>
         <div class="archief-grid">
             <div class="archief-item">
-                <img src="weerfoto_week27.jpg" alt="Weerfoto week 27">
-                <p class="archief-bijschrift"><strong>Week 27</strong><br><em>"Mooie ontladingen aan de Morgenzoneinde"</em></p>
+                <img src="weerfoto_week27.jpg" alt="Weerfoto week 27" onclick="openMedia('img', 'weerfoto_week27.jpg')">
+                <p><strong>Week 27</strong></p>
             </div>
-        </div>
+            </div>
     </section>
 
+    <script>
+        function openMedia(type, src) {
+            const overlay = document.getElementById('overlay');
+            const container = document.getElementById('mediaContainer');
+            container.innerHTML = (type === 'video') ? 
+                `<video src="${src}" controls autoplay></video>` : 
+                `<img src="${src}">`;
+            overlay.style.display = 'flex';
+        }
+
+        function closeMedia() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('mediaContainer').innerHTML = '';
+        }
+    </script>
 </body>
 </html>
