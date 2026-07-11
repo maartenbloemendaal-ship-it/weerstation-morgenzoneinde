@@ -78,19 +78,27 @@
 
     <main class="foto-content">
         <h1>Weerfoto van de week</h1>
-        <img src="weerfoto_week28.jpg" alt="Weerfoto" class="weerfoto" onclick="openMedia('img', 'weerfoto_week28.jpg')">
-        <p><strong>Week 28</strong></p>
+        <!-- Nieuwe foto voor week 29 -->
+        <img src="weerfoto_week29.jpg" alt="Weerfoto" class="weerfoto" onclick="openMedia('img', 'weerfoto_week29.jpg')">
+        <p><strong>Week 29</strong></p>
     </main>
 
     <section>
         <h2 class="archief-titel">Eerdere weerfoto's</h2>
         <div class="archief-grid">
+            <!-- Week 28 is nu verplaatst naar het archief -->
+            <div class="archief-item">
+                <img src="weerfoto_week28.jpg" alt="Weerfoto" onclick="openMedia('img', 'weerfoto_week28.jpg')">
+                <p><strong>Week 28</strong></p>
+            </div>
+            <!-- Week 27 blijft staan -->
             <div class="archief-item">
                 <img src="weerfoto_week27.jpg" alt="Weerfoto" onclick="openMedia('img', 'weerfoto_week27.jpg')">
                 <p><strong>Week 27</strong></p>
             </div>
         </div>
     </section>
+
 
     <script>
         function openMedia(type, src) {
