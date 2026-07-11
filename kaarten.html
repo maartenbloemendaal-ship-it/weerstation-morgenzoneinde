@@ -13,9 +13,19 @@
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
-        /* Meteoblue Container */
-        .widget-container { max-width: 850px; margin: 0 auto 40px auto; background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
-        .widget-titel { font-size: 18px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; }
+        /* Kaarten Grid */
+        .kaarten-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 900px; margin: 0 auto; }
+        @media (min-width: 768px) { .kaarten-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .kaart-knop-blok { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, background 0.2s; }
+        .kaart-knop-blok:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.8); }
+        
+        .kaart-icoon { font-size: 40px; margin-bottom: 10px; display: block; }
+        .kaart-naam { font-size: 18px; font-weight: bold; color: #2c3e50; margin: 0 0 8px 0; }
+        .kaart-info { font-size: 13px; color: #555; margin: 0 0 15px 0; min-height: 36px; }
+        
+        .bekijk-knop { display: inline-block; padding: 10px 20px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; transition: background 0.2s; width: 80%; margin: 0 auto; }
+        .bekijk-knop:hover { background-color: #1a252f; }
 
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
@@ -39,11 +49,73 @@
     </ul>
 </nav>
 
-<div class="widget-container">
-    <h2 class="widget-titel">🇨🇭 Meteoblue All-in-One Weerplatform (Winterswijk)</h2>
-    
-    <!-- Het officiële, advertentievrije en interactieve Meteoblue dashboard -->
-    <iframe src="https://meteoblue.com" frameborder="0" scrolling="NO" allowtransparency="true" style="width: 100%; height: 615px; border-radius: 8px; background: white;"></iframe>
+<div style="max-width: 900px; margin: 0 auto 25px auto; background: rgba(255,255,255,0.4); padding: 15px; border-radius: 8px; text-align: center;">
+    <h1 style="margin: 0 0 5px 0; font-size: 24px; color: #2c3e50;">🌦 Regio Weerkaarten (Meteoblue)</h1>
+    <p style="margin: 0; font-size: 14px; color: #4f5d6b;">Bekijk de meest nauwkeurige, advertentievrije kaarten en trends voor Winterswijk.</p>
+</div>
+
+<div class="kaarten-grid">
+
+    <!-- 1. METEOBLUE REGENRADAR -->
+    <div class="kaart-knop-blok">
+        <div>
+            <span class="kaart-icoon">🌧️</span>
+            <h3 class="kaart-naam">Meteoblue Weerradar</h3>
+            <p class="kaart-info">Bekijk de actuele en live geanimeerde neerslagradar, buizendetectie en wolkenvelden over Gelderland.</p>
+        </div>
+        <a href="https://meteoblue.com" target="_blank" class="bekijk-knop">Open Weerradar ↗</a>
+    </div>
+
+    <!-- 2. METEOBLUE WEERKAART (WIND/STORM) -->
+    <div class="kaart-knop-blok">
+        <div>
+            <span class="kaart-icoon">💨</span>
+            <h3 class="kaart-naam">Wind- & Stormkaarten</h3>
+            <p class="kaart-info">Volg de actuele windstromingen, windstoten en luchtdruklijnen live in de regio Achterhoek.</p>
+        </div>
+        <a href="https://meteoblue.com?variable=windanimation" target="_blank" class="bekijk-knop">Open Windkaarten ↗</a>
+    </div>
+
+    <!-- 3. METEOBLUE METEOGRAM (48 UUR TREND) -->
+    <div class="kaart-knop-blok">
+        <div>
+            <span class="kaart-icoon">📊</span>
+            <h3 class="kaart-naam">Meteogram & Trends</h3>
+            <p class="kaart-info">Het gedetailleerde Zwitserse 5-daagse meteogram voor Winterswijk met alle temperatuur- en neerslagcurves.</p>
+        </div>
+        <a href="https://meteoblue.com" target="_blank" class="bekijk-knop">Open Meteogram ↗</a>
+    </div>
+
+    <!-- 4. METEOBLUE HOOIKOORTS & POLLEN -->
+    <div class="kaart-knop-blok">
+        <div>
+            <span class="kaart-icoon">🌾</span>
+            <h3 class="kaart-naam">Pollen & Hooikoorts</h3>
+            <p class="kaart-info">De actuele pollengrafieken (grassen, bomen en kruiden) en de hooikoortsrisico's voor de komende dagen.</p>
+        </div>
+        <a href="https://meteoblue.com" target="_blank" class="bekijk-knop">Open Hooikoorts ↗</a>
+    </div>
+
+    <!-- 5. METEOBLUE UV-INDEX & ZON -->
+    <div class="kaart-knop-blok">
+        <div>
+            <span class="kaart-icoon">☀️</span>
+            <h3 class="kaart-naam">Zonkracht & UV-Index</h3>
+            <p class="kaart-info">Bekijk de actuele uv-index en het aantal verwachte zonuren om veilig buiten te kunnen werken of ontspannen.</p>
+        </div>
+        <a href="https://meteoblue.com" target="_blank" class="bekijk-knop">Open UV-Index ↗</a>
+    </div>
+
+    <!-- 6. METEOBLUE LUCHTDRUK & ISOLINEN -->
+    <div class="kaart-knop-blok">
+        <div>
+            <span class="kaart-icoon">🧭</span>
+            <h3 class="kaart-naam">Luchtdruk & Weersystemen</h3>
+            <p class="kaart-info">Volg lagedrukgebieden en isobarenkaarten op de voet om weersveranderingen in de regio te voorspellen.</p>
+        </div>
+        <a href="https://meteoblue.com?variable=barometricpressure_sealevel" target="_blank" class="bekijk-knop">Open Luchtdrukkaarten ↗</a>
+    </div>
+
 </div>
 
 <footer style="text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid #dcdde1;">
