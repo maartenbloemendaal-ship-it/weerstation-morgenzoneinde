@@ -14,17 +14,16 @@
         .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
         /* Kaarten Grid */
-        .kaarten-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 900px; margin: 0 auto; }
-        @media (min-width: 600px) { .kaarten-grid { grid-template-columns: repeat(2, 1fr); } }
+        .kaarten-grid { display: grid; grid-template-columns: 1fr; gap: 25px; max-width: 950px; margin: 0 auto 40px auto; }
+        @media (min-width: 768px) { .kaarten-grid { grid-template-columns: repeat(2, 1fr); } }
 
-        .kaart-knop-blok { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; transition: transform 0.2s, background 0.2s; }
-        .kaart-knop-blok:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.8); }
+        .kaart-blok { background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
+        .kaart-titel { font-size: 15px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; }
         
-        .kaart-icoon { font-size: 40px; margin-bottom: 10px; display: block; }
-        .kaart-naam { font-size: 18px; font-weight: bold; color: #2c3e50; margin: 0 0 8px 0; }
-        .kaart-info { font-size: 13px; color: #555; margin: 0 0 15px 0; min-height: 36px; }
+        /* De afbeeldingen stylen als kaarten */
+        .weer-kaart-img { width: 100%; height: auto; min-height: 180px; max-height: 260px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 12px; background-color: #eaeaea; }
         
-        .bekijk-knop { display: inline-block; padding: 10px 20px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; transition: background 0.2s; }
+        .bekijk-knop { display: block; width: 100%; padding: 10px 0; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 13px; transition: background 0.2s; text-align: center; box-sizing: border-box; }
         .bekijk-knop:hover { background-color: #1a252f; }
 
         @media (max-width: 768px) {
@@ -49,59 +48,48 @@
     </ul>
 </nav>
 
-<div style="max-width: 900px; margin: 0 auto 20px auto; background: rgba(255,255,255,0.4); padding: 15px; border-radius: 8px; text-align: center;">
-    <h1 style="margin: 0 0 5px 0; font-size: 24px; color: #2c3e50;">🌦️ Externe Regio Weerkaarten</h1>
-    <p style="margin: 0; font-size: 14px; color: #4f5d6b;">Open direct de meest nauwkeurige, advertentievrije kaarten voor Winterswijk en de Achterhoek.</p>
-</div>
-
 <div class="kaarten-grid">
 
-    <!-- 1. REGENRADAR -->
-    <div class="kaart-knop-blok">
-        <span class="kaart-icoon">🌧️</span>
-        <h3 class="kaart-naam">Interactieve Regenradar</h3>
-        <p class="kaart-info">Bekijk de actuele buien, wolkenvelden en neerslagverwachting via Meteoblue.</p>
-        <a href="https://meteoblue.com" target="_blank" class="bekijk-knop">Open Regenradar ↗</a>
+    <!-- 1. LIVE BUIENRADAR KAART (Altijd werkende live afbeelding) -->
+    <div class="kaart-blok">
+        <h3 class="kaart-titel">🌧️ Actuele Neerslagradar NL</h3>
+        <img src="https://buienradar.nl" alt="Actuele Buienradar" class="weer-kaart-img">
+        <a href="https://www.buienradar.nl" target="_blank" class="bekijk-knop">Open Buienradar NL ↗</a>
     </div>
 
-    <!-- 2. WINDSTROMEN -->
-    <div class="kaart-knop-blok">
-        <span class="kaart-icoon">💨</span>
-        <h3 class="kaart-naam">Wind & Stormlucht</h3>
-        <p class="kaart-info">Prachtige, live geanimeerde winddeeltjes en windstoten over Gelderland via Windy.</p>
-        <a href="https://windy.com" target="_blank" class="bekijk-knop">Open Windkaart ↗</a>
+    <!-- 2. LIVE SATTELLIETBEELD (Wolken over Europa/NL) -->
+    <div class="kaart-blok">
+        <h3 class="kaart-titel">🌍 Actuele Satelliet (Wolken & Zon)</h3>
+        <img src="https://buienradar.nl" alt="Live Satellietbeeld" class="weer-kaart-img">
+        <a href="https://buienradar.nl" target="_blank" class="bekijk-knop">Bekijk Inzoomen Satelliet ↗</a>
     </div>
 
-    <!-- 3. BLIKSEM -->
-    <div class="kaart-knop-blok">
-        <span class="kaart-icoon">⚡</span>
-        <h3 class="kaart-naam">Realtime Bliksemradar</h3>
-        <p class="kaart-info">Volg onweersbuien en live blikseminslagen tot op de seconde nauwkeurig via LightningMaps.</p>
-        <a href="https://lightningmaps.org" target="_blank" class="bekijk-knop">Open Bliksemradar ↗</a>
+    <!-- 3. ACTUELE TEMPERATUURKAART NEDERLAND (KNMI/Buienradar data) -->
+    <div class="kaart-blok">
+        <h3 class="kaart-titel">🌡️ Actuele Temperaturen NL</h3>
+        <img src="https://buienradar.nl" alt="Actuele Temperatuurkaart" class="weer-kaart-img">
+        <a href="https://buienradar.nl" target="_blank" class="bekijk-knop">Bekijk Stationdetails ↗</a>
     </div>
 
-    <!-- 4. HOOIKOORTS & POLLEN -->
-    <div class="kaart-knop-blok">
-        <span class="kaart-icoon">🌾</span>
-        <h3 class="kaart-naam">Pollen & Hooikoorts</h3>
-        <p class="kaart-info">Bekijk de actuele bloeiperiode, graspollen en hooikoortswaarschuwingen voor de regio.</p>
-        <a href="https://weeronline.nl" target="_blank" class="bekijk-knop">Open Pollenbericht ↗</a>
+    <!-- 4. ACTUELE WINDSNELHEID & RICHTING -->
+    <div class="kaart-blok">
+        <h3 class="kaart-titel">💨 Actuele Windsnelheden</h3>
+        <img src="https://buienradar.nl" alt="Actuele Windkaart" class="weer-kaart-img">
+        <a href="https://windy.com" target="_blank" class="bekijk-knop">Open Interactieve Windy Map ↗</a>
     </div>
 
-    <!-- 5. UV-INDEX -->
-    <div class="kaart-knop-blok">
-        <span class="kaart-icoon">☀️</span>
-        <h3 class="kaart-naam">Zonkracht & UV-Index</h3>
-        <p class="kaart-info">Actuele zonkrachtmetingen en de verwachting om veilig van de zon te genieten.</p>
-        <a href="https://weeronline.nl" target="_blank" class="bekijk-knop">Open UV-Index ↗</a>
+    <!-- 5. HOOIKOORTS- & POLLENKAART -->
+    <div class="kaart-blok">
+        <h3 class="kaart-titel">🌾 Hooikoorts & Pollenverwachting</h3>
+        <img src="https://buienradar.nl" alt="Hooikoortskaart" class="weer-kaart-img">
+        <a href="https://weeronline.nl" target="_blank" class="bekijk-knop">Open Uitgebreid Pollenbericht ↗</a>
     </div>
 
-    <!-- 6. KNMI WAARSCHUWINGEN -->
-    <div class="kaart-knop-blok">
-        <span class="kaart-icoon">⚠️</span>
-        <h3 class="kaart-naam">KNMI Waarschuwingen</h3>
-        <p class="kaart-info">Bekijk direct of er code geel, oranje of rood geldt voor de provincie Gelderland.</p>
-        <a href="https://knmi.nl" target="_blank" class="bekijk-knop">Open KNMI Alerts ↗</a>
+    <!-- 6. GRONDVORST EN BODEMTRENDS (Super relevant voor jouw PWS!) -->
+    <div class="kaart-blok">
+        <h3 class="kaart-titel">🌱 Actuele Grondtemperatuur NL</h3>
+        <img src="https://buienradar.nl" alt="Grondtemperatuurkaart" class="weer-kaart-img">
+        <a href="https://buienradar.nl" target="_blank" class="bekijk-knop">Vergelijk met jouw +10cm Data ↗</a>
     </div>
 
 </div>
