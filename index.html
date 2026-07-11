@@ -60,16 +60,22 @@
         visibility: hidden;
         transition: opacity 0.3s, visibility 0.3s;
     }
-    .back-to-top.show { opacity: 1; visibility: visible; }
+  .back-to-top.show { opacity: 1; visibility: visible; }
 
-    /* HIER WORDT DE RONDE WITTE KNOP (uit 1000059303.jpg) VERBORGEN */
-    /* We richten ons op knoppen die niet jouw class hebben */
-    body > div:not(.back-to-top) > button, 
-    body > button[class*="top"],
-    .back-to-top-button,
-    #back-to-top-widget {
-        display: none !important;
-    }
+/* VERBETERD: Dit blokkeert alle ongewenste knoppen die onderaan de pagina opduiken */
+body > button:not(.back-to-top),
+body > div:not(.back-to-top) button,
+[id*="back-to-top"],
+[class*="back-to-top"]:not(.back-to-top),
+[id*="scroll-to-top"],
+[class*="scroll-to-top"],
+.back-to-top-button,
+#back-to-top-widget {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
 
 /* Navigatie Menu */
 .navbar {
