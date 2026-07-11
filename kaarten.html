@@ -19,11 +19,11 @@
 
         .kaart-knop-blok { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, background 0.2s; }
         .kaart-knop-blok:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.8); }
-        
+
         .kaart-icoon { font-size: 40px; margin-bottom: 10px; display: block; }
         .kaart-naam { font-size: 18px; font-weight: bold; color: #2c3e50; margin: 0 0 8px 0; }
         .kaart-info { font-size: 13px; color: #555; margin: 0 0 15px 0; min-height: 36px; }
-        
+
         .bekijk-knop { display: inline-block; padding: 10px 20px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; transition: background 0.2s; width: 80%; margin: 0 auto; }
         .bekijk-knop:hover { background-color: #1a252f; }
 
@@ -56,7 +56,6 @@
 
 <div class="kaarten-grid">
 
-    <!-- 1. REGENRADAR -->
     <div class="kaart-knop-blok">
         <div>
             <span class="kaart-icoon">🌧️</span>
@@ -66,7 +65,6 @@
         <a href="https://meteoblue.com" target="_blank" class="bekijk-knop">Open Regenradar ↗</a>
     </div>
 
-    <!-- 2. WINDSTROMEN -->
     <div class="kaart-knop-blok">
         <div>
             <span class="kaart-icoon">💨</span>
@@ -76,7 +74,6 @@
         <a href="https://windy.com" target="_blank" class="bekijk-knop">Open Windkaart ↗</a>
     </div>
 
-    <!-- 3. BLIKSEM -->
     <div class="kaart-knop-blok">
         <div>
             <span class="kaart-icoon">⚡</span>
@@ -86,7 +83,6 @@
         <a href="https://lightningmaps.org" target="_blank" class="bekijk-knop">Open Bliksemradar ↗</a>
     </div>
 
-    <!-- 4. HOOIKOORTS & POLLEN (DIRECTE REGIO LINK) -->
     <div class="kaart-knop-blok">
         <div>
             <span class="kaart-icoon">🌾</span>
@@ -96,17 +92,15 @@
         <a href="https://hooikoortsradar.nl" target="_blank" class="bekijk-knop">Open Pollenbericht ↗</a>
     </div>
 
-    <!-- 5. UV-INDEX (DIRECTE KNMI LINK) -->
     <div class="kaart-knop-blok">
         <div>
             <span class="kaart-icoon">☀️</span>
             <h3 class="kaart-naam">Zonkracht & UV-Index</h3>
             <p class="kaart-info">Actuele zonkrachtmetingen van de zon en de uv-verwachting direct via de kaarten van het KNMI.</p>
         </div>
-        <a href="https://knmi.nl" target="_blank" class="bekijk-knop">Open UV-Index ↗</a>
+        <a href="https://www.knmi.nl/nederland-nu/weer/waarschuwingen-en-verwachtingen/zonkracht" target="_blank" class="bekijk-knop">Open UV-Index ↗</a>
     </div>
 
-    <!-- 6. KNMI WAARSCHUWINGEN -->
     <div class="kaart-knop-blok">
         <div>
             <span class="kaart-icoon">⚠️</span>
