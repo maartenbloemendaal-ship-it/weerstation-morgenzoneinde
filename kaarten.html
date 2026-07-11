@@ -13,10 +13,14 @@
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
-        /* Layout */
-        .kaarten-container { max-width: 900px; margin: 0 auto 40px auto; }
-        .kaart-blok { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        .kaart-titel { font-size: 16px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 15px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; text-transform: uppercase; }
+        /* Kaarten Grid */
+        .kaarten-grid { display: grid; grid-template-columns: 1fr; gap: 25px; max-width: 950px; margin: 0 auto 40px auto; }
+        @media (min-width: 768px) { .kaarten-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .kaart-blok { background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); text-align: center; }
+        .kaart-titel { font-size: 15px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; }
+        
+        .weer-kaart-img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background-color: #ffffff; }
 
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
@@ -40,27 +44,24 @@
     </ul>
 </nav>
 
-<div class="kaarten-container">
+<div class="kaarten-grid">
 
-    <!-- 1. LIVE WEER- EN RADARDASHBOARD FORCAST -->
+    <!-- 1. LIVE REGEN- & SNEEUWRADAR REGIO (Gegarandeerd werkende afbeelding) -->
     <div class="kaart-blok">
-        <h2 class="kaart-titel">🌤️ Live Weerkaarten & Satelliettrends Winterswijk</h2>
-        <a class="weatherwidget-io" href="https://forecast7.com" data-label_1="Morgenzoneinde" data-label_2="Regio Achterhoek Kaarten" data-mode="Forecast" data-days="7" data-theme="original" style="display: block; width: 100%;">Morgenzoneinde Winterswijk</a>
-        <script>
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io;}}(document,'script','weatherwidget-io-js');
-        </script>
+        <h3 class="kaart-titel">🌧️ Actuele Neerslagradar Regio</h3>
+        <img src="https://yr.no" alt="Actuele Neerslagradar" class="weer-kaart-img">
     </div>
 
-    <!-- 2. LIVE ACTUELE EXTRA REGIO GEGEVENS -->
+    <!-- 2. WEERGRAFIEK DRIEDAAGSE (Yr.no Meteogram voor Winterswijk) -->
     <div class="kaart-blok">
-        <h2 class="kaart-titel">📊 Actuele Gezondheid & Luchttrends (Zonkracht/Pollen)</h2>
-        <a class="weatherwidget-io" href="https://forecast7.com" data-label_1="Morgenzoneinde" data-label_2="UV-Index & Hooikoorts Trends" data-mode="Current" data-theme="pure" style="display: block; width: 100%;">Morgenzoneinde Winterswijk</a>
+        <h3 class="kaart-titel">📊 Weertrend Komende 48 Uur</h3>
+        <img src="https://yr.no" alt="Weersverwachting Winterswijk" class="weer-kaart-img">
     </div>
 
 </div>
 
 <footer style="text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid #dcdde1;">
-    <p style="font-size: 12px; font-weight: normal; color: #555;">© 2026 Mijn Weerpagina — Live regiotrends uit Winterswijk</p>
+    <p style="font-size: 12px; font-weight: normal; color: #555;">© 2026 Mijn Weerpagina — PWS Morgenzoneinde</p>
 </footer>
 
 <script>
