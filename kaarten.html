@@ -13,14 +13,19 @@
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
-        /* Kaarten Grid */
-        .kaarten-grid { display: grid; grid-template-columns: 1fr; gap: 25px; max-width: 950px; margin: 0 auto 40px auto; }
-        @media (min-width: 768px) { .kaarten-grid { grid-template-columns: repeat(2, 1fr); } }
+        /* Dashboard Layout */
+        .kaarten-grid { display: flex; flex-direction: column; gap: 25px; max-width: 900px; margin: 0 auto; }
+        .kaart-blok { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .kaart-titel { font-size: 16px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 15px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; text-transform: uppercase; }
 
-        .kaart-blok { background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); text-align: center; }
-        .kaart-titel { font-size: 15px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; }
+        /* Sylphide Links Grid */
+        .sylphide-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px; }
+        @media (min-width: 600px) { .sylphide-grid { grid-template-columns: repeat(2, 1fr); } }
         
-        .weer-kaart-img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); background-color: #ffffff; }
+        .sylphide-knop { display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(255,255,255,0.6); border-radius: 8px; text-decoration: none; color: #2c3e50; font-weight: bold; transition: transform 0.2s, background 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .sylphide-knop:hover { transform: translateY(-2px); background: rgba(255,255,255,0.9); }
+        .sylphide-icoon { font-size: 28px; }
+        .sylphide-tekst { font-size: 13px; font-weight: normal; color: #555; display: block; margin-top: 2px; }
 
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
@@ -46,16 +51,45 @@
 
 <div class="kaarten-grid">
 
-    <!-- 1. LIVE REGEN- & SNEEUWRADAR REGIO (Gegarandeerd werkende afbeelding) -->
+    <!-- 1. LIVE INTERACTIEVE REGIONALE RADAR (Buienradar Gadget) -->
     <div class="kaart-blok">
-        <h3 class="kaart-titel">🌧️ Actuele Neerslagradar Regio</h3>
-        <img src="https://yr.no" alt="Actuele Neerslagradar" class="weer-kaart-img">
+        <h2 class="kaart-titel">🌧️ Actuele Buienradar Regio Winterswijk</h2>
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <iframe src="https://buienradar.nl" scrolling="no" width="550" height="510" frameborder="no" style="max-width: 100%; background: white; border-radius: 8px;"></iframe>
+        </div>
     </div>
 
-    <!-- 2. WEERGRAFIEK DRIEDAAGSE (Yr.no Meteogram voor Winterswijk) -->
+    <!-- 2. VWK SYLPHIDE PORTAAL SNELKOPPINGEN -->
     <div class="kaart-blok">
-        <h3 class="kaart-titel">📊 Weertrend Komende 48 Uur</h3>
-        <img src="https://yr.no" alt="Weersverwachting Winterswijk" class="weer-kaart-img">
+        <h2 class="kaart-titel">📊 VWK Sylphide Presentatievormen</h2>
+        <p style="font-size: 13px; color: #4f5d6b; margin-top: 0;">Log rechtstreeks in op de beveiligde omgeving van de VWK om de unieke kaarten en tabellen van alle amateur-weerstations te bekijken:</p>
+        
+        <div class="sylphide-grid">
+            <a href="https://www.vwkweb.nl/index.php?page=1808" target="_blank" class="sylphide-knop">
+                <span class="sylphide-icoon">🔥</span>
+                <div>Hitte-Index Kaarten<span class="sylphide-tekst">Actuele landelijke hittestress metingen</span></div>
+            </a>
+            <a href="https://www.vwkweb.nl/index.php?page=1808" target="_blank" class="sylphide-knop">
+                <span class="sylphide-icoon">🗺️</span>
+                <div>10 Minuten Kaarten<span class="sylphide-tekst">Minima en maxima direct bijgewerkt</span></div>
+            </a>
+            <a href="https://www.vwkweb.nl/index.php?page=1808" target="_blank" class="sylphide-knop">
+                <span class="sylphide-icoon">💨</span>
+                <div>Windroos per Station<span class="sylphide-tekst">Grafische windrichtingen per amateurstation</span></div>
+            </a>
+            <a href="https://www.vwkweb.nl/index.php?page=1808" target="_blank" class="sylphide-knop">
+                <span class="sylphide-icoon">🌧️</span>
+                <div>Neerslagsommen 24 uur<span class="sylphide-tekst">Gedetailleerde kaarten van de regenval</span></div>
+            </a>
+            <a href="https://www.vwkweb.nl/index.php?page=1808" target="_blank" class="sylphide-knop">
+                <span class="sylphide-icoon">☀️</span>
+                <div>Globale Straling & Zon<span class="sylphide-tekst">Zonuren en zonne-energie statistieken</span></div>
+            </a>
+            <a href="https://www.vwkweb.nl/index.php?page=1808" target="_blank" class="sylphide-knop">
+                <span class="sylphide-icoon">📋</span>
+                <div>Sylphide & KNMI Tabellen<span class="sylphide-tekst">Vergelijk actuele amateurdata met het KNMI</span></div>
+            </a>
+        </div>
     </div>
 
 </div>
