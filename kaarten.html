@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regio Weerkaarten - PWS Morgenzoneinde</title>
+    <style>
+        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+
+        /* Navigatie Menu - Dashboard stijl van de homepage */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(203, 213, 225, 0.95); padding: 10px 20px; border-radius: 8px; margin-bottom: 25px; position: sticky; top: 0; z-index: 1000; }
+        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
+        .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
+
+        /* Kaarten Layout Container */
+        .kaarten-grid { display: flex; flex-direction: column; gap: 25px; max-width: 1000px; margin: 0 auto 40px auto; }
+        .kaart-blok { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .kaart-titel { font-size: 16px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; }
+        
+        /* Flexbox voor kleine gezondheids-widgets naast elkaar */
+        .gezondheid-container { display: flex; flex-wrap: wrap; gap: 20px; }
+        .gezondheid-item { flex: 1; min-width: 280px; }
+
+        /* Mobiele weergave */
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
+            .nav-links.active { display: flex; }
+            .hamburger { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="grafieken.html">Grafieken</a></li>
+        <li><a href="kaarten.html" style="color: #0056b3;">Weerkaarten</a></li>
+        <li><a href="weerfoto.html">Weerfoto</a></li>
+        <li><a href="over.html">Over</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="kaarten-grid">
+
+    <!-- 1. INTERACTIEVE REGENRADAR -->
+    <div class="kaart-blok">
+        <h2 class="kaart-titel">🌧️ Interactieve Regen- & Wolkenradar (Meteoblue)</h2>
+        <iframe src="https://meteoblue.com" frameborder="0" scrolling="NO" allowtransparency="true" style="width: 100%; height: 450px; border-radius: 8px; background: white;"></iframe>
+    </div>
+
+    <!-- 2. REALTME WINDSTROMINGEN -->
+    <div class="kaart-blok">
+        <h2 class="kaart-titel">💨 Geanimeerde Windstromen & Windstoten (Windy)</h2>
+          <!-- 3. REALTIME BLIKSEM- & ONWEERDETECTIE -->
+    <div class="kaart-blok">
+        <h2 class="kaart-titel">⚡ Realtime Blikseminslagen (Bliksemdetectie.nl)</h2>
+        <iframe src="https://bliksemdetectie.nl" frameborder="0" style="width: 100%; height: 450px; border-radius: 8px; background: #222;"></iframe>
+    </div>
+
+    <!-- 4. GEZONDHEID EN BIOMETEOROLOGIE (ZONKRACHT & HOOIKOORTS) -->
+    <div class="gezondheid-container">
+        
+        <div class="kaart-blok gezondheid-item">
+            <h2 class="kaart-titel">☀️ UV-Index & Zonkracht (Winterswijk)</h2>
+            <iframe src="https://weeronline.nl" frameborder="0" scrolling="NO" style="width: 100%; height: 150px; border-radius: 8px; background: white;"></iframe>
+        </div>
+
+        <div class="kaart-blok gezondheid-item">
+            <h2 class="kaart-titel">🌾 Pollen- & Hooikoortsbericht</h2>
+            <iframe src="https://weeronline.nl" frameborder="0" scrolling="NO" style="width: 100%; height: 150px; border-radius: 8px; background: white;"></iframe>
+        </div>
+
+    </div>
+
+</div> <!-- Einde kaarten-grid -->
+
+<footer style="text-align: center; padding: 30px; margin-top: 40px; border-top: 1px solid #dcdde1;">
+    <p style="font-size: 12px; font-weight: normal; color: #555;">© 2026 Mijn Weerpagina — Live regiotrends uit Winterswijk</p>
+</footer>
+
+<script>
+    // Functie voor het mobiele Hamburgermenu
+    function toggleMenu() {
+        const links = document.getElementById("nav-links");
+        links.classList.toggle("active");
+    }
+</script>
+
+</body>
+</html>
+
+        <iframe src="https://windy.com" frameborder="0" style="width: 100%; height: 450px; border-radius: 8px; background: white;"></iframe>
+    </div>
