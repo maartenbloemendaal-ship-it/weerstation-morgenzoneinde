@@ -13,10 +13,10 @@
         .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
         .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
 
-        /* Kaarten Layout Container */
-        .kaarten-grid { display: flex; flex-direction: column; gap: 25px; max-width: 950px; margin: 0 auto 40px auto; }
-        .kaart-blok { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .kaart-titel { font-size: 16px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; text-transform: uppercase; }
+        /* Layout */
+        .kaarten-container { max-width: 900px; margin: 0 auto 40px auto; }
+        .kaart-blok { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .kaart-titel { font-size: 16px; font-weight: bold; color: #2c3e50; margin-top: 0; margin-bottom: 15px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 5px; text-transform: uppercase; }
 
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
@@ -40,21 +40,21 @@
     </ul>
 </nav>
 
-<div class="kaarten-grid">
+<div class="kaarten-container">
 
-    <!-- 1. GEGARANDEERDE REGENRADAR -->
+    <!-- 1. LIVE WEER- EN RADARDASHBOARD FORCAST -->
     <div class="kaart-blok">
-        <h2 class="kaart-titel">🌧️ Actuele Weersverwachting & Radar (Winterswijk)</h2>
-        <a class="weatherwidget-io" href="https://forecast7.com" data-label_1="Morgenzoneinde" data-label_2="Regenradar & Pluviometer" data-theme="original" style="display: block; width: 100%;">Morgenzoneinde Winterswijk</a>
+        <h2 class="kaart-titel">🌤️ Live Weerkaarten & Satelliettrends Winterswijk</h2>
+        <a class="weatherwidget-io" href="https://forecast7.com" data-label_1="Morgenzoneinde" data-label_2="Regio Achterhoek Kaarten" data-mode="Forecast" data-days="7" data-theme="original" style="display: block; width: 100%;">Morgenzoneinde Winterswijk</a>
         <script>
         !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io;}}(document,'script','weatherwidget-io-js');
         </script>
     </div>
 
-    <!-- 2. GEGARANDEERDE VISUELE WIND- & REGENKAART -->
+    <!-- 2. LIVE ACTUELE EXTRA REGIO GEGEVENS -->
     <div class="kaart-blok">
-        <h2 class="kaart-titel">💨 Live Geanimeerde Weer- & Radarstromen (Windy)</h2>
-        <iframe src="https://windy.com" frameborder="0" style="width: 100%; height: 450px; border-radius: 8px; background: white;"></iframe>
+        <h2 class="kaart-titel">📊 Actuele Gezondheid & Luchttrends (Zonkracht/Pollen)</h2>
+        <a class="weatherwidget-io" href="https://forecast7.com" data-label_1="Morgenzoneinde" data-label_2="UV-Index & Hooikoorts Trends" data-mode="Current" data-theme="pure" style="display: block; width: 100%;">Morgenzoneinde Winterswijk</a>
     </div>
 
 </div>
