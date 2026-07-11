@@ -36,12 +36,25 @@
         /* Specifieke content stijlen - Originele transparante kaart behouden */
         .over-content { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 25px; }
         h1 { color: #2c3e50; margin-top: 0; }
+        h2 { color: #2c3e50; margin-top: 25px; font-size: 20px; border-bottom: 2px solid rgba(44, 62, 80, 0.2); padding-bottom: 5px; }
+        h3 { color: #2c3e50; margin-top: 20px; font-size: 16px; margin-bottom: 5px; }
+        p { line-height: 1.6; margin-bottom: 15px; text-align: justify; }
+        ul { margin-top: 5px; margin-bottom: 15px; padding-left: 20px; }
+        li { margin-bottom: 5px; line-height: 1.5; }
+
+        /* Mooi gestylede tabel */
+        .sensor-table-container { overflow-x: auto; margin-top: 20px; }
+        .sensor-table { width: 100%; border-collapse: collapse; background: rgba(255, 255, 255, 0.6); border-radius: 8px; overflow: hidden; }
+        .sensor-table th, .sensor-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .sensor-table th { background-color: rgba(44, 62, 80, 0.8); color: white; font-weight: bold; }
+        .sensor-table tr:hover { background-color: rgba(255, 255, 255, 0.4); }
 
         /* Mobiel */
         @media (max-width: 768px) {
             .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
             .nav-links.active { display: flex; }
             .hamburger { display: block; }
+            .sensor-table th, .sensor-table td { padding: 8px; font-size: 14px; }
         }
     </style>
 </head>
@@ -60,31 +73,120 @@
         </ul>
     </nav>
 
-    <!-- LOGO EN INTRO SECTIE (Toegevoegd in de juiste stijl) -->
+    <!-- LOGO EN INTRO SECTIE -->
     <div style="display: flex; align-items: center; gap: 15px;">
         <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
         <div>
-            <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold;">PWS Morgenzoneinde</h2>
+            <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold; border-bottom: none; padding-bottom: 0;">PWS Morgenzoneinde</h2>
             <p style="margin: 5px 0 0 0; color: #2c3e50; font-size: 14px;">Actuele live metingen uit Winterswijk (Morgenzoneinde)</p>
         </div>
     </div>
 
     <!-- Alert balk -->
     <div id="weer-alert-balk">Belangrijke weersinformatie!</div>
-
     <!-- Pagina Inhoud -->
     <main class="over-content">
         <h1>Over PWS Morgenzoneinde in Winterswijk</h1>
+        
         <p>
-            Het persoonlijke weerstation (PWS) <strong>Morgenzoneinde</strong> bevindt zich op de overgang 
-            van de bebouwde kom naar de buurtschap <strong>Corle (Winterswijk)</strong>. Een unieke plek in 
-            Winterswijk om het weer te meten. De metingen worden nauwkeurig bijgehouden met professionele 
-            sensoren die elke 20 and 30 seconden actuele waarnemingen logt en wegschrijft naar de cloud 
-            van ThingSpeak. Uniek aan deze opstelling is dat er niet alleen op de standaard 
-            meteorologische hoogte van +1,5 meter en direct boven de grond op +10 centimeter wordt gemeten, 
-            maar dat ook de bodemtemperatuur op een diepte van 10, 30 en 50 centimeter wordt geregistreerd. 
-            Hierdoor krijgen we een perfect beeld van eventuele grondtemperatuurverschillen in de regio Achterhoek.
+            Het persoonlijke weerstation <strong>PWS Morgenzoneinde</strong> is ontstaan uit een combinatie van twee grote passies: elektronica en meteorologie. Wat begon als een hobby om te experimenteren met microcontrollers, sensoren en programmeren, is uitgegroeid tot een volwaardig en uniek meetstation. De opstelling bevindt zich nog net binnen de bebouwde kom van Winterswijk, pal op de grens met de landelijke buurtschap Corle.
         </p>
+
+        <p>
+            De ligging op exact deze rand is meteorologisch gezien een perfecte overgangszone. In de bebouwde kom waar het station staat, blijft warmte vaak langer hangen tussen de huizen, stenen en het asfalt (het stedelijk hitte-eilandeffect). Tegelijkertijd koelt de open, agrarische bodem van buurtschap Corle — die direct aan de bebouwde kom grenst — tijdens heldere nachten juist extreem snel af door uitstraling. Dit station staat op de actieve scheidslijn van deze twee werelden, waardoor de dynamiek en de temperatuurverschillen tussen de dorpsrand en het open Achterhoekse coulissenlandschap nauwkeurig kunnen worden vastgelegd.
+        </p>
+
+        <p>
+            De metingen worden volautomatisch uitgevoerd door twee afzonderlijke, zelf geprogrammeerde ijs- en weersbestendige <strong>ESP32-microcontrollers</strong>. Om de cloudomgeving van ThingSpeak efficiënt te voeden, is de opstelling verdeeld in twee meetcircuits met verschillende verzendintervallen (elke 20 en 30 seconden).
+        </p>
+
+        <h2>De Technische Opstelling</h2>
+        <p>
+            Wat dit amateur-weerstation uniek maakt, is de gelaagdheid en de spreiding van de metingen, variërend van ruim 4 meter hoogte tot een halve meter diep in de grond:
+        </p>
+
+        <h3>🧠 ESP32 - Controller 1: Basis- & Grondmetingen (Interval: 20 sec)</h3>
+        <p>Deze microcontroller richt zich volledig op de thermodynamische basismetingen in de directe leefomgeving en vlak boven de bodem:</p>
+        <ul>
+            <li><strong>Standaard meteorologische hoogte (+1,5 meter):</strong> Uitgerust met een hoogwaardige <strong>BME280</strong>-sensor voor de nauwkeurige registratie van de luchttemperatuur, relatieve luchtvochtigheid en de absolute luchtdruk.</li>
+            <li><strong>Klomphoogte (+10 centimeter):</strong> Direct aangesloten op dezelfde ESP32 om metingen vlak boven de grond te verrichten. Een <strong>BMP280</strong> registreert hier de temperatuur en luchtdruk, terwijl een <strong>DHT11</strong> de luchtvochtigheid monitort. Dit is cruciaal voor het vroegtijdig detecteren van nachtelijke uitstraling en grondvorst.</li>
+        </ul>
+
+        <h3>🌬️ ESP32 - Controller 2: Wind, UV & Bodemprofiel (Interval: 30 sec)</h3>
+        <p>De tweede microcontroller staat opgesteld om de overige omgevingsfactoren en het diepere bodemklimaat te registreren:</p>
+        <ul>
+            <li><strong>Windmeting (+4,0 meter):</strong> Op een vrije hoogte van ruim 4 meter staat een <strong>Adafruit 17330 anemometer</strong> opgesteld om de windsnelheid en windrichting betrouwbaar te meten, vrij van obstakels op de grond.</li>
+            <li><strong>Licht & UV-index (+2,0 meter):</strong> Geplaatst op een hoogte van 2 meter meet een digitale <strong>LTR390</strong>-sensor de actuele lichtintensiteit (Lux) en de ultraviolette straling (UV-index).</li>
+            <li><strong>Bodemprofiel (-10, -30 en -50 centimeter):</strong> Een drietal waterdichte <strong>DS18B20</strong>-sensoren registreert continu de grondtemperatuur op drie verschillende dieptes. Dit geeft een uniek en gedetailleerd inzicht in de thermische traagheid en het warmtetransport in de Achterhoekse bodem.</li>
+        </ul>
+
+        <h2>Sensor- en Opstellingsoverzicht</h2>
+        <p>Alle verzamelde data wordt rechtstreeks doorgestuurd naar de cloudomgeving van <strong>ThingSpeak</strong>, waar de gegevens direct worden verwerkt tot live grafieken.</p>
+
+        <div class="sensor-table-container">
+            <table class="sensor-table">
+                <thead>
+                    <tr>
+                        <th>Hoogte / Diepte</th>
+                        <th>Sensor(en)</th>
+                        <th>ESP32 Controller</th>
+                        <th>Meting</th>
+                        <th>Interval</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🌬️ <strong>+4,0 meter</strong></td>
+                        <td>Adafruit 17330</td>
+                        <td>Controller 2</td>
+                        <td>Windsnelheid & Windrichting</td>
+                        <td>30 sec</td>
+                    </tr>
+                    <tr>
+                        <td>☀️ <strong>+2,0 meter</strong></td>
+                        <td>LTR390</td>
+                        <td>Controller 2</td>
+                        <td>Lichtintensiteit (Lux) & UV-Index</td>
+                        <td>30 sec</td>
+                    </tr>
+                    <tr>
+                        <td>🌡️ <strong>+1,5 meter</strong></td>
+                        <td>BME280</td>
+                        <td>Controller 1</td>
+                        <td>Luchttemperatuur, Luchtvochtigheid, Luchtdruk</td>
+                        <td>20 sec</td>
+                    </tr>
+                    <tr>
+                        <td>🪵 <strong>+10 cm</strong></td>
+                        <td>BMP280 & DHT11</td>
+                        <td>Controller 1</td>
+                        <td>Grondtemperatuur (klomphoogte), Luchtvochtigheid</td>
+                        <td>20 sec</td>
+                    </tr>
+                    <tr>
+                        <td>🌱 <strong>-10 cm</strong></td>
+                        <td>DS18B20</td>
+                        <td>Controller 2</td>
+                        <td>Bodemtemperatuur (bovenlaag)</td>
+                        <td>30 sec</td>
+                    </tr>
+                    <tr>
+                        <td>🪵 <strong>-30 cm</strong></td>
+                        <td>DS18B20</td>
+                        <td>Controller 2</td>
+                        <td>Bodemtemperatuur (wortelzone)</td>
+                        <td>30 sec</td>
+                    </tr>
+                    <tr>
+                        <td>🪨 <strong>-50 cm</strong></td>
+                        <td>DS18B20</td>
+                        <td>Controller 2</td>
+                        <td>Bodemtemperatuur (diepe ondergrond)</td>
+                        <td>30 sec</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </main>
 
 </body>
