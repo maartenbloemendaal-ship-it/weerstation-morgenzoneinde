@@ -2,12 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/</loc>
-    <lastmod>2026-06-21</lastmod>
+    <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/contact.html</loc>
-    <lastmod>2026-06-21</lastmod>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/grafieken.html</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/index.html</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/kaarten.html</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/over.html</loc>
+    <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>
