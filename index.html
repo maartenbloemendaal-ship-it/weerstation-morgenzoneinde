@@ -153,85 +153,53 @@ body > div:not(.back-to-top) button,
     </div>
 </div>
 
-<!-- START WEERFEITJE WIDGET (Definitieve Schrikkeljaar & Fetch-versie met Archiefknop) -->
+<!-- START WEERFEITJE WIDGET -->
 <div id="weerfeitje-widget" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 25px; font-size: 13px; line-height: 1.5;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
         <div>
             <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444; margin-right: 8px;">📜 Weerwijsheid van de dag:</span>
-            <span id="weerfeitje-tekst" style="font-style: italic; font-weight: bold;">"Laden van de wijsheid..."</span>
+            <span id="weerfeitje-tekst" style="font-style: italic; font-weight: bold;">"Laden..."</span>
         </div>
-        <!-- Compacte, klikbare link naar je nieuwe weerspreukenpagina -->
-        <a href="weerspreuken.html" style="display: inline-block; padding: 4px 8px; background: rgba(0, 0, 0, 0.08); color: #222; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; transition: background 0.2s;">
-            📜 Archief
-        </a>
+        <a href="weerspreuken.html" style="display: inline-block; padding: 4px 8px; background: rgba(0, 0, 0, 0.08); color: #222; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">📜 Archief</a>
     </div>
 </div>
+
+<!-- We laden hier de database in -->
+<script src="weerspreuken.js"></script>
 
 <script>
   (function() {
       const vandaag = new Date();
       const jaar = vandaag.getFullYear();
-      // Controleer waterdicht op schrikkeljaar
       const isSchrikkeljaar = (jaar % 4 === 0 && jaar % 100 !== 0) || (jaar % 400 === 0);
 
-      // Bereken de exacte dag van het jaar (1 t/m 365 of 366)
       const start = new Date(jaar, 0, 0);
       const verschil = vandaag - start;
       const eenDag = 1000 * 60 * 60 * 24;
       const dagVanHetJaar = Math.floor(verschil / eenDag);
 
-      // Haal de data geruisloos op uit je archiefpagina
-      fetch('weerspreuken.html')
-          .then(response => response.text())
-          .then(htmlText => {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(htmlText, 'text/html');
-              const scripts = doc.querySelectorAll('script');
-              let feitjesLijst = null;
-
-              // Zoek de array 'dagelijkseFeitjes' in het andere bestand
-              scripts.forEach(script => {
-                  if (script.textContent.includes('dagelijkseFeitjes')) {
-                      try {
-                          const startMatch = script.textContent.indexOf('const dagelijkseFeitjes = [');
-                          const eindMatch = script.textContent.indexOf('];', startMatch);
-                          if (startMatch !== -1 && eindMatch !== -1) {
-                              const arrayTekst = script.textContent.substring(startMatch + 26, eindMatch + 1);
-                              feitjesLijst = new Function(`return [${arrayTekst}];`)();
-                          }
-                      } catch (e) { console.error("Parsing fout:", e); }
-                  }
-              });
-
-              if (feitjesLijst) {
-                  let juisteSpreuk = "";
-                  
-                  // LOGICA VOOR HET KIEZEN VAN DE JUISTE SPREUK
-                  if (isSchrikkeljaar && dagVanHetJaar === 60) {
-                      // Het is exact 29 februari: pak de schrikkelspreuk (de 366e/allerlaatste in de array)
-                      juisteSpreuk = feitjesLijst[feitjesLijst.length - 1].s;
-                  } else {
-                      let index = dagVanHetJaar - 1;
-                      // Als we voorbij 29 februari zijn in een schrikkeljaar, trekken we 1 dag af 
-                      // zodat de datums de rest van het jaar perfect blijven kloppen met de 365-lijst
-                      if (isSchrikkeljaar && dagVanHetJaar > 60) {
-                          index = dagVanHetJaar - 2;
-                      }
-                      // Voorkom indexfouten en negeer de schrikkelspreuk op normale dagen
-                      index = index % (feitjesLijst.length - 1);
-                      juisteSpreuk = feitjesLijst[index].s;
-                  }
-
-                  document.getElementById("weerfeitje-tekst").innerText = `"${juisteSpreuk}"`;
+      // Controleer of de lijst succesvol is ingeladen uit het losse bestand
+      if (typeof dagelijkseFeitjes !== 'undefined' && dagelijkseFeitjes.length > 0) {
+          let juisteSpreuk = "";
+          
+          if (isSchrikkeljaar && dagVanHetJaar === 60) {
+              juisteSpreuk = dagelijkseFeitjes[dagelijkseFeitjes.length - 1].s;
+          } else {
+              let index = dagVanHetJaar - 1;
+              if (isSchrikkeljaar && dagVanHetJaar > 60) {
+                  index = dagVanHetJaar - 2;
               }
-          })
-          .catch(err => {
-              console.error("Fout bij ophalen van spreuk:", err);
-              document.getElementById("weerfeitje-tekst").innerText = '"Kon weerspreuk niet laden."';
-          });
+              index = index % (dagelijkseFeitjes.length - 1);
+              juisteSpreuk = dagelijkseFeitjes[index].s;
+          }
+          document.getElementById("weerfeitje-tekst").innerText = `"${juisteSpreuk}"`;
+      } else {
+          document.getElementById("weerfeitje-tekst").innerText = '"Kon weerspreuk niet laden."';
+      }
   })();
 </script>
 <!-- EINDE WEERFEITJE WIDGET -->
+
 
 
 
