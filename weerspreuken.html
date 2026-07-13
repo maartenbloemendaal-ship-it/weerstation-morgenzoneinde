@@ -462,44 +462,73 @@
 <script>
   const vandaag = new Date();
   const jaar = vandaag.getFullYear();
-  // Controleer of het huidige jaar een schrikkeljaar is
   const isSchrikkeljaar = (jaar % 4 === 0 && jaar % 100 !== 0) || (jaar % 400 === 0);
 
-  // Bereken de dag van het jaar (1 t/m 365 of 366)
+  // Namen van de maanden om te vergelijken met de data
+  const maandNamen = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
+  const huidigeMaandNaam = maandNamen[vandaag.getMonth()]; // Bijvoorbeeld "juli"
+
   const start = new Date(jaar, 0, 0);
   const verschil = vandaag - start;
   const eenDag = 1000 * 60 * 60 * 24;
   const dagVanHetJaar = Math.floor(verschil / eenDag);
 
   const lijstElement = document.getElementById("weerspreuken-lijst");
+  const knoppenElement = document.getElementById("maand-knoppen");
+
+  // Functie om maanden handmatig open of dicht te klappen
+  window.toggleMaand = function(maandId) {
+      const sectie = document.getElementById('sectie-' + maandId);
+      const statusText = document.getElementById('status-' + maandId);
+      if (sectie.style.display === 'none') {
+          sectie.style.display = 'block';
+          statusText.innerText = ' 📂';
+      } else {
+          sectie.style.display = 'none';
+          statusText.innerText = ' 📁';
+      }
+  };
 
   if (lijstElement) {
       let htmlOutput = "";
+      let knoppenHtml = "";
       let huidigeMaand = "";
       let maandHeeftSpreuken = false;
       let tijdelijkeSpreukenHtml = "";
 
-      // Haal de schrikkelspreuk tijdelijk uit de hoofdloop
       const hoofdFeitjes = [...dagelijkseFeitjes];
-      const schrikkelSpreuk = hoofdFeitjes.pop(); // Verwijdert en bewaart de 366e spreuk
+      const schrikkelSpreuk = hoofdFeitjes.pop();
 
-      // We lopen door de 365 normale dagen
       for (let i = 0; i < hoofdFeitjes.length; i++) {
           const item = hoofdFeitjes[i];
           const maandVanSpreuk = item.d.split(" ")[1];
 
-          // Wisselen van maandsectie
           if (maandVanSpreuk !== huidigeMaand) {
               if (maandHeeftSpreuken && huidigeMaand !== "") {
-                  htmlOutput += `<div class="maand-sectie" style="display: block;"><h2 class="maand-titel">${huidigeMaand}</h2>${tijdelijkeSpreukenHtml}</div>`;
+                  // Bepaal of deze maand de huidige actieve maand is
+                  const isHuidigeMaand = (huidigeMaand.toLowerCase() === huidigeMaandNaam);
+                  const displayStatus = isHuidigeMaand ? 'block' : 'none';
+                  const mapIcoon = isHuidigeMaand ? ' 📂' : ' 📁';
+
+                  htmlOutput += `
+                    <div class="maand-blok" style="background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                        <h2 class="maand-titel" onclick="toggleMaand('${huidigeMaand}')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin: 0;">
+                            <span>${huidigeMaand} ${isHuidigeMaand ? '<span style="font-size:12px; color:#2c3e50; background:#fff; padding:2px 6px; border-radius:10px; margin-left:10px;">Huidige maand</span>' : ''}</span>
+                            <span id="status-${huidigeMaand}" style="font-size: 16px;">${mapIcoon}</span>
+                        </h2>
+                        <div id="sectie-${huidigeMaand}" style="display: ${displayStatus}; margin-top: 15px;">
+                            ${tijdelijkeSpreukenHtml}
+                        </div>
+                    </div>`;
+
+                  knoppenHtml += `<button onclick="toggleMaand('${huidigeMaand}')" style="border: none; cursor: pointer; display: inline-block; padding: 6px 12px; background: ${isHuidigeMaand ? '#2c3e50' : 'rgba(44, 62, 80, 0.15)'}; color: ${isHuidigeMaand ? 'white' : '#2c3e50'}; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">${huidigeMaand.substring(0,3)}</button>`;
+                  
                   tijdelijkeSpreukenHtml = "";
                   maandHeeftSpreuken = false;
               }
               huidigeMaand = maandVanSpreuk;
           }
 
-          // Bepaal of deze normale spreuk al getoond mag worden
-          // In een schrikkeljaar schuiven we na 28 februari 1 dag op voor de index
           let gecorrigeerdeDagVanJaar = dagVanHetJaar;
           if (isSchrikkeljaar && dagVanHetJaar > 60) {
               gecorrigeerdeDagVanJaar = dagVanHetJaar - 1; 
@@ -514,8 +543,6 @@
                 </div>`;
           }
 
-          // SNEAKY INJECTIE: Als het een schrikkeljaar is en we zijn bij 28 februari (index 58), 
-          // en de huidige dag is 29 februari of later (dagVanHetJaar >= 60), voeg dan de schrikkelspreuk toe!
           if (i === 58 && isSchrikkeljaar && dagVanHetJaar >= 60) {
               tijdelijkeSpreukenHtml += `
                 <div class="spreuk-item" style="display: block; border-left-color: #ff9800;">
@@ -525,14 +552,31 @@
           }
       }
 
-      // Voeg de laatste actieve maand toe
+      // Voeg ook de allerlaatste (of momenteel lopende) maand netjes toe
       if (maandHeeftSpreuken && huidigeMaand !== "") {
-          htmlOutput += `<div class="maand-sectie" style="display: block;"><h2 class="maand-titel">${huidigeMaand}</h2>${tijdelijkeSpreukenHtml}</div>`;
+          const isHuidigeMaand = (huidigeMaand.toLowerCase() === huidigeMaandNaam);
+          const displayStatus = isHuidigeMaand ? 'block' : 'none';
+          const mapIcoon = isHuidigeMaand ? ' 📂' : ' 📁';
+
+          htmlOutput += `
+            <div class="maand-blok" style="background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <h2 class="maand-titel" onclick="toggleMaand('${huidigeMaand}')" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin: 0;">
+                    <span>${huidigeMaand} ${isHuidigeMaand ? '<span style="font-size:12px; color:#2c3e50; background:#fff; padding:2px 6px; border-radius:10px; margin-left:10px;">Huidige maand</span>' : ''}</span>
+                    <span id="status-${huidigeMaand}" style="font-size: 16px;">${mapIcoon}</span>
+                </h2>
+                <div id="sectie-${huidigeMaand}" style="display: ${displayStatus}; margin-top: 15px;">
+                    ${tijdelijkeSpreukenHtml}
+                </div>
+            </div>`;
+
+          knoppenHtml += `<button onclick="toggleMaand('${huidigeMaand}')" style="border: none; cursor: pointer; display: inline-block; padding: 6px 12px; background: ${isHuidigeMaand ? '#2c3e50' : 'rgba(44, 62, 80, 0.15)'}; color: ${isHuidigeMaand ? 'white' : '#2c3e50'}; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">${huidigeMaand.substring(0,3)}</button>`;
       }
 
       lijstElement.innerHTML = htmlOutput;
+      if (knoppenElement) knoppenElement.innerHTML = knoppenHtml;
   }
 </script>
+
 </body>
 </html>
 
