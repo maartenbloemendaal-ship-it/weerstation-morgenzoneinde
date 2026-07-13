@@ -1,33 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- Homepage (De belangrijkste pagina met live data) -->
   <url>
     <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/</loc>
-    <lastmod>2026-07-12</lastmod>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/contact.html</loc>
-    <lastmod>2026-07-12</lastmod>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/grafieken.html</loc>
-    <lastmod>2026-07-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/index.html</loc>
-    <lastmod>2026-07-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
+
+  <!-- Live Grafieken (Verandert continu) -->
+  <url>
+    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/grafieken.html</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Regio Weerkaarten (Externe bronnen, pagina zelf verandert minder vaak) -->
   <url>
     <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/kaarten.html</loc>
-    <lastmod>2026-07-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
+
+  <!-- Weerfoto van de week (Verandert wekelijks) -->
+  <url>
+    <loc>https://github.io</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- NIEUW: Weerspreuken Archief (Verandert elke dag automatisch) -->
+  <url>
+    <loc>https://github.io</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Over ons (Statische informatie) -->
   <url>
     <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/over.html</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-07-13</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
+
+  <!-- Contact (Statische informatie) -->
+  <url>
+    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/contact.html</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
