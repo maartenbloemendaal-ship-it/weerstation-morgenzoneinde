@@ -152,52 +152,86 @@ body > div:not(.back-to-top) button,
     </div>
 </div>
 
-<!-- START WEERFEITJE WIDGET (Exact dezelfde kleuren als de Zon & Maan balk) -->
+<!-- START WEERFEITJE WIDGET (Definitieve Schrikkeljaar & Fetch-versie met Archiefknop) -->
 <div id="weerfeitje-widget" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 25px; font-size: 13px; line-height: 1.5;">
-    <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444; margin-right: 8px;">📜 Weerwijsheid van de dag:</span>
-    <span id="weerfeitje-tekst" style="font-style: italic; font-weight: bold;">"Laden..."</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+            <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444; margin-right: 8px;">📜 Weerwijsheid van de dag:</span>
+            <span id="weerfeitje-tekst" style="font-style: italic; font-weight: bold;">"Laden van de wijsheid..."</span>
+        </div>
+        <!-- Compacte, klikbare link naar je nieuwe weerspreukenpagina -->
+        <a href="weerspreuken.html" style="display: inline-block; padding: 4px 8px; background: rgba(0, 0, 0, 0.08); color: #222; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; transition: background 0.2s;">
+            📜 Archief
+        </a>
+    </div>
 </div>
 
 <script>
-  const dagelijkseFeitjes = [
-    "Maart roert zijn staart, april doet wat hij wil.",
-    "Als de kat in januari in de zon ligt, ligt ze in februari achter de kachel.",
-    "Hoor je in de winter de donder, dan is een vroege lente een wonder.",
-    "Voor ijsheiligen (11-14 mei) geen zomer, na ijsheiligen geen vorst.",
-    "Is juli heet en droog, dan houdt de winter een streng betoog.",
-    "Avondrood brengt goed weer aan boord, morgenrood geeft water in de sloot.",
-    "Als de spinnen buiten weven, mag je mooi weer gaan beleven.",
-    "Vliegt de zwaluw hoog en snel, dan blijft het weer heel mooi en wel.",
-    "Kring om de maan, zal in de regen vergaan.",
-    "Hoge druk brengt zonneschijn, lage druk laat het natter zijn.",
-    "Een groene kerst brengt vaak een witte pasen.",
-    "Brengt februari vorst en ijzel, dan brengt de zomer veel gepeizel.",
-    "Valt er regen op Sint-Jan (24 juni), dan droogt de boer zijn kleren dan.",
-    "Als het regent in september, valt de kerstboom in december.",
-    "Zijn de bomen in oktober snel kaal, dan wordt de winter een koud verhaal.",
-    "Sneeuw in november, ijs in december.",
-    "Bliksem in het kale hout, maakt de zomer dikwijls koud.",
-    "Vriest het op Sint-Silvester (31 dec), dan is de nieuwjaarsdag op zijn best.",
-    "Zuidewind met regen, brengt de boeren rijke zegen.",
-    "Als de slakken kruipen op het pad, dan wordt het spoedig nat.",
-    "Mist in de vroege morgen, zal voor een mooie middag zorgen.",
-    "Een koude mei maakt de schuren vol en blij.",
-    "Regen in juni is Gods zegen, komt de zon erbij dan is men blij.",
-    "Als het regent op Sint-Anna (26 juli), regent het een maand lang, manna.",
-    "In augustus zure druiven, in oktober zoete wijn.",
-    "Als september start met regen, comt dat de boer niet ongelegen.",
-    "Brengt oktober veel vorst en wind, wees dan voor de winter gezind.",
-    "Als november sneeuw brengt, is de winter nabij.",
-    "Hondsdagen (half juli tot half aug) helder en klaar, betekenen een goed jaar.",
-    "Als de eikenbomen veel eikels dragen, krijgen we strenge winterdagen.",
-    "Noorderwind houdt de lucht vaak helder en schoon."
-  ];
+  (function() {
+      const vandaag = new Date();
+      const jaar = vandaag.getFullYear();
+      // Controleer waterdicht op schrikkeljaar
+      const isSchrikkeljaar = (jaar % 4 === 0 && jaar % 100 !== 0) || (jaar % 400 === 0);
 
-  const vandaag = new Date().getDate(); 
-  // Hier worden de aanhalingstekens dynamisch om de wijsheid heen gezet
-  document.getElementById("weerfeitje-tekst").innerText = `"${dagelijkseFeitjes[vandaag - 1]}"`;
+      // Bereken de exacte dag van het jaar (1 t/m 365 of 366)
+      const start = new Date(jaar, 0, 0);
+      const verschil = vandaag - start;
+      const eenDag = 1000 * 60 * 60 * 24;
+      const dagVanHetJaar = Math.floor(verschil / eenDag);
+
+      // Haal de data geruisloos op uit je archiefpagina
+      fetch('weerspreuken.html')
+          .then(response => response.text())
+          .then(htmlText => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(htmlText, 'text/html');
+              const scripts = doc.querySelectorAll('script');
+              let feitjesLijst = null;
+
+              // Zoek de array 'dagelijkseFeitjes' in het andere bestand
+              scripts.forEach(script => {
+                  if (script.textContent.includes('dagelijkseFeitjes')) {
+                      try {
+                          const startMatch = script.textContent.indexOf('const dagelijkseFeitjes = [');
+                          const eindMatch = script.textContent.indexOf('];', startMatch);
+                          if (startMatch !== -1 && eindMatch !== -1) {
+                              const arrayTekst = script.textContent.substring(startMatch + 26, eindMatch + 1);
+                              feitjesLijst = new Function(`return [${arrayTekst}];`)();
+                          }
+                      } catch (e) { console.error("Parsing fout:", e); }
+                  }
+              });
+
+              if (feitjesLijst) {
+                  let juisteSpreuk = "";
+                  
+                  // LOGICA VOOR HET KIEZEN VAN DE JUISTE SPREUK
+                  if (isSchrikkeljaar && dagVanHetJaar === 60) {
+                      // Het is exact 29 februari: pak de schrikkelspreuk (de 366e/allerlaatste in de array)
+                      juisteSpreuk = feitjesLijst[feitjesLijst.length - 1].s;
+                  } else {
+                      let index = dagVanHetJaar - 1;
+                      // Als we voorbij 29 februari zijn in een schrikkeljaar, trekken we 1 dag af 
+                      // zodat de datums de rest van het jaar perfect blijven kloppen met de 365-lijst
+                      if (isSchrikkeljaar && dagVanHetJaar > 60) {
+                          index = dagVanHetJaar - 2;
+                      }
+                      // Voorkom indexfouten en negeer de schrikkelspreuk op normale dagen
+                      index = index % (feitjesLijst.length - 1);
+                      juisteSpreuk = feitjesLijst[index].s;
+                  }
+
+                  document.getElementById("weerfeitje-tekst").innerText = `"${juisteSpreuk}"`;
+              }
+          })
+          .catch(err => {
+              console.error("Fout bij ophalen van spreuk:", err);
+              document.getElementById("weerfeitje-tekst").innerText = '"Kon weerspreuk niet laden."';
+          });
+  })();
 </script>
 <!-- EINDE WEERFEITJE WIDGET -->
+
 
 
 
