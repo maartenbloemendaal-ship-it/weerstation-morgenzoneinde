@@ -3,29 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weerspreuken Archief - Mijn Weerstation</title>
+    <title>Weerspreuken Archief - PWS Morgenzoneinde</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f7f6; color: #222; padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h1 { color: #333; border-bottom: 2px solid #ddd; padding-bottom: 10px; text-align: center; }
-        .terug-knop { display: inline-block; margin-bottom: 20px; padding: 8px 15px; background: rgba(0, 0, 0, 0.15); color: #222; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 13px; }
-        .terug-knop:hover { background: rgba(0, 0, 0, 0.25); }
-        .maand-sectie { margin-top: 25px; display: none; }
-        .maand-titel { font-size: 1.3rem; color: #444; border-bottom: 1px solid #eee; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .spreuk-item { background: #fafafa; border-left: 4px solid #444; margin: 8px 0; padding: 10px 15px; font-style: italic; display: none; }
-        .spreuk-datum { font-weight: bold; font-style: normal; color: #666; font-size: 12px; display: block; text-transform: uppercase; margin-bottom: 2px; }
+        body { background-color: #b0c2d4; margin: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+
+        /* Navigatie Menu */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(203, 213, 225, 0.95); padding: 10px 20px; border-radius: 8px; margin-bottom: 25px; position: sticky; top: 0; z-index: 1000; }
+        .nav-links { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: bold; }
+        .hamburger { display: none; font-size: 24px; cursor: pointer; color: #2c3e50; }
+
+        /* Header Layout */
+        .top-header { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 25px; }
+        .logo-tekst-groep { display: flex; align-items: center; gap: 15px; }
+        .header-afbeelding-rechts { display: block; }
+        .header-afbeelding-rechts img { border-radius: 50%; display: block; object-fit: cover; border: 2px solid rgba(44, 62, 80, 0.2); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        /* Spreuken Content */
+        .spreuken-content { background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 25px; }
+        h1 { color: #2c3e50; margin-top: 0; margin-bottom: 10px; font-size: 26px; }
+        
+        /* Maanden en items layout */
+        .maand-sectie { margin-top: 30px; display: none; }
+        .maand-titel { font-size: 1.3rem; color: #2c3e50; border-bottom: 2px solid rgba(44, 62, 80, 0.2); padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; font-weight: bold; text-align: left; }
+        .spreuk-item { background: rgba(255, 255, 255, 0.6); border-left: 4px solid #2c3e50; margin: 10px 0; padding: 12px 15px; font-style: italic; border-radius: 0 8px 8px 0; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: none; }
+        .spreuk-datum { font-weight: bold; font-style: normal; color: #555; font-size: 12px; display: block; text-transform: uppercase; margin-bottom: 3px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: white; padding: 10px 0; border-radius: 8px; margin-top: 10px; }
+            .nav-links.active { display: flex; }
+            .hamburger { display: block; }
+            .header-afbeelding-rechts { display: none; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <a href="index.html" class="terug-knop">⬅ Terug naar Weerstation</a>
-    <h1>📜 Historisch Weerspreuken Archief</h1>
-    <p style="text-align: center; color: #666; font-size: 14px;">Elke dag komt hier automatisch een nieuwe traditionele weerspreuk bij.</p>
+    <nav class="navbar">
+        <div class="logo"><strong>PWS Morgenzoneinde</strong></div>
+        <div class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('active')">☰</div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="grafieken.html">Grafieken</a></li>
+            <li><a href="kaarten.html">Weerkaarten</a></li>
+            <li><a href="weerfoto.html">Weerfoto</a></li>
+            <li><a href="weerspreuken.html">Weerspreuken</a></li>
+            <li><a href="over.html">Over</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 
-    <!-- HIER IS HET ID RECHTGEZET NAAR WEERSPREUKEN-LIJST -->
-    <div id="weerspreuken-lijst"></div>
-</div>
+    <div class="top-header">
+        <div class="logo-tekst-groep">
+            <img src="logo.png" alt="Logo PWS Morgenzoneinde" style="width: 80px; height: 80px; border-radius: 4px; object-fit: cover;">
+            <div>
+                <h2 style="margin: 0; font-size: 24px; color: #2c3e50; font-weight: bold;">PWS Morgenzoneinde</h2>
+                <p style="margin: 5px 0 0 0; color: #2c3e50; font-size: 14px;">Actuele live metingen uit Winterswijk</p>
+            </div>
+        </div>
+        <!-- Sfeervolle, ronde afbeelding rechtsboven in plaats van de video -->
+        <div class="header-afbeelding-rechts">
+            <img src="weerspreuk_header.png" alt="Weerspreuk Decoratie" width="90" height="90" onerror="this.style.display='none'">
+        </div>
+    </div>
+
+    <main class="spreuken-content">
+        <h1>📜 Historisch Weerspreuken Archief</h1>
+        <p style="color: #444; font-size: 14px; margin-bottom: 20px;">Elke dag komt hier automatisch een nieuwe traditionele weerspreuk bij.</p>
+
+        <div id="weerspreuken-lijst"></div>
+    </main>
 
 <script>
   // HIER IS DE NAAM VERANDERD NAAR DAGELIJKSEFEITJES
