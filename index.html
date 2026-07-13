@@ -153,11 +153,9 @@ body > div:not(.back-to-top) button,
 </div>
 
 <!-- START WEERFEITJE WIDGET (Exact dezelfde kleuren als de Zon & Maan balk) -->
-<div id="weerfeitje-widget" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 25px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 13px;">
-    <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444;">📜 Weerwijsheid van de dag</span>
-    <div style="display: flex; flex-wrap: wrap;">
-        <span id="weerfeitje-tekst" style="font-style: italic; font-weight: bold;">Laden...</span>
-    </div>
+<div id="weerfeitje-widget" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 25px; font-size: 13px; line-height: 1.5;">
+    <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444; margin-right: 8px;">📜 Weerwijsheid van de dag:</span>
+    <span id="weerfeitje-tekst" style="font-style: italic; font-weight: bold;">"Laden..."</span>
 </div>
 
 <script>
@@ -194,11 +192,13 @@ body > div:not(.back-to-top) button,
     "Als de eikenbomen veel eikels dragen, krijgen we strenge winterdagen.",
     "Noorderwind houdt de lucht vaak helder en schoon."
   ];
-  
+
   const vandaag = new Date().getDate(); 
-  document.getElementById("weerfeitje-tekst").innerText = dagelijkseFeitjes[vandaag - 1];
+  // Hier worden de aanhalingstekens dynamisch om de wijsheid heen gezet
+  document.getElementById("weerfeitje-tekst").innerText = `"${dagelijkseFeitjes[vandaag - 1]}"`;
 </script>
 <!-- EINDE WEERFEITJE WIDGET -->
+
 
 
 <div id="minmax-balk" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.10); color: #222; padding: 15px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; font-size: 13px;">
