@@ -154,53 +154,50 @@ body > div:not(.back-to-top) button,
 </div>
 
 <!-- START WEERFEITJE WIDGET -->
-(function() {
-    const vandaag = new Date();
-    const jaar = vandaag.getFullYear();
-    const maand = vandaag.getMonth(); // 0 = jan, 1 = feb, etc.
-    const dag = vandaag.getDate();
+<div id="weerfeitje-widget" style="width: 100%; max-width: 100%; background: rgba(0, 0, 0, 0.15); color: #222; padding: 12px 20px; border-radius: 8px; box-sizing: border-box; margin-bottom: 25px; font-size: 13px; line-height: 1.5;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+            <span style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #444; margin-right: 8px;">📜 Weerwijsheid van de dag:</span>
+            <span id="weerfeitje-tekst" style="font-style: italic; font-weight: bold;">"Laden..."</span>
+        </div>
+        <a href="weerspreuken.html" style="display: inline-block; padding: 4px 8px; background: rgba(0, 0, 0, 0.08); color: #222; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">📜 Archief</a>
+    </div>
+</div>
 
-    const isSchrikkeljaar = (jaar % 4 === 0 && jaar % 100 !== 0) || (jaar % 400 === 0);
+<!-- We laden hier de database in -->
+<script src="weerspreuken.js"></script>
 
-    // Standaard dagen per maand (niet-schrikkeljaar)
-    const dagenPerMaand = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+<script>
+  (function() {
+      const vandaag = new Date();
+      const jaar = vandaag.getFullYear();
+      const isSchrikkeljaar = (jaar % 4 === 0 && jaar % 100 !== 0) || (jaar % 400 === 0);
 
-    if (typeof dagelijkseFeitjes !== 'undefined' && dagelijkseFeitjes.length > 0) {
-        let index = 0;
+      const start = new Date(jaar, 0, 0);
+      const verschil = vandaag - start;
+      const eenDag = 1000 * 60 * 60 * 24;
+      const dagVanHetJaar = Math.floor(verschil / eenDag);
 
-        // Bereken de index alsof het een schrikkeljaar is (1 t/m 366)
-        let schrikkelDagenPerMaand = [...dagenPerMaand];
-        schrikkelDagenPerMaand[1] = 29; // Maak februari 29 dagen
+      // Controleer of de lijst succesvol is ingeladen uit het losse bestand
+      if (typeof dagelijkseFeitjes !== 'undefined' && dagelijkseFeitjes.length > 0) {
+          let juisteSpreuk = "";
 
-        let dagVanHetJaar = 0;
-        for (let i = 0; i < maand; i++) {
-            dagVanHetJaar += schrikkelDagenPerMaand[i];
-        }
-        dagVanHetJaar += dag;
-
-        if (isSchrikkeljaar) {
-            // In een schrikkeljaar lopen we synchroon met de 366 dagen in de database
-            index = dagVanHetJaar - 1;
-        } else {
-            // In een normaal jaar:
-            if (dagVanHetJaar > 59) {
-                // Na 28 februari (dag 59) slaan we index 59 (29 feb) over
-                index = dagVanHetJaar; 
-            } else {
-                index = dagVanHetJaar - 1;
-            }
-        }
-
-        // Zorg dat we nooit buiten de array zoeken
-        index = Math.min(index, dagelijkseFeitjes.length - 1);
-        const juisteSpreuk = dagelijkseFeitjes[index]?.s || dagelijkseFeitjes[0].s;
-
-        document.getElementById("weerfeitje-tekst").innerText = `"${juisteSpreuk}"`;
-    } else {
-        document.getElementById("weerfeitje-tekst").innerText = '"Kon weerspreuk niet laden."';
-    }
-})();
-
+          if (isSchrikkeljaar && dagVanHetJaar === 60) {
+              juisteSpreuk = dagelijkseFeitjes[dagelijkseFeitjes.length - 1].s;
+          } else {
+              let index = dagVanHetJaar - 1;
+              if (isSchrikkeljaar && dagVanHetJaar > 60) {
+                  index = dagVanHetJaar - 2;
+              }
+              index = index % (dagelijkseFeitjes.length - 1);
+              juisteSpreuk = dagelijkseFeitjes[index].s;
+          }
+          document.getElementById("weerfeitje-tekst").innerText = `"${juisteSpreuk}"`;
+      } else {
+          document.getElementById("weerfeitje-tekst").innerText = '"Kon weerspreuk niet laden."';
+      }
+  })();
+</script>
 <!-- EINDE WEERFEITJE WIDGET -->
 
 
