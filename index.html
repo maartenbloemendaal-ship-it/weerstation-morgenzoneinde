@@ -169,29 +169,44 @@ body > div:not(.back-to-top) button,
 
 <script>
   (function() {
+      // 1. Haal de huidige datum op (gecorrigeerd naar de lokale tijdzone om tijdsverschilfouten te voorkomen)
       const vandaag = new Date();
       const jaar = vandaag.getFullYear();
       const isSchrikkeljaar = (jaar % 4 === 0 && jaar % 100 !== 0) || (jaar % 400 === 0);
 
-      const start = new Date(jaar, 0, 0);
-      const verschil = vandaag - start;
+      // 2. Bereken de dag van het jaar (1 t/m 365 of 366) op basis van UTC-middernacht om zomertijd/wintertijd-fouten te elimineren
+      const start = Date.UTC(jaar, 0, 0);
+      const utcNu = Date.UTC(vandaag.getFullYear(), vandaag.getMonth(), vandaag.getDate());
       const eenDag = 1000 * 60 * 60 * 24;
-      const dagVanHetJaar = Math.floor(verschil / eenDag);
+      const dagVanHetJaar = Math.round((utcNu - start) / eenDag);
 
       // Controleer of de lijst succesvol is ingeladen uit het losse bestand
       if (typeof dagelijkseFeitjes !== 'undefined' && dagelijkseFeitjes.length > 0) {
           let juisteSpreuk = "";
           
-          if (isSchrikkeljaar && dagVanHetJaar === 60) {
-              juisteSpreuk = dagelijkseFeitjes[dagelijkseFeitjes.length - 1].s;
-          } else {
-              let index = dagVanHetJaar - 1;
-              if (isSchrikkeljaar && dagVanHetJaar > 60) {
-                  index = dagVanHetJaar - 2;
+          // We gaan ervan uit dat dagelijkseFeitjes exact 366 elementen heeft (index 0 t/m 365)
+          // waarbij de 366e spreuk (index 365) specifiek voor 29 februari is.
+          const maxSpreukenRegulier = 365; 
+
+          if (isSchrikkeljaar) {
+              if (dagVanHetJaar === 60) {
+                  // 29 februari: pak de allerlaatste spreuk uit de array (index 365)
+                  juisteSpreuk = dagelijkseFeitjes[365]?.s || dagelijkseFeitjes[0].s;
+              } else if (dagVanHetJaar > 60) {
+                  // Na 29 februari schuiven we de index eentje terug om synchroon te lopen met de 365-dagenlijst
+                  const index = dagVanHetJaar - 2;
+                  juisteSpreuk = dagelijkseFeitjes[index]?.s || dagelijkseFeitjes[0].s;
+              } else {
+                  // Voor 29 februari (1 t/m 59) is de index gewoon dagVanHetJaar - 1
+                  const index = dagVanHetJaar - 1;
+                  juisteSpreuk = dagelijkseFeitjes[index]?.s || dagelijkseFeitjes[0].s;
               }
-              index = index % (dagelijkseFeitjes.length - 1);
-              juisteSpreuk = dagelijkseFeitjes[index].s;
+          } else {
+              // In een normaal jaar pakken we gewoon de index van de dag van het jaar (0 t/m 364)
+              const index = (dagVanHetJaar - 1) % maxSpreukenRegulier;
+              juisteSpreuk = dagelijkseFeitjes[index]?.s || dagelijkseFeitjes[0].s;
           }
+          
           document.getElementById("weerfeitje-tekst").innerText = `"${juisteSpreuk}"`;
       } else {
           document.getElementById("weerfeitje-tekst").innerText = '"Kon weerspreuk niet laden."';
@@ -199,6 +214,7 @@ body > div:not(.back-to-top) button,
   })();
 </script>
 <!-- EINDE WEERFEITJE WIDGET -->
+
 
 
 
