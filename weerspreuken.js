@@ -60,7 +60,6 @@ const dagelijkseFeitjes = [
     { d: "26 februari", s: "Heeft februari geen kou en wind, april ons met sneeuw bemint." },
     { d: "27 februari", s: "Als het in februari hard vriest, de boer niet snel zijn moed verliest." },
     { d: "28 februari", s: "Droge februari, natte augustus." },
-    { d: "29 februari", s: "Als februari negenentwintig dagen telt, schrikkelt de natuur mee in het veld." },
        // --- MAART ---
     { d: "1 maart", s: "Maart roert zijn staart, april doet wat hij wil." },
     { d: "2 maart", s: "Een droge maart en een natte april, is de boeren naar hun wil." },
@@ -376,6 +375,7 @@ const dagelijkseFeitjes = [
     { d: "28 december", s: "Onschuldige Kinderen (28 dec) koud en nat, vult het komende jaar het vat." },
     { d: "29 december", s: "December koel en nat, geeft de landman een modderig pad." },
     { d: "30 december", s: "Als december eindigt met felle kou, bouwt men op een goede fruitoogst." },
-    { d: "31 december", s: "Vriest het op Sint-Silvester (31 dec) dat het kraakt, nieuwjaarsdag een goede start maakt." }
+    { d: "31 december", s: "Vriest het op Sint-Silvester (31 dec) dat het kraakt, nieuwjaarsdag een goede start maakt." },
+    { d: "29 februari", s: "Als februari negenentwintig dagen telt, schrikkelt de natuur mee in het veld." }
 ];
 
