@@ -33,7 +33,7 @@
 
   <!-- Weerfoto van de week (Verandert wekelijks) -->
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/weerfoto.html</loc>
     <lastmod>2026-07-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -41,7 +41,7 @@
 
   <!-- NIEUW: Weerspreuken Archief (Verandert elke dag automatisch) -->
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://maartenbloemendaal-ship-it.github.io/weerstation-morgenzoneinde/weerspreuken.html</loc>
     <lastmod>2026-07-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
