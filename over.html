@@ -94,7 +94,7 @@
         </p>
 
         <p>
-            De metingen worden volautomatisch uitgevoerd door twee afzonderlijke, zelf geprogrammeerde ijs- en weersbestendige <strong>ESP32-microcontrollers</strong>. Om de cloudomgeving van ThingSpeak efficiënt te voeden, is de opstelling verdeeld in twee meetcircuits met verschillende verzendintervallen (elke 20 en 30 seconden).
+            De metingen worden volautomatisch uitgevoerd door twee afzonderlijke, zelf geprogrammeerde ijs- en weersbestendige <strong>ESP32-microcontrollers</strong>. Om de cloudomgeving van ThingSpeak efficiënt te voeden worden de sensorgegevend verzonden met interval van 60 seconden.
         </p>
 
         <h2>De Technische Opstelling</h2>
@@ -102,14 +102,14 @@
             Wat dit amateur-weerstation uniek maakt, is de gelaagdheid en de spreiding van de metingen, variërend van ruim 4 meter hoogte tot een halve meter diep in de grond:
         </p>
 
-        <h3>🧠 ESP32 - Controller 1: Basis- & Grondmetingen (Interval: 20 sec)</h3>
+        <h3>🧠 ESP32 - Controller 1: Basis- & Grondmetingen (Interval: 60 sec)</h3>
         <p>Deze microcontroller richt zich volledig op de thermodynamische basismetingen in de directe leefomgeving en vlak boven de bodem:</p>
         <ul>
             <li><strong>Standaard meteorologische hoogte (+1,5 meter):</strong> Uitgerust met een hoogwaardige <strong>BME280</strong>-sensor voor de nauwkeurige registratie van de luchttemperatuur, relatieve luchtvochtigheid en de absolute luchtdruk.</li>
             <li><strong>Klomphoogte (+10 centimeter):</strong> Direct aangesloten op dezelfde ESP32 om metingen vlak boven de grond te verrichten. Een <strong>BMP280</strong> registreert hier de temperatuur en luchtdruk, terwijl een <strong>DHT11</strong> de luchtvochtigheid monitort. Dit is cruciaal voor het vroegtijdig detecteren van nachtelijke uitstraling en grondvorst.</li>
         </ul>
 
-        <h3>🌬️ ESP32 - Controller 2: Wind, UV & Bodemprofiel (Interval: 30 sec)</h3>
+        <h3>🌬️ ESP32 - Controller 2: Wind, UV & Bodemprofiel (Interval: 60 sec)</h3>
         <p>De tweede microcontroller staat opgesteld om de overige omgevingsfactoren en het diepere bodemklimaat te registreren:</p>
         <ul>
             <li><strong>Windmeting (+4,0 meter):</strong> Op een vrije hoogte van ruim 4 meter staat een <strong>Adafruit 1733 anemometer</strong> opgesteld om de windsnelheid en windvlaag betrouwbaar te meten, vrij van obstakels op de grond.</li>
@@ -137,49 +137,49 @@
                         <td>Adafruit 1733</td>
                         <td>Controller 2</td>
                         <td>Windsnelheid & Windvlaag</td>
-                        <td>30 sec</td>
+                        <td>60 sec</td>
                     </tr>
                     <tr>
                         <td>☀️ <strong>+2,0 meter</strong></td>
                         <td>LTR390</td>
                         <td>Controller 2</td>
                         <td>Lichtintensiteit (Lux) & UV-Index</td>
-                        <td>30 sec</td>
+                        <td>60 sec</td>
                     </tr>
                     <tr>
                         <td>🌡️ <strong>+1,5 meter</strong></td>
                         <td>BME280</td>
                         <td>Controller 1</td>
                         <td>Luchttemperatuur, Luchtvochtigheid, Luchtdruk</td>
-                        <td>20 sec</td>
+                        <td>60 sec</td>
                     </tr>
                     <tr>
                         <td>🪵 <strong>+10 cm</strong></td>
                         <td>BMP280 & DHT11</td>
                         <td>Controller 1</td>
                         <td>Grondtemperatuur (klomphoogte), Luchtvochtigheid</td>
-                        <td>20 sec</td>
+                        <td>60 sec</td>
                     </tr>
                     <tr>
                         <td>🌱 <strong>-10 cm</strong></td>
                         <td>DS18B20</td>
                         <td>Controller 2</td>
                         <td>Bodemtemperatuur (bovenlaag)</td>
-                        <td>30 sec</td>
+                        <td>60 sec</td>
                     </tr>
                     <tr>
                         <td>🪵 <strong>-30 cm</strong></td>
                         <td>DS18B20</td>
                         <td>Controller 2</td>
                         <td>Bodemtemperatuur (wortelzone)</td>
-                        <td>30 sec</td>
+                        <td>60 sec</td>
                     </tr>
                     <tr>
                         <td>🪨 <strong>-50 cm</strong></td>
                         <td>DS18B20</td>
                         <td>Controller 2</td>
                         <td>Bodemtemperatuur (diepe ondergrond)</td>
-                        <td>30 sec</td>
+                        <td>60 sec</td>
                     </tr>
                 </tbody>
             </table>
