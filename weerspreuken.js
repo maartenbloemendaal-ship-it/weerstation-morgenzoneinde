@@ -213,7 +213,7 @@ const dagelijkseFeitjes = [
     { d: "24 juli", s: "Heeft juli veel zonneschijn, de fruitoogst zal des te beter zijn." },
     { d: "25 juli", s: "Sint-Jacob (25 juli) helder en warm, maakt de boer rijk en niet arm." },
     { d: "26 juli", s: "Als het regent op Sint-Jacob, is de oogst aan het koren schaars." },
-    { d: "27 juli", s: "Als juli blaast op zijn hoorn, is het slecht voor gras i koren." },
+    { d: "27 juli", s: "Als juli blaast op zijn hoorn, is het slecht voor gras en koren." },
     { d: "28 juli", s: "Valt juliwind uit het noorden, de koelte houdt aan op alle oorden." },
     { d: "29 juli", s: "Een droge juli is wel de boeren hun wil." },
     { d: "30 juli", s: "Juli koel en nat, geeft weinig spek op het vat." },
