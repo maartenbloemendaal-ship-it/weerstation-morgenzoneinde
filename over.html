@@ -81,21 +81,29 @@
         </div>
     </div>
     
-    <!-- Pagina Inhoud -->
-    <main class="over-content">
-        <h1>Over PWS Morgenzoneinde in Winterswijk</h1>
-        
-        <p>
-            Het persoonlijke weerstation <strong>PWS Morgenzoneinde</strong> is ontstaan uit een combinatie van twee hobby's: elektronica en meteorologie. Wat begon als een hobby om te experimenteren met microcontrollers, sensoren en programmeren, is uitgegroeid tot een volwaardig en uniek meetstation. De opstelling bevindt zich nog net binnen de bebouwde kom van Winterswijk, pal op de grens met de landelijke buurtschap Corle.
-        </p>
+<!-- Pagina Inhoud -->
+<main class="over-content">
+    <h1>Over PWS Morgenzoneinde in Winterswijk</h1>
+    
+    <p>
+        Het persoonlijke weerstation <strong>PWS Morgenzoneinde</strong> is ontstaan uit een combination van twee hobby's: elektronica en meteorologie. Wat begon als een hobby om te experimenteren met microcontrollers, sensoren en programmeren, is uitgegroeid tot een volwaardig en uniek meetstation. De opstelling bevindt zich nog net binnen de bebouwde kom van Winterswijk, pal op de grens met de landelijke buurtschap Corle.
+    </p>
 
-        <p>
-            De ligging op exact deze rand is meteorologisch gezien een perfecte overgangszone. In de bebouwde kom waar het station staat, blijft warmte vaak langer hangen tussen de huizen, stenen en het straatwerk (het stedelijk hitte-eilandeffect). Tegelijkertijd koelt de open, agrarische bodem van buurtschap Corle — die direct aan de bebouwde kom grenst — tijdens heldere nachten juist extreem snel af door uitstraling. Dit station staat op de actieve scheidslijn van deze twee werelden, waardoor de dynamiek en de temperatuurverschillen tussen de dorpsrand en het open Achterhoekse coulissenlandschap nauwkeurig kunnen worden vastgelegd.
-        </p>
+    <p>
+        De ligging op exact deze rand is meteorologisch gezien een perfecte overgangszone. In de bebouwde kom waar het station staat, blijft warmte vaak langer hangen tussen de huizen, stenen en het straatwerk (het stedelijk hitte-eilandeffect). Tegelijkertijd koelt de open, agrarische bodem van buurtschap Corle — die direct aan de bebouwde kom grenst — tijdens heldere nachten juist extreem snel af door uitstraling. Dit station staat op de actieve scheidslijn van deze twee werelden, waardoor de dynamiek en de temperatuurverschillen tussen de dorpsrand en het open Achterhoekse coulissenlandschap nauwkeurig kunnen worden vastgelegd.
+    </p>
 
-        <p>
-            De metingen worden volautomatisch uitgevoerd door twee afzonderlijke, zelf geprogrammeerde ijs- en weersbestendige <strong>ESP32-microcontrollers</strong>. Om de cloudomgeving van ThingSpeak efficiënt te voeden worden de sensorgegevend verzonden met interval van 60 seconden voor de basis en Grondmetingen en 10 minuten voor de Wind, UV & Bodemprofiel.
-        </p>
+    <p>
+        De metingen worden volautomatisch uitgevoerd door twee afzonderlijke, zelf geprogrammeerde ijs- en weersbestendige <strong>ESP32-microcontrollers</strong>. Om de cloudomgeving van ThingSpeak efficiënt te voeden, worden de sensorgegevens verzonden met een interval van 60 seconden voor de basis- en grondmetingen, en 10 minuten voor de wind, UV &amp; het bodemprofiel.
+    </p>
+
+    <p>
+        Naast het voeden van de eigen cloudomgeving, verzenden de microcontrollers de actuele meetgegevens via een HTTP API-koppeling direct door naar het platform van <a href="https://meteo.be" target="_blank" rel="noopener noreferrer">WOW-BE (Weather Observations Website)</a>. Door deel te nemen aan dit burgermeetnetwerk van het Koninklijk Meteorologisch Instituut (KMI), dragen de realtime metingen bij aan een fijnmaziger inzicht in lokale weersomstandigheden en microklimaten rondom de grensstreek. De data is opgesplitst en live te bekijken via 
+        <a href="https://meteo.be" target="_blank" rel="noopener noreferrer"><strong>PWS Morgenzoneinde_1</strong></a> (voor de basis- en grondmetingen) en 
+        <a href="https://meteo.be" target="_blank" rel="noopener noreferrer"><strong>PWS Morgenzoneinde_2</strong></a> (voor de wind- en bodemprofielmetingen).
+    </p>
+</main>
+
 
         <h2>De Technische Opstelling</h2>
         <p>
