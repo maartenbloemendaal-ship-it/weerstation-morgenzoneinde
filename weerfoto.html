@@ -81,67 +81,102 @@
        
 <main class="foto-content">
     <h1>Weerfoto van de week</h1>
-    <!-- Nieuwe foto voor week 33 -->
+    
+    <!-- Nieuwe foto voor week 34 -->
     <figure>
-        <img src="weerfoto_week33.jpg" 
-             alt="Weerfoto van de week" 
-             class="weerfoto" 
-             tabindex="0" 
-             role="button" 
-             onclick="openMedia('img', 'weerfoto_week33.jpg')">
-        <figcaption><strong>Week 33</strong> - <em>Het Oude Spoor</em></figcaption>
+        <button type="button" 
+                class="foto-btn" 
+                onclick="openMedia('img', 'weerfoto_week34.jpg')" 
+                aria-label="Bekijk weerfoto van week 34 in groot formaat">
+            <img src="weerfoto_week34.jpg" 
+                 alt="Titel van de foto week 34" 
+                 class="weerfoto">
+        </button>
+        <figcaption><strong>Week 34</strong> - <em>Winterberg Sauerland Duitsland</em></figcaption>
     </figure>
 </main>
 
-<section>
-    <h2 class="archief-titel">Eerdere weerfoto's</h2>
+<section aria-labelledby="archief-titel">
+    <h2 id="archief-titel" class="archief-titel">Eerdere weerfoto's</h2>
+    
     <div class="archief-grid">
-        <!-- Week 32 is verplaatst naar het archief -->
-        <div class="archief-item">
+        <!-- Week 33 (Verplaatst naar het archief) -->
+        <article class="archief-item">
             <figure>
-                <img src="weerfoto_week32.jpg" 
-                     alt="Weerfoto Spoorwegovergang Morgenzonweg" 
-                     tabindex="0" 
-                     role="button" 
-                     onclick="openMedia('img', 'weerfoto_week32.jpg')">
+                <button type="button" 
+                        class="foto-btn" 
+                        onclick="openMedia('img', 'weerfoto_week33.jpg')" 
+                        aria-label="Bekijk weerfoto van week 33: Het Oude Spoor in groot formaat">
+                    <img src="weerfoto_week33.jpg" alt="Het Oude Spoor">
+                </button>
+                <figcaption><strong>Week 33</strong> - <em>Het Oude Spoor</em></figcaption>
+            </figure>
+        </article>
+
+        <!-- Week 32 -->
+        <article class="archief-item">
+            <figure>
+                <button type="button" 
+                        class="foto-btn" 
+                        onclick="openMedia('img', 'weerfoto_week32.jpg')" 
+                        aria-label="Bekijk weerfoto van week 32: Spoorwegovergang Morgenzonweg in groot formaat">
+                    <img src="weerfoto_week32.jpg" alt="Spoorwegovergang Morgenzonweg">
+                </button>
                 <figcaption><strong>Week 32</strong> - <em>Spoorwegovergang Morgenzonweg</em></figcaption>
             </figure>
-        </div>
-        <!-- Week 31 is verplaatst naar het archief -->
-        <div class="archief-item">
+        </article>
+
+        <!-- Week 31 -->
+        <article class="archief-item">
             <figure>
-                <img src="weerfoto_week31.jpg" alt="Weerfoto Goordijk" tabindex="0" role="button" onclick="openMedia('img', 'weerfoto_week31.jpg')">
+                <button type="button" 
+                        class="foto-btn" 
+                        onclick="openMedia('img', 'weerfoto_week31.jpg')" 
+                        aria-label="Bekijk weerfoto van week 31: Goordijk in groot formaat">
+                    <img src="weerfoto_week31.jpg" alt="Goordijk">
+                </button>
                 <figcaption><strong>Week 31</strong> - <em>Goordijk</em></figcaption>
             </figure>
-        </div>
-        <!-- Week 30 is verplaatst naar het archief -->
-        <div class="archief-item">
+        </article>
+
+        <!-- Week 30 -->
+        <article class="archief-item">
             <figure>
-                <img src="weerfoto_week30.jpg" alt="Weerfoto Zwarte Cross" tabindex="0" role="button" onclick="openMedia('img', 'weerfoto_week30.jpg')">
+                <button type="button" 
+                        class="foto-btn" 
+                        onclick="openMedia('img', 'weerfoto_week30.jpg')" 
+                        aria-label="Bekijk weerfoto van week 30: Zwarte Cross in groot formaat">
+                    <img src="weerfoto_week30.jpg" alt="Zwarte Cross, 't Geet Hier Spoken">
+                </button>
                 <figcaption><strong>Week 30</strong> - <em>Zwarte Cross, "'t Geet Hier Spoken"</em></figcaption>
             </figure>
-        </div>
+        </article>
+
         <!-- Week 29 -->
-        <div class="archief-item">
+        <article class="archief-item">
             <figure>
-                <img src="weerfoto_week29.jpg" alt="Weerfoto Mentinkweg" tabindex="0" role="button" onclick="openMedia('img', 'weerfoto_week29.jpg')">
+                <button type="button" 
+                        class="foto-btn" 
+                        onclick="openMedia('img', 'weerfoto_week29.jpg')" 
+                        aria-label="Bekijk weerfoto van week 29: Mentinkweg in groot formaat">
+                    <img src="weerfoto_week29.jpg" alt="Mentinkweg">
+                </button>
                 <figcaption><strong>Week 29</strong> - <em>Mentinkweg</em></figcaption>
             </figure>
-        </div>
+        </article>
+
         <!-- Week 28 -->
-        <div class="archief-item">
+        <article class="archief-item">
             <figure>
-                <img src="weerfoto_week28.jpg" alt="Weerfoto Korenburgerveenweg" tabindex="0" role="button" onclick="openMedia('img', 'weerfoto_week28.jpg')">
+                <button type="button" 
+                        class="foto-btn" 
+                        onclick="openMedia('img', 'weerfoto_week28.jpg')" 
+                        aria-label="Bekijk weerfoto van week 28: Korenburgerveenweg in groot formaat">
+                    <img src="weerfoto_week28.jpg" alt="Korenburgerveenweg">
+                </button>
                 <figcaption><strong>Week 28</strong> - <em>Korenburgerveenweg</em></figcaption>
             </figure>
-        </div>
-        <!-- Week 27 -->
-        <div class="archief-item">
-            <figure>
-                <img src="weerfoto_week27.jpg" alt="Weerfoto Morgenzonweg" tabindex="0" role="button" onclick="openMedia('img', 'weerfoto_week27.jpg')">
-                <figcaption><strong>Week 27</strong> - <em>Morgenzonweg</em></figcaption>
-            </figure>
-        </div>
+        </article>
     </div>
 </section>
 
